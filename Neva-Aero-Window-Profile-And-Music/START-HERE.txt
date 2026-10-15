@@ -1,0 +1,85 @@
+NEVA AERO SOCIAL BASICS | 14 OCT 2026
+=====================================
+
+This is an update to your EXISTING site, not a new project.
+Existing Netlify project: monumental-unicorn-2e0aa1
+Existing URL: https://monumental-unicorn-2e0aa1.netlify.app
+
+WHAT IS INCLUDED
+----------------
+* Glassy Windows Aero first-launch screen: Sign in / Create account, username and password, plus Continue with current guest profile for existing users.
+* Follow / unfollow other usernames and see followers/following.
+* Like and unlike Neva-uploaded videos; public counts.
+* Friend requests: message each other after accepting a friend request.
+* Existing video uploads, Watch, Clips, thumbnails, the nevo-vidoes bucket name, PS Vita bubbles and PWA support.
+* No Developer Options or private admin password anywhere in this update.
+
+BEFORE YOU UPLOAD
+-----------------
+1. Make a backup copy of the version that currently WORKS.
+2. Extract this ZIP. Check index.html is immediately inside the folder, not nested twice.
+3. Copy ONLY your WORKING config.js from your working Neva folder into the extracted new folder.
+   Choose Replace. config.js must contain your Supabase URL and PUBLIC publishable key only.
+   NEVER put a Supabase service-role or secret key in config.js.
+4. Do NOT delete your existing Supabase project or video storage.
+
+SETUP A: DATABASE
+-----------------
+You must have run the previous social SQL for follows, likes and messaging.
+Supabase -> existing project -> SQL Editor -> New query:
+ - Run database/01-NEVA-SOCIAL-FOUNDATION.sql first if you have NOT already run the Social Setup SQL.
+ - Then run database/02-NEVA-FOLLOWS-MESSAGES.sql if not run previously.
+   These include supporting functions for the site's social UI.
+ - Do not use any ADMIN setup SQL. No developer dashboard is in this version.
+ - These scripts alter existing database tables without intentionally deleting your existing videos.
+
+SETUP B: UPDATE WEBSITE (EASY)
+--------------------------------
+Netlify -> Projects -> monumental-unicorn-2e0aa1 -> Deploys -> upload the extracted folder with index.html.
+This updates the Aero UI, likes, follows, friends and guest social functions.
+BUT: Netlify Drop DOES NOT deploy the Netlify username/password registration function.
+The Sign In tab works only for accounts that are ALREADY created by the server function.
+Create Account will explain that the secure backend is not yet active.
+Do not keep uploading this file as a NEW project.
+
+SETUP C: ENABLE REAL USERNAME + PASSWORD ACCOUNTS
+-------------------------------------------------
+This is the extra step for new password accounts (not needed for existing guest posting).
+Publish the SAME folder, including netlify/functions/neva-account.js and netlify.toml,
+using a GIT repo connected to the EXISTING Netlify project or the Netlify CLI.
+Netlify CLI option if you can use Terminal / Node.js:
+  npx netlify-cli login
+  npx netlify-cli link
+  (pick your existing monumental-unicorn-2e0aa1 website)
+  npx netlify-cli deploy --prod --dir=. --functions=netlify/functions
+Netlify -> your existing project -> Environment variables:
+  SUPABASE_URL              = your existing Supabase project URL
+  SUPABASE_SERVICE_ROLE_KEY = Supabase service_role secret (server-side ONLY)
+  NEVA_SIGNUP_SALT          = a newly generated long, random secret phrase
+Never paste or screenshot private keys or passwords in chat.
+After variables are configured, deploy again.
+Check https://your-netlify-domain/.netlify/functions/neva-account 
+GET should report POST only (rather than Netlify HTML or a 404).
+The server uses internal aliases for Supabase email/password authentication,
+so visitors only enter username + password; no real email is requested.
+There is NO password reset/recovery without real email, and using non-deliverable
+internal aliases may require extra testing with Supabase Auth validation.
+Old guest accounts can be upgraded only on the SAME device, with their same username.
+No passwords or service keys are included in this ZIP.
+
+TEST AFTER DEPLOY
+-----------------
+1. Open Neva and confirm the bubbly Aero opening screen loads, no 404.
+2. Open Watch and Clips to ensure the older videos still appear.
+3. With a guest account, like an uploaded video and follow another user.
+4. From two different test accounts: send friend request, accept it, send a message.
+5. For full account testing AFTER backend deployment: create a username/password account,
+   sign out, sign in again on a different browser.
+6. Test an actual new video upload.
+
+SECURITY / LIMITATIONS
+----------------------
+Only accepted friends can message. Follow counts are public. Users can block or report
+others. Anonymous profiles have no recovery and usernames alone are not identity proof.
+The simple login does not include email recovery, stronger bot protection or full public moderation.
+Review these before promoting Neva as a public social platform.

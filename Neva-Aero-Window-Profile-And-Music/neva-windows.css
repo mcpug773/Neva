@@ -1,0 +1,46 @@
+/* Neva's Windows Vista/7-inspired profile. Original video application styles remain intact. */
+#view-profile .neva-profile-desktop{position:relative;margin:10px auto 28px;max-width:1250px;color:#153c63}
+#view-profile .neva-profile-window{position:relative;border:1px solid #edfaffcf;border-radius:11px 11px 7px 7px;background:linear-gradient(#c1edfc,#badcebf0 16%,#dcf4fa);box-shadow:0 0 0 1px #285c89aa,0 24px 50px #06275277,inset 0 1px 1px #fff;overflow:hidden;transition:max-width .2s ease}
+#view-profile .neva-profile-window.is-expanded{max-width:unset;width:100%}
+#view-profile .neva-window-titlebar{display:flex;justify-content:space-between;align-items:center;min-height:42px;padding:6px 7px 4px 17px;color:#0d3760;background:linear-gradient(180deg,#ffffffce 0%,#c7e8f8a6 44%,#5caddaaa 52%,#e1f6ff 100%);border-bottom:1px solid #719ac0;text-shadow:0 1px #fff}
+#view-profile .neva-window-title{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:650}
+#view-profile .neva-window-icon{display:grid;place-items:center;font-size:18px;width:27px;height:27px;border:1px solid #85e9ff;border-radius:8px;color:#fff;background:radial-gradient(circle at 24% 22%,#dafbff,#3d9fdc 64%,#1b5eb4);box-shadow:inset 0 2px 2px #ffffffba,0 1px 3px #2c678c91}
+#view-profile .neva-window-controls{display:flex;gap:3px;align-items:center}
+#view-profile .neva-window-controls button{width:37px;height:25px;padding:0;line-height:1;border-radius:0 0 5px 5px;border:1px solid #326184;background:linear-gradient(#e2f7ff,#7ab2d9 49%,#4f88ba 50%,#a0d5ec);color:#143e6e;font-size:19px;box-shadow:inset 0 1px #fff9,0 1px 2px #35648980}
+#view-profile .neva-window-controls button:hover{filter:brightness(1.15)}
+#view-profile .neva-window-controls .neva-window-close{background:linear-gradient(#f3aca1,#ce554e 50%,#aa231a 51%,#f18d70);color:white;border-color:#9c3a33;font-size:25px}
+#view-profile .neva-window-menu{display:flex;gap:24px;align-items:center;padding:6px 18px;border-bottom:1px solid #b6cee1;font-size:12px;color:#294b6e;background:linear-gradient(#faffff,#e2f2f9)}
+#view-profile .neva-window-menu-right{margin-left:auto;opacity:.68}
+#view-profile .neva-window-address{display:flex;align-items:center;gap:9px;padding:9px 15px;min-height:50px;background:linear-gradient(#e4f4fc,#fafdff);color:#3f6687;font-size:12px;border-bottom:1px solid #b2cee0}
+#view-profile .neva-address-back{display:grid;place-items:center;color:white;background:radial-gradient(circle at 20% 20%,#9df7fd,#46aace 65%,#206d9e);border:1px solid white;border-radius:50%;width:27px;height:27px;box-shadow:0 1px 4px #326a9c76}
+#view-profile .neva-address-crumb{padding:8px 11px;border:1px solid #a9c7dc;background:#ffffff8c;border-radius:5px}
+#view-profile .neva-address-search{margin-left:auto;background:white;border:1px solid #afc6d9;border-radius:6px;padding:9px 12px;color:#68819b;min-width:180px}
+#view-profile .neva-window-content{display:grid;grid-template-columns:204px minmax(0,1fr);align-items:stretch;background:linear-gradient(125deg,#e2f7f5 0%,#f6fff9 45%,#e0f5fc 100%);min-height:440px}
+#view-profile .neva-profile-sidebar{display:flex;flex-direction:column;align-items:stretch;gap:4px;padding:20px 10px 18px 12px;background:linear-gradient(160deg,#d5f7ff 0%,#bbdffa 52%,#a7dbd4);border-right:1px solid #a5c7d4}
+#view-profile .neva-sidebar-heading{font-size:11px;letter-spacing:1.6px;font-weight:760;color:#406b88;margin:12px 7px 10px}
+#view-profile .neva-side-link{display:flex;align-items:center;gap:8px;border:1px solid transparent;background:transparent;border-radius:7px;padding:11px 10px;font-weight:640;text-align:left;color:#215173;font-size:13px;transition:background .2s}
+#view-profile .neva-side-link:hover,#view-profile .neva-side-link:focus-visible,#view-profile .neva-side-link.is-selected{background:linear-gradient(#fffffff2,#b6e9f8e3);border-color:#8ac4dc;box-shadow:inset 0 1px #fff}
+#view-profile .neva-sidebar-divider{height:1px;background:#6fb6c06e;margin:10px 8px}
+#view-profile .neva-side-footer{margin-top:auto;padding:24px 9px 0;color:#2d7894;font-weight:800;letter-spacing:1.1px;font-size:13px}
+#view-profile .neva-side-footer small{display:block;font-size:10px;font-weight:400;letter-spacing:0;margin-top:5px}
+#view-profile .neva-profile-main{min-width:0;display:grid;gap:18px;padding:20px;grid-template-columns:minmax(0,1fr)}
+/* Each existing section is a classic Explorer pane; no original controls are removed. */
+#view-profile .neva-profile-main > .glass-panel{border:1px solid #a5c9da;background:linear-gradient(125deg,#ffffffdf,#dcf6ffbd);box-shadow:inset 0 1px #fff,0 3px 12px #35749b24;border-radius:11px;color:#153b59}
+#view-profile .neva-profile-main h1,#view-profile .neva-profile-main h2,#view-profile .neva-profile-main h3{color:#134d76;text-shadow:0 1px #fff}
+#view-profile .neva-profile-main p,#view-profile .neva-profile-main .small-print,#view-profile .neva-profile-main .social-help{color:#426780}
+#view-profile .neva-profile-main .section-kicker{color:#238cac}
+#view-profile .neva-profile-main .result-count{color:#215475}
+#view-profile .neva-profile-main .profile-cover{padding-top:28px}
+#view-profile .neva-profile-main .profile-bubble{border:3px solid #fff;box-shadow:0 0 0 4px #65b0d5,0 8px 25px #316b8a50}
+#view-profile .neva-profile-main .secondary-button,#view-profile .neva-profile-main .primary-button{color:#164b72;border:1px solid #7cb5d0;background:linear-gradient(#fff,#a3dff5 49%,#65acdc 51%,#d0f5ff);text-shadow:0 1px #fff;box-shadow:inset 0 1px white,0 2px 6px #28689034}
+#view-profile .neva-profile-main input{color:#184967;background:#fff;border-color:#7daac5}
+#view-profile .neva-profile-main .video-card__meta,#view-profile .neva-profile-main .video-details p{color:#335772}
+#view-profile .neva-profile-main .video-card__meta h3{color:#1d4b67}
+#view-profile .neva-window-status{padding:8px 18px;display:flex;justify-content:space-between;gap:8px;background:linear-gradient(#faffff,#d8f0f8);border-top:1px solid #a4d0dc;color:#4e7392;font-size:11px}
+#view-profile .neva-window-status span:first-child{color:#318278}
+#view-profile .neva-profile-window.is-minimised .neva-window-content,#view-profile .neva-profile-window.is-minimised .neva-window-address,#view-profile .neva-profile-window.is-minimised .neva-window-menu{display:none}
+#view-profile .neva-profile-window.is-minimised .neva-window-status{min-height:26px}
+#view-profile .neva-profile-main [id]{scroll-margin-top:120px}
+@media(max-width:840px){#view-profile .neva-window-content{grid-template-columns:1fr}#view-profile .neva-profile-sidebar{flex-direction:row;flex-wrap:wrap;gap:3px;border-right:none;border-bottom:1px solid #b4d7dc;padding:9px}#view-profile .neva-sidebar-heading,#view-profile .neva-sidebar-divider,#view-profile .neva-side-footer{display:none}#view-profile .neva-side-link{font-size:12px;padding:8px 10px}#view-profile .neva-profile-main{padding:12px}}
+@media(max-width:540px){#view-profile .neva-profile-desktop{margin-inline:-12px}#view-profile .neva-window-titlebar{padding-left:10px}#view-profile .neva-window-menu{gap:10px;padding:6px 10px;font-size:11px}#view-profile .neva-window-menu-right{display:none}#view-profile .neva-window-address{padding:8px}#view-profile .neva-address-search{min-width:0;width:95px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#view-profile .neva-profile-main{padding:9px;gap:9px}#view-profile .neva-profile-main > .glass-panel{border-radius:8px}#view-profile .neva-window-status{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){#view-profile *{scroll-behavior:auto!important;transition:none!important}}

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#1268c1" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Neva" name="apple-mobile-web-app-title"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<link href="manifest.webmanifest" rel="manifest"/>
+<link href="icons/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="icons/favicon-48.png" rel="icon" sizes="48x48" type="image/png"/>
+<meta content="Neva: a glassy video community inspired by the PS Vita's bubble home screen and Windows Aero." name="description"/>
+<title>Neva — Your world, one bubble away</title>
+<link href="styles.css" rel="stylesheet"/>
+<!-- Public Supabase client: NEVER put a secret/service-role key in browser files. -->
+<script defer="" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script defer="" src="config.js"></script>
+<script defer="" src="script.js"></script>
+<link href="neva-windows.css" rel="stylesheet"/></head>
+<body>
+<svg aria-hidden="true" class="svg-defs" focusable="false" xmlns="http://www.w3.org/2000/svg">
+<symbol id="ico-play" viewbox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z" fill="currentColor" stroke="none"></path></symbol>
+<symbol id="ico-home" viewbox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"></path></symbol>
+<symbol id="ico-compass" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2.3 4.7-4.7 2.3 2.3-4.7 4.7-2.3Z"></path></symbol>
+<symbol id="ico-clips" viewbox="0 0 24 24"><rect height="18" rx="4" width="14" x="5" y="3"></rect><path d="m10 8 6 4-6 4V8Z"></path></symbol>
+<symbol id="ico-heart" viewbox="0 0 24 24"><path d="M20.8 8.1c0 5-8.8 11.1-8.8 11.1S3.2 13.1 3.2 8.1a4.9 4.9 0 0 1 8.8-2.9 4.9 4.9 0 0 1 8.8 2.9Z"></path></symbol>
+<symbol id="ico-upload" viewbox="0 0 24 24"><path d="M12 16V3m0 0L7 8m5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"></path></symbol>
+<symbol id="ico-library" viewbox="0 0 24 24"><rect height="15" rx="1" width="5" x="3" y="5"></rect><rect height="15" rx="1" width="5" x="9.5" y="5"></rect><path d="m16 5 3-1 3 15-3 1-3-15Z"></path></symbol>
+<symbol id="ico-search" viewbox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.7"></circle><path d="m16 16 5 5"></path></symbol>
+<symbol id="ico-sparkle" viewbox="0 0 24 24"><path d="m12 2 2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2L12 2Z"></path></symbol>
+<symbol id="ico-arrow" viewbox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"></path></symbol>
+<symbol id="ico-close" viewbox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19"></path></symbol>
+<symbol id="ico-volume" viewbox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 3a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"></path></symbol>
+</svg>
+<div aria-hidden="true" class="wallpaper-orb wallpaper-orb--one"></div>
+<div aria-hidden="true" class="wallpaper-orb wallpaper-orb--two"></div>
+<div aria-hidden="true" class="wallpaper-orb wallpaper-orb--three"></div>
+<div aria-hidden="true" class="background-grain"></div>
+<div class="app-shell">
+<header class="topbar glass-panel">
+<button aria-label="Neva home" class="brand" data-view="home">
+<span class="brand-mark"><span class="brand-mark__play"></span></span>
+<span>Ne<span class="brand-accent">va</span><small>BETA</small></span>
+</button>
+<nav aria-label="Main navigation" class="desktop-nav">
+<button class="nav-link active" data-view="home">Home</button>
+<button class="nav-link" data-view="watch">Watch</button>
+<button class="nav-link" data-view="shorts">Clips</button>
+<button class="nav-link" data-view="library">Library</button><button class="nav-link" data-view="social">People &amp; chat</button>
+</nav>
+<div class="topbar-tools">
+<form class="search-box" id="searchForm" role="search">
+<svg class="icon"><use href="#ico-search"></use></svg>
+<input aria-label="Search videos" autocomplete="off" id="searchInput" placeholder="Search the universe..." type="search"/>
+<kbd>/</kbd>
+</form>
+<button aria-label="Your profile" class="avatar-button" data-view="profile">NV</button>
+</div>
+</header>
+<main id="mainContent">
+<section aria-label="Home screen" class="view is-active" id="view-home">
+<div class="home-hero">
+<div class="hero-copy">
+<p class="eyebrow"><span class="live-dot"></span> WELCOME TO YOUR SPACE <span class="eyebrow-rule"></span> 01 / 06</p>
+<h1>Your world.<br/><span>One bubble</span><br/>away.</h1>
+<p class="hero-description">A place to watch, share, and discover. Your favourite videos with that nostalgic glassy glow.</p>
+<div class="hero-hint"><span class="hint-star"><svg class="icon"><use href="#ico-sparkle"></use></svg></span> Pick a bubble to jump in <svg class="icon arrow-sm"><use href="#ico-arrow"></use></svg></div>
+</div>
+<div aria-label="Bubble home screen launcher" class="bubble-space">
+<div class="bubble-space__halo"></div>
+<div class="bubble-grid">
+<button aria-label="Open videos" class="bubble-button bubble-button--watch" data-view="watch">
+<span class="bubble bubble--blue"><svg aria-hidden="true" class="bubble-icon"><use href="#ico-play"></use></svg></span>
+<span class="bubble-label">Watch</span>
+</button>
+<button aria-label="Discover videos" class="bubble-button bubble-button--discover" data-filter="Discover" data-view="watch">
+<span class="bubble bubble--violet"><svg aria-hidden="true" class="bubble-icon"><use href="#ico-compass"></use></svg></span>
+<span class="bubble-label">Discover</span>
+</button>
+<button aria-label="Open clips" class="bubble-button bubble-button--shorts" data-view="shorts">
+<span class="bubble bubble--pink"><svg aria-hidden="true" class="bubble-icon"><use href="#ico-clips"></use></svg></span>
+<span class="bubble-label">Clips</span>
+</button>
+<button aria-label="Upload video" class="bubble-button bubble-button--upload" data-action="upload">
+<span class="bubble bubble--mint"><svg aria-hidden="true" class="bubble-icon"><use href="#ico-upload"></use></svg></span>
+<span class="bubble-label">Upload</span>
+</button>
+<button aria-label="Open saved videos" class="bubble-button bubble-button--saved" data-view="library">
+<span class="bubble bubble--gold"><svg aria-hidden="true" class="bubble-icon"><use href="#ico-library"></use></svg></span>
+<span class="bubble-label">My Library</span>
+</button>
+<button aria-label="Open profile" class="bubble-button bubble-button--profile" data-view="profile">
+<span class="bubble bubble--aqua"><svg aria-hidden="true" class="bubble-icon"><use href="#ico-heart"></use></svg></span>
+<span class="bubble-label">My Space</span>
+</button>
+</div>
+<div aria-hidden="true" class="space-dots"><i class="on"></i><i></i><i></i><i></i></div>
+</div>
+</div>
+<section aria-label="Featured videos" class="home-feature glass-panel">
+<div class="section-heading">
+<div><span class="section-kicker">CURATED FOR YOU</span><h2>Made for your mood <span class="heading-sparkle">✦</span></h2></div>
+<button class="text-button" data-view="watch">See all videos <svg class="icon"><use href="#ico-arrow"></use></svg></button>
+</div>
+<div class="feature-cards" id="featuredVideos"></div>
+</section>
+</section>
+<section aria-label="Browse videos" class="view" id="view-watch">
+<div class="inner-banner glass-panel">
+<div><span class="section-kicker">THE VIDEO UNIVERSE</span><h1>Find your next <em>favourite.</em></h1><p>Real videos from YouTube, TikTok and Neva creators. Watch here or open the originals.</p></div>
+<span class="inner-banner__badge"><svg class="icon"><use href="#ico-play"></use></svg></span>
+</div>
+<div class="social-row watch-actions"><button class="secondary-button" id="openLinkDialog" type="button">+ Add YouTube / TikTok link</button><span class="social-help">Neva shows supported videos; it cannot import every video from either service.</span></div><div class="browse-controls"><div aria-label="Filter by category" class="category-list" id="categoryList"></div><span class="result-count" id="resultCount"></span></div>
+<div class="video-grid" id="videoGrid"></div><p class="content-source-note">Videos are embedded with attribution. Neva doesn’t download or host other creators’ content.</p>
+<p class="empty-message glass-panel" hidden="" id="noResults">No videos found. Try another search or category.</p>
+</section>
+<section aria-label="Short clips" class="view" id="view-shorts">
+<div class="section-heading standalone-heading"><div><span class="section-kicker">LITTLE VIDEOS. BIG ENERGY.</span><h1>Clips <span class="heading-sparkle">✦</span></h1><p>Swipe through Minecraft, animals and fun short videos.</p></div></div>
+<div class="clips-preferences"><label class="clip-autoplay-toggle"><input checked="" id="clipAutoplay" type="checkbox"/> Autoplay clips</label><button aria-label="Turn sound on for all clips" aria-pressed="false" class="clip-sound-toggle" id="clipSoundToggle" type="button">🔇 Sound off</button><span aria-live="polite" id="clipSoundHelp">Clips start muted. Turn sound on once for the whole feed.</span></div><div class="shorts-grid" id="shortsGrid"></div><p class="content-source-note">Clips autoplay muted until you choose Sound on. Your choice carries between clips, though YouTube, TikTok and some browsers may still require a tap for audio.</p>
+</section>
+<section aria-label="Saved video library" class="view" id="view-library">
+<div class="section-heading standalone-heading"><div><span class="section-kicker">YOUR COLLECTION</span><h1>My Library <span class="heading-sparkle">✦</span></h1><p>Videos you've saved, all in one cosy corner.</p></div></div>
+<div class="video-grid" id="savedGrid"></div>
+<div class="empty-state glass-panel" id="emptyLibrary"><span class="empty-bubble">♡</span><h2>A fresh start!</h2><p>Tap the heart on a video to save it here.</p><button class="primary-button" data-view="watch">Explore videos <svg class="icon"><use href="#ico-arrow"></use></svg></button></div>
+</section>
+<section aria-label="Profile" class="view" id="view-profile"><div class="neva-profile-desktop">
+<div class="neva-profile-window" id="nevaProfileWindow">
+<div class="neva-window-titlebar">
+<div class="neva-window-title"><span aria-hidden="true" class="neva-window-icon">◈</span><span>My Space - Neva OS</span></div>
+<div class="neva-window-controls"><button aria-label="Minimise profile window" id="nevaMinimise" title="Minimise" type="button">−</button><button aria-label="Expand profile window" id="nevaMaximise" title="Expand" type="button">▢</button><button aria-label="Close profile window" class="neva-window-close" data-view="home" title="Back to home" type="button">×</button></div>
+</div>
+<div class="neva-window-menu"><span>File</span><span>View</span><span>Friends</span><span>Tools</span><span class="neva-window-menu-right">✦ Windows Aero-inspired</span></div>
+<div class="neva-window-address"><span aria-hidden="true" class="neva-address-back">◀</span><span class="neva-address-crumb">Neva OS</span><span aria-hidden="true">›</span><strong>My Space</strong><span class="neva-address-search">⌕   My profile</span></div>
+<div class="neva-window-content" id="nevaProfileWindowContent"><aside aria-label="Profile sections" class="neva-profile-sidebar">
+<div class="neva-sidebar-heading">FAVOURITES</div>
+<button class="neva-side-link is-selected" data-scroll-profile="profileIntro" type="button">✦ <span>My profile</span></button>
+<button class="neva-side-link" data-scroll-profile="myVideosGrid" type="button">▤ <span>My videos</span></button>
+<button class="neva-side-link" data-scroll-profile="friendsList" type="button">☻ <span>Friends</span></button>
+<button class="neva-side-link" data-scroll-profile="communityStats" type="button">▥ <span>Community</span></button>
+<button class="neva-side-link" data-scroll-profile="accountStatus" type="button">⚙ <span>Account</span></button>
+<div class="neva-sidebar-divider"></div><div class="neva-sidebar-heading">YOUR NEVA</div>
+<button class="neva-side-link" data-view="watch" type="button">▷ <span>Watch</span></button>
+<button class="neva-side-link" data-view="shorts" type="button">▣ <span>Clips</span></button>
+<button class="neva-side-link" data-view="social" type="button">✉ <span>People &amp; chat</span></button>
+<div class="neva-side-footer">NEVA OS <small>Profile Explorer</small></div>
+</aside><div class="neva-profile-main" id="nevaProfileMain">
+<div class="profile-cover glass-panel" id="profileIntro"><span class="section-kicker">WELCOME TO YOUR CORNER</span><div class="profile-bubble">NV</div><div class="avatar-edit"><label class="secondary-button" for="nevaAvatarFile">Change profile picture</label><input accept="image/png,image/jpeg,image/webp" hidden="" id="nevaAvatarFile" type="file"/><button class="secondary-button" id="resetNevaAvatar" type="button">Use default</button><p aria-live="polite" id="avatarUpdateStatus" role="status"></p></div><h1>Your Space</h1><p>Make yourself at home. Your own channel is waiting to happen.</p><button class="primary-button" data-action="upload">Upload your first video <svg class="icon"><use href="#ico-upload"></use></svg></button></div>
+<div class="profile-info glass-panel">
+<h2>Your Neva account</h2>
+<p aria-live="polite" id="accountStatus">Checking Supabase connection…</p>
+<div class="account-actions">
+<button class="primary-button" id="openAuth" type="button">Account options</button><button class="secondary-button" id="signOutNeva" type="button">Sign out / switch</button>
+</div>
+<p class="small-print">Usernames are unique on Neva but accounts have no recovery email. Your posting identity is tied to this browser. Losing browser storage can mean losing access to your account. Uploaded videos are public.</p>
+</div>
+<section aria-label="Your uploaded videos" class="social-panel glass-panel"><div class="section-heading"><div><span class="section-kicker">YOUR CHANNEL</span><h2>My videos</h2></div><span class="result-count" id="myVideoCount">0 videos</span></div><p class="social-help">Your uploaded videos appear here and on Home. Select Edit thumbnail to change the cover.</p><div class="video-grid" id="myVideosGrid"></div><p class="social-help" id="emptyMyVideos">Nothing posted from this account yet. Choose Upload to share your first video.</p></section>
+<section aria-label="Friends and friend requests" class="social-panel glass-panel"><span class="section-kicker">YOUR PEOPLE</span><h2>Friends</h2><form class="social-row" id="friendSearchForm"><label class="sr-only" for="friendUsername">Find a username</label><input autocomplete="off" id="friendUsername" maxlength="24" placeholder="Search exact Neva username" type="text"/><button class="primary-button" type="submit">Send request</button></form><p class="social-help">Both people must choose a Neva username. Requests need accepting; nobody becomes your friend automatically.</p><p aria-live="polite" class="social-help" id="friendStatus" role="status"></p><div class="friends-layout"><div><h3>Friend requests <span id="requestCount"></span></h3><div class="social-list" id="incomingRequests"></div></div><div><h3>Your friends</h3><div class="social-list" id="friendsList"></div></div><div><h3>Sent requests</h3><div class="social-list" id="outgoingRequests"></div></div></div><button class="secondary-button" id="refreshFriends" type="button">Refresh friends</button></section>
+<section aria-label="Neva community stats" class="social-panel glass-panel" id="communityStats">
+<span class="section-kicker">NEVA RIGHT NOW</span><h2>Community</h2>
+<div class="community-metrics"><div><strong id="onlineCount">—</strong><span>online in last 3 min</span></div><div><strong id="accountCount">—</strong><span>registered profiles</span></div><div><strong id="myFollowersCount">—</strong><span>followers</span></div><div><strong id="myFollowingCount">—</strong><span>following</span></div><div><strong id="myLikesCount">—</strong><span>likes received</span></div></div>
+<button class="secondary-button" id="refreshStats" type="button">Refresh numbers</button>
+</section>
+<section class="social-panel glass-panel"><span class="section-kicker">TOOLS FOR EVERYONE</span><h2>Your privacy</h2>
+<p>Block a username to hide their videos, messages and requests from your account. Report a video if it breaks the rules.</p>
+<form class="social-row" id="blockForm"><label class="sr-only" for="blockUsername">Username to block or unblock</label><input id="blockUsername" maxlength="24" placeholder="Username to block or unblock"/><button class="secondary-button" type="submit">Block / unblock</button></form><p id="blockStatus" role="status"></p><div class="social-list" id="blockedList"></div>
+</section>
+<section aria-label="Install Neva on your phone" class="install-panel glass-panel">
+<div class="install-panel__intro">
+<img alt="Neva app icon" height="70" src="icons/icon-192.png" width="70"/>
+<div><span class="section-kicker">NEVA IN YOUR POCKET</span><h2>Install Neva</h2><p>Get the bubble home screen on your phone. No app store needed.</p></div>
+</div>
+<button class="primary-button" id="installNevaButton" type="button">Install / How to install</button>
+<div aria-live="polite" class="install-instructions" id="installInstructions">
+<p><strong>Android:</strong> Open Neva in Chrome, tap the menu ⋮, then <strong>Install app</strong> or <strong>Add to Home screen</strong>.</p>
+<p><strong>iPhone:</strong> Open Neva in Safari, tap <strong>Share</strong> (the square and arrow), choose <strong>Add to Home Screen</strong>, then <strong>Add</strong>. Turn on <strong>Open as Web App</strong> if shown.</p>
+<p class="install-hint">You must open the live website, not an HTML file from Downloads. Watching and uploading videos still needs internet.</p>
+</div>
+</section>
+</div></div>
+<div class="neva-window-status"><span>● Connected to your Neva space</span><span>Neva OS • Personal folder</span></div>
+</div></div></section>
+<section aria-label="People and messages" class="view" id="view-social">
+<div class="inner-banner glass-panel"><div><span class="section-kicker">THE NEVA COMMUNITY</span><h1>People &amp; <em>messages.</em></h1><p>Follow your favourite creators and chat with friends once you both accept a friend request.</p></div><span class="inner-banner__badge">✦</span></div>
+<div class="social-panel glass-panel"><h2>Find a creator</h2><form class="social-row" id="followForm"><label class="sr-only" for="followUsername">Username</label><input autocomplete="off" id="followUsername" maxlength="24" placeholder="Exact username" type="text"/><button class="primary-button" type="submit">Follow / unfollow</button></form><p id="followStatus" role="status"></p><div class="friends-layout"><div><h3>Following</h3><div class="social-list" id="followingList"></div></div><div><h3>Followers</h3><div class="social-list" id="followersList"></div></div><div><h3>Your reposts</h3><div class="social-list" id="myReposts"></div></div></div></div>
+<div class="social-panel glass-panel"><span class="section-kicker">PRIVATE CONVERSATIONS</span><h2>Message your friends</h2><p class="social-help">Only accepted friends can send each other messages. Blocking someone stops both directions.</p><div class="messages-layout"><div><h3>Select a friend</h3><div class="social-list" id="chatFriends"></div></div><div><h3 id="chatTitle">Choose someone to chat with</h3><div aria-live="polite" class="chat-thread" id="chatMessages" role="log"></div><form class="message-form" id="messageForm"><label class="sr-only" for="messageText">Message</label><input id="messageText" maxlength="1000" placeholder="Type a message…" required=""/><button class="primary-button" type="submit">Send</button></form><p id="messageStatus" role="status"></p></div></div></div>
+</section>
+</main>
+<footer aria-label="Quick navigation" class="bottom-dock glass-panel">
+<span class="dock-brand"><span class="dock-status"></span> Neva OS <small>1.0</small></span>
+<div class="dock-actions">
+<button aria-label="Home" class="dock-button active" data-view="home" title="Home"><svg class="icon"><use href="#ico-home"></use></svg></button>
+<button aria-label="Watch" class="dock-button" data-view="watch" title="Watch"><svg class="icon"><use href="#ico-play"></use></svg></button>
+<button aria-label="Clips" class="dock-button" data-view="shorts" title="Clips"><svg class="icon"><use href="#ico-clips"></use></svg></button>
+<button aria-label="Friends and chat" class="dock-button" data-view="social" title="People &amp; chat">✉</button><button aria-label="Library" class="dock-button" data-view="library" title="Library"><svg class="icon"><use href="#ico-library"></use></svg></button>
+</div>
+<span aria-label="Local time" class="dock-clock" id="dockClock">--:--</span>
+</footer>
+</div>
+<dialog aria-label="Add a YouTube or TikTok video" class="modal auth-modal" id="linkDialog"><div class="modal-top"><span class="modal-eyebrow">✦ LINK A VIDEO</span><button aria-label="Close link dialog" class="round-close" data-close=""><svg class="icon"><use href="#ico-close"></use></svg></button></div><h2>Share a video link</h2><p>Paste a public YouTube video, YouTube Short or full TikTok video link. The video remains on its original platform.</p><form class="auth-form" id="linkForm"><label>Video URL<input id="linkUrl" placeholder="https://www.youtube.com/watch?v=..." required="" type="url"/></label><label>Title<input id="linkTitle" maxlength="120" placeholder="What is this video called?" required=""/></label><fieldset class="post-destination post-destination--compact"><legend>Where should the link appear?</legend><div class="destination-options"><label class="destination-option"><input checked="" id="linkDestinationVideo" name="linkDestination" type="radio" value="video"/><span class="destination-inner"><strong>▶ Video</strong><small>Watch feed</small></span></label><label class="destination-option"><input id="linkDestinationClip" name="linkDestination" type="radio" value="clip"/><span class="destination-inner"><strong>↕ Clip</strong><small>Scrolling Clips</small></span></label></div></fieldset><button class="primary-button" type="submit">Add video link</button><p aria-live="polite" id="linkStatus" role="status"></p></form></dialog>
+<dialog aria-label="Video player" class="modal video-modal" id="playerDialog">
+<div class="modal-top"><span class="modal-eyebrow">◉ NOW PLAYING</span><button aria-label="Close player" class="round-close" data-close=""><svg class="icon"><use href="#ico-close"></use></svg></button></div>
+<div class="video-frame"><video controls="" hidden="" id="demoVideo" playsinline="" preload="none">Your browser does not support video playback.</video><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen="" class="embed-frame" hidden="" id="externalVideo" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Video from original creator"></iframe></div>
+<div class="video-modal-content"><div><h2 id="playerTitle"></h2><p id="playerCreator"></p><span class="demo-notice" id="playerNotice">Videos play from their original platforms.</span><a class="original-source" hidden="" href="#" id="playerSourceLink" rel="noopener noreferrer" target="_blank">Watch original ↗</a></div><span class="player-stats" id="playerStats"></span><div class="player-social-actions"><button class="secondary-button" id="followFromPlayer" type="button">+ Follow</button><button class="secondary-button" id="repostFromPlayer" type="button">↗ Repost</button><button class="secondary-button" id="reportFromPlayer" type="button">⚑ Report</button><button class="save-button" id="saveFromPlayer"><svg class="icon"><use href="#ico-heart"></use></svg><span>Like</span></button></div></div>
+</dialog>
+<dialog aria-label="Upload a video" class="modal upload-modal" id="uploadDialog">
+<div class="modal-top"><span class="modal-eyebrow">✦ YOUR STUDIO</span><button aria-label="Close upload dialog" class="round-close" data-close=""><svg class="icon"><use href="#ico-close"></use></svg></button></div>
+<span class="upload-orb"><svg class="icon"><use href="#ico-upload"></use></svg></span>
+<h2>Share something wonderful.</h2>
+<p>Pick a video to preview it, then publish it to Neva. Public videos can be watched by anyone with access to the site.</p>
+<p aria-live="polite" class="upload-auth-message" id="uploadAuthMessage">Choose a username to post. No email needed.</p>
+<label class="form-field" for="videoTitle">Video title <input id="videoTitle" maxlength="120" placeholder="Give your video a title" type="text"/></label>
+<div class="thumbnail-picker"><p class="section-kicker">VIDEO THUMBNAIL</p><img alt="Selected thumbnail preview" class="thumbnail-preview" hidden="" id="thumbnailPreview"/><div class="thumbnail-actions"><label class="file-select" for="thumbnailFile">Choose thumbnail image</label><input accept="image/png,image/jpeg,image/webp" hidden="" id="thumbnailFile" type="file"/><button class="secondary-button" id="captureThumbnail" type="button">Use current video frame</button></div><p aria-live="polite" class="small-print" id="thumbnailStatus">Use JPG, PNG or WebP, or choose a frame from your video.</p></div><fieldset aria-describedby="postDestinationHelp" class="post-destination"><legend>Where should your post go?</legend><div class="destination-options"><label class="destination-option"><input checked="" id="uploadDestinationVideo" name="uploadDestination" type="radio" value="video"/><span class="destination-inner"><strong>▶ Video</strong><small>Show in Watch and on the homepage</small></span></label><label class="destination-option"><input id="uploadDestinationClip" name="uploadDestination" type="radio" value="clip"/><span class="destination-inner"><strong>↕ Clip</strong><small>Show in the swipe-up, autoplay Clips feed</small></span></label></div><p class="destination-help" id="postDestinationHelp">Choose one before posting. Your post will also appear in My Space.</p></fieldset>
+<label class="file-select" for="localVideo">Choose a video file <svg class="icon"><use href="#ico-arrow"></use></svg></label>
+<input accept="video/*" hidden="" id="localVideo" type="file"/>
+<video class="local-preview" controls="" hidden="" id="localPreview" playsinline=""></video>
+<p aria-live="polite" class="upload-filename" id="uploadFilename"></p>
+<div class="upload-actions"><button class="primary-button" disabled="" id="publishVideo" type="button">Upload to Neva</button><button class="secondary-button" id="uploadSignIn" type="button">Choose username</button></div>
+<p aria-live="polite" class="upload-status" id="uploadStatus" role="status"></p><button class="secondary-button view-post-button" hidden="" id="viewPublishedPost" type="button">View posted video →</button>
+</dialog>
+<dialog aria-label="Edit a video thumbnail" class="modal auth-modal" id="thumbnailEditDialog"><div class="modal-top"><span class="modal-eyebrow">✦ EDIT THUMBNAIL</span><button aria-label="Close thumbnail editor" class="round-close" data-close=""><svg class="icon"><use href="#ico-close"></use></svg></button></div><h2>Update video cover</h2><p id="thumbnailEditTitle"></p><input accept="image/png,image/jpeg,image/webp" id="newThumbnailFile" type="file"/><button class="primary-button" id="saveThumbnailEdit" type="button">Save thumbnail</button><p aria-live="polite" id="thumbnailEditStatus" role="status"></p></dialog>
+<dialog aria-label="Choose your username" class="modal auth-modal" id="authDialog">
+<div class="modal-top"><span class="modal-eyebrow">✦ YOUR NEVA NAME</span><button aria-label="Close username dialog" class="round-close" data-close=""><svg class="icon"><use href="#ico-close"></use></svg></button></div>
+<h2>What should we call you?</h2>
+<p>Just pick a username and start sharing. No email or password needed.</p>
+<form class="auth-form" id="authForm">
+<label for="guestUsername">Username <input autocapitalize="off" autocomplete="nickname" id="guestUsername" inputmode="text" maxlength="24" minlength="3" pattern="[A-Za-z0-9_]{3,24}" placeholder="e.g. NevaGamer" required="" spellcheck="false" type="text"/></label>
+<p class="small-print">3–24 letters, numbers or underscores. Usernames are unique. Your account is saved on this device; there is no email recovery.</p>
+<div class="account-actions"><button class="primary-button" id="chooseUsername" type="submit">Start posting →</button></div>
+<p aria-live="polite" id="authStatus" role="status"></p>
+</form>
+</dialog>
+<dialog aria-label="Welcome to Neva" class="modal welcome-modal" id="welcomeDialog">
+<div aria-hidden="true" class="welcome-glint"></div><div class="welcome-orb welcome-avatar-icon"><img alt="Neva default profile icon" src="icons/default-avatar.svg"/></div><span class="section-kicker">NEVA · YOUR VIDEO UNIVERSE</span><h2>Welcome to <em>Neva.</em></h2>
+<p>Sign in to follow creators, like videos and message your friends. No email address needed.</p><div aria-label="Account option" class="login-tabs" role="group"><button class="login-tab active" data-authmode="signin" type="button">Sign in</button><button class="login-tab" data-authmode="create" type="button">Create account</button></div>
+<form class="auth-form" id="passwordForm"><label>Username<input autocomplete="username" id="loginUsername" maxlength="24" minlength="3" pattern="[A-Za-z0-9_]{3,24}" placeholder="Neva username" required="" type="text"/></label><label>Password<input autocomplete="current-password" id="loginPassword" maxlength="128" minlength="10" placeholder="At least 10 characters" required="" type="password"/></label><button class="primary-button" id="loginSubmit" type="submit">Sign in</button><p aria-live="polite" id="loginStatus" role="status"></p></form>
+<div class="welcome-alt"><button class="secondary-button" id="keepGuest" type="button">Continue with my current guest profile</button><button class="secondary-button" id="browseNeva" type="button">Browse without signing in</button></div><p class="small-print">Your sign-in works across devices once the Neva account server is installed. Guest profiles still work on their original device. Without email, passwords cannot be reset.</p>
+</dialog>
+<dialog aria-label="Report a video" class="modal auth-modal" id="reportDialog"><div class="modal-top"><span class="modal-eyebrow">✦ HELP KEEP NEVA SAFE</span><button aria-label="Close report dialog" class="round-close" data-close="">✕</button></div><h2>Report video</h2><p>Your report is recorded for review. Don't include private information.</p><form class="auth-form" id="reportForm"><label>What's wrong?<textarea id="reportReason" maxlength="300" minlength="10" placeholder="Tell us what happened (10–300 characters)" required=""></textarea></label><button class="primary-button" type="submit">Send report</button><p id="reportStatus" role="status"></p></form></dialog>
+<aside aria-label="Home screen music controls" class="home-music glass-panel" id="homeMusic">
+<span aria-hidden="true">♫</span> <span class="music-title">Neva home theme</span>
+<button aria-label="Play or pause home screen audio" id="nevaMusicToggle" type="button">▶</button>
+<label class="music-pick">Choose other music<input accept="audio/*" hidden="" id="nevaMusicFile" type="file"/></label>
+<span class="music-file-name" id="nevaMusicFileName">Neva theme • ready to play</span>
+<audio id="nevaHomeAudio" loop="" preload="none" src="neva-theme.mp3"></audio>
+</aside>
+<script defer="" src="neva-personalize.js"></script>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<!-- App-opening effect is generated at the position of the selected bubble. -->
+</body>
+</html>
