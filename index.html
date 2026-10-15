@@ -183,9 +183,29 @@
 <div class="neva-window-status"><span>● Connected to your Neva space</span><span>Neva OS • Personal folder</span></div>
 </div></div></section>
 <section aria-label="People and messages" class="view" id="view-social">
-<div class="inner-banner glass-panel"><div><span class="section-kicker">THE NEVA COMMUNITY</span><h1>People &amp; <em>messages.</em></h1><p>Follow your favourite creators and chat with friends once you both accept a friend request.</p></div><span class="inner-banner__badge">✦</span></div>
-<div class="social-panel glass-panel"><h2>Find a creator</h2><form class="social-row" id="followForm"><label class="sr-only" for="followUsername">Username</label><input autocomplete="off" id="followUsername" maxlength="24" placeholder="Exact username" type="text"/><button class="primary-button" type="submit">Follow / unfollow</button></form><p id="followStatus" role="status"></p><div class="friends-layout"><div><h3>Following</h3><div class="social-list" id="followingList"></div></div><div><h3>Followers</h3><div class="social-list" id="followersList"></div></div><div><h3>Your reposts</h3><div class="social-list" id="myReposts"></div></div></div></div>
-<div class="social-panel glass-panel"><span class="section-kicker">PRIVATE CONVERSATIONS</span><h2>Message your friends</h2><p class="social-help">Only accepted friends can send each other messages. Blocking someone stops both directions.</p><div class="messages-layout"><div><h3>Select a friend</h3><div class="social-list" id="chatFriends"></div></div><div><h3 id="chatTitle">Choose someone to chat with</h3><div aria-live="polite" class="chat-thread" id="chatMessages" role="log"></div><form class="message-form" id="messageForm"><label class="sr-only" for="messageText">Message</label><input id="messageText" maxlength="1000" placeholder="Type a message…" required=""/><button class="primary-button" type="submit">Send</button></form><p id="messageStatus" role="status"></p></div></div></div>
+<div class="neva-profile-desktop">
+<div class="neva-profile-window" id="nevaFriendsWindow">
+<div class="neva-window-titlebar"><div class="neva-window-title"><span aria-hidden="true" class="neva-window-icon">✉</span><span>People &amp; Chat - Neva OS</span></div>
+<div class="neva-window-controls"><button id="nevaFriendsMinimise" aria-label="Minimise friends window" type="button">−</button><button id="nevaFriendsMaximise" aria-label="Expand friends window" type="button">▢</button><button class="neva-window-close" data-view="home" title="Back to home" aria-label="Close friends window" type="button">×</button></div></div>
+<div class="neva-window-menu"><span>File</span><span>View</span><span>Friends</span><span>Messages</span><span class="neva-window-menu-right">✦ Your people</span></div>
+<div class="neva-window-address"><span class="neva-address-back" aria-hidden="true">◀</span><span class="neva-address-crumb">Neva OS</span><span aria-hidden="true">›</span><strong>People &amp; chat</strong><span class="neva-address-search">⌕ &nbsp; Friends Explorer</span></div>
+<div class="neva-window-content"><aside class="neva-profile-sidebar" aria-label="People and chat sections">
+<div class="neva-sidebar-heading">YOUR PEOPLE</div>
+<button type="button" class="neva-side-link is-selected" data-scroll-social="nevaSocialCreators">♡ <span>Following</span></button>
+<button type="button" class="neva-side-link" data-scroll-social="nevaSocialMessages">✉ <span>Messages</span></button>
+<button type="button" class="neva-side-link" data-view="profile">☻ <span>Friends &amp; requests</span></button>
+<div class="neva-sidebar-divider"></div><div class="neva-sidebar-heading">NEVA OS</div>
+<button type="button" class="neva-side-link" data-view="home">⌂ <span>Home</span></button>
+<button type="button" class="neva-side-link" data-view="profile">◈ <span>My Space</span></button>
+<button type="button" class="neva-side-link" data-view="shorts">▣ <span>Clips</span></button>
+<div class="neva-side-footer">NEVA OS <small>People Explorer</small></div>
+</aside><div class="neva-profile-main neva-social-main">
+<div class="neva-friends-intro"><span class="section-kicker">WELCOME TO YOUR NEVA COMMUNITY</span><h1>People &amp; messages <span aria-hidden="true">✦</span></h1><p>Follow creators, find your friends and have a chat, all in your own little corner of Neva.</p><button type="button" class="secondary-button" data-view="profile">See friend requests ↗</button></div>
+<section class="neva-friends-card" id="nevaSocialCreators"><div class="social-panel glass-panel"><h2>Find a creator</h2><form class="social-row" id="followForm"><label class="sr-only" for="followUsername">Username</label><input autocomplete="off" id="followUsername" maxlength="24" placeholder="Exact username" type="text"/><button class="primary-button" type="submit">Follow / unfollow</button></form><p id="followStatus" role="status"></p><div class="friends-layout"><div><h3>Following</h3><div class="social-list" id="followingList"></div></div><div><h3>Followers</h3><div class="social-list" id="followersList"></div></div><div><h3>Your reposts</h3><div class="social-list" id="myReposts"></div></div></div></div></section>
+<section class="neva-friends-card" id="nevaSocialMessages"><div class="social-panel glass-panel"><span class="section-kicker">PRIVATE CONVERSATIONS</span><h2>Message your friends</h2><p class="social-help">Only accepted friends can send each other messages. Blocking someone stops both directions.</p><div class="messages-layout"><div><h3>Select a friend</h3><div class="social-list" id="chatFriends"></div></div><div><h3 id="chatTitle">Choose someone to chat with</h3><div aria-live="polite" class="chat-thread" id="chatMessages" role="log"></div><form class="message-form" id="messageForm"><label class="sr-only" for="messageText">Message</label><input id="messageText" maxlength="1000" placeholder="Type a message…" required=""/><button class="primary-button" type="submit">Send</button></form><p id="messageStatus" role="status"></p></div></div></div></section>
+</div></div>
+<div class="neva-window-status"><span>● Your Neva people</span><span>Neva OS • People folder</span></div>
+</div></div>
 </section>
 </main>
 <footer aria-label="Quick navigation" class="bottom-dock glass-panel">
@@ -243,8 +263,8 @@
 <span aria-hidden="true">♫</span> <span class="music-title">Neva home theme</span>
 <button aria-label="Play or pause home screen audio" id="nevaMusicToggle" type="button">▶</button>
 <label class="music-pick">Choose other music<input accept="audio/*" hidden="" id="nevaMusicFile" type="file"/></label>
-<span class="music-file-name" id="nevaMusicFileName">Neva theme • ready to play</span>
-<audio id="nevaHomeAudio" loop="" preload="none" src="neva-theme.mp3"></audio>
+<span class="music-file-name" id="nevaMusicFileName">Neva theme • quiet background music</span>
+<audio id="nevaHomeAudio" loop="" preload="auto" src="neva-theme.mp3"></audio>
 </aside>
 <script defer="" src="neva-personalize.js"></script>
 <div aria-live="polite" class="toast" id="toast" role="status"></div>
