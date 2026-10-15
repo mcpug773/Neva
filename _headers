@@ -1,0 +1,20 @@
+/service-worker.js
+  Cache-Control: no-store, max-age=0
+/manifest.webmanifest
+  Content-Type: application/manifest+json
+  Cache-Control: no-cache, must-revalidate
+/index.html
+  Cache-Control: no-cache, must-revalidate
+/script.js
+  Cache-Control: no-cache, must-revalidate
+/styles.css
+  Cache-Control: no-cache, must-revalidate
+/config.js
+  Cache-Control: no-store, max-age=0
+
+/database/*
+  X-Robots-Tag: noindex
+  Cache-Control: no-store
+/netlify/*
+  X-Robots-Tag: noindex
+  Cache-Control: no-store
