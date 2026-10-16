@@ -19,7 +19,8 @@
 <script defer="" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer="" src="config.js"></script>
 <script defer="" src="script.js"></script>
-<link href="neva-windows.css" rel="stylesheet"/></head>
+<link href="neva-windows.css" rel="stylesheet"/>
+<link href="neva-2000s.css" rel="stylesheet"/></head>
 <body>
 <svg aria-hidden="true" class="svg-defs" focusable="false" xmlns="http://www.w3.org/2000/svg">
 <symbol id="ico-play" viewbox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z" fill="currentColor" stroke="none"></path></symbol>
@@ -95,6 +96,10 @@
 <button aria-label="Open profile" class="bubble-button bubble-button--profile" data-view="profile">
 <span class="bubble bubble--aqua"><svg aria-hidden="true" class="bubble-icon"><use href="#ico-heart"></use></svg></span>
 <span class="bubble-label">My Space</span>
+</button>
+<button aria-label="Open Friends and Chat" class="bubble-button bubble-button--friends" data-view="social">
+<span class="bubble bubble--friends"><img class="bubble-friends-photo" src="neva-friends-icon.jpg" alt=""/></span>
+<span class="bubble-label">Friends &amp; Chat</span>
 </button>
 </div>
 <div aria-hidden="true" class="space-dots"><i class="on"></i><i></i><i></i><i></i></div>
@@ -254,9 +259,17 @@
 </dialog>
 <dialog aria-label="Welcome to Neva" class="modal welcome-modal" id="welcomeDialog">
 <div aria-hidden="true" class="welcome-glint"></div><div class="welcome-orb welcome-avatar-icon"><img alt="Neva default profile icon" src="icons/default-avatar.svg"/></div><span class="section-kicker">NEVA · YOUR VIDEO UNIVERSE</span><h2>Welcome to <em>Neva.</em></h2>
-<p>Sign in to follow creators, like videos and message your friends. No email address needed.</p><div aria-label="Account option" class="login-tabs" role="group"><button class="login-tab active" data-authmode="signin" type="button">Sign in</button><button class="login-tab" data-authmode="create" type="button">Create account</button></div>
-<form class="auth-form" id="passwordForm"><label>Username<input autocomplete="username" id="loginUsername" maxlength="24" minlength="3" pattern="[A-Za-z0-9_]{3,24}" placeholder="Neva username" required="" type="text"/></label><label>Password<input autocomplete="current-password" id="loginPassword" maxlength="128" minlength="10" placeholder="At least 10 characters" required="" type="password"/></label><button class="primary-button" id="loginSubmit" type="submit">Sign in</button><p aria-live="polite" id="loginStatus" role="status"></p></form>
-<div class="welcome-alt"><button class="secondary-button" id="keepGuest" type="button">Continue with my current guest profile</button><button class="secondary-button" id="browseNeva" type="button">Browse without signing in</button></div><p class="small-print">Your sign-in works across devices once the Neva account server is installed. Guest profiles still work on their original device. Without email, passwords cannot be reset.</p>
+<p>Choose your username and step into Neva. No password or email needed.</p>
+<div class="neva-login-plaque" aria-hidden="true">✦ &nbsp; Neva OS &nbsp; • &nbsp; User Select &nbsp; ✦</div>
+<form class="auth-form" id="passwordForm">
+<label for="loginUsername">Your username
+<input autocapitalize="off" autocomplete="nickname" id="loginUsername" maxlength="24" minlength="3" pattern="[A-Za-z0-9_]{3,24}" placeholder="e.g. NevaGamer" required="" spellcheck="false" type="text"/>
+</label>
+<button class="primary-button" id="loginSubmit" type="submit">Enter Neva →</button>
+<p aria-live="polite" id="loginStatus" role="status"></p>
+</form>
+<div class="welcome-alt"><button class="secondary-button" id="keepGuest" type="button">Use my current username</button><button class="secondary-button" id="browseNeva" type="button">Just browse Neva</button></div>
+<p class="small-print">Your username stays linked to this browser’s guest session. It isn't a password-protected account and may not transfer to another device.</p>
 </dialog>
 <dialog aria-label="Report a video" class="modal auth-modal" id="reportDialog"><div class="modal-top"><span class="modal-eyebrow">✦ HELP KEEP NEVA SAFE</span><button aria-label="Close report dialog" class="round-close" data-close="">✕</button></div><h2>Report video</h2><p>Your report is recorded for review. Don't include private information.</p><form class="auth-form" id="reportForm"><label>What's wrong?<textarea id="reportReason" maxlength="300" minlength="10" placeholder="Tell us what happened (10–300 characters)" required=""></textarea></label><button class="primary-button" type="submit">Send report</button><p id="reportStatus" role="status"></p></form></dialog>
 <aside aria-label="Home screen music controls" class="home-music glass-panel" id="homeMusic">

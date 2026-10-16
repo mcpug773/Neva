@@ -28,6 +28,7 @@ const videos = [
   {id:'tk-toan',title:'Minecraft video from @toanminecraft',creator:'@toanminecraft',initials:'TM',category:'Gaming',duration:'TikTok',views:'On TikTok',age:'Clip',platform:'tiktok',platformId:'7178837195996908826',image:null,sourceUrl:'https://www.tiktok.com/@toanminecraft/video/7178837195996908826',isClip:true,color:['#98ffc9','#368b99']},
   {id:'tk-scout',title:'Meet Scout & Suki',creator:'@scout2015',initials:'SS',category:'Animals',duration:'TikTok',views:'On TikTok',age:'Clip',platform:'tiktok',platformId:'6718335390845095173',image:null,sourceUrl:'https://www.tiktok.com/@scout2015/video/6718335390845095173',isClip:true,color:['#ffa7da','#9c56c8']}
 ];
+const NEVA_DEFAULT_THUMBNAIL = 'neva-default-thumbnail.png';
 const categories=['All','Uploads','Gaming','Nature','Science','Design','Animals'];
 const curatedVideos=[...videos];
 let uploadedVideos=[];
@@ -77,7 +78,7 @@ function videoCard(video){
   const source=video.platform==='youtube'?'YouTube':video.platform==='tiktok'?'TikTok':'Neva';
   const ownerName=video.creator||'Neva member';
   const extras=video.rawId ? `<div class="creator-action-row"><button type="button" data-follow-user="${escapeHTML(ownerName)}" title="Follow creator">${followedIds.has(video.ownerId)?'✓ Following':'+ Follow'}</button><button type="button" data-repost="${escapeHTML(video.rawId)}">${repostedIds.has(video.rawId)?'✓ Reposted':'↗ Repost'}</button><button type="button" data-block-user="${escapeHTML(ownerName)}">Block</button></div>` : '';
-  return `<article class="video-card" style="--video-a:${video.color[0]};--video-b:${video.color[1]}">${video.repostedBy?`<div class="social-utility">↗ Reposted by ${escapeHTML(video.repostedBy)}</div>`:''}<button class="video-card__image" data-play="${escapeHTML(video.id)}" aria-label="Play ${escapeHTML(video.title)}">${video.image?`<img loading="lazy" src="${escapeHTML(video.image)}" alt="" onerror="this.style.opacity='0'">`:`<span class="video-placeholder"><svg class="icon"><use href="#ico-play"/></svg></span>`}<span class="play-chip"><svg class="icon"><use href="#ico-play"/></svg></span><span class="video-duration">${source}</span></button><div class="video-card__meta"><span class="creator-avatar" style="--avatar-from:${video.color[0]};--avatar-to:${video.color[1]}">${escapeHTML(video.initials)}</span><div class="video-details"><h3>${escapeHTML(video.title)}</h3><p>${escapeHTML(ownerName)}<br>${escapeHTML(metricLine(video))}<span>•</span>${escapeHTML(video.age)}</p>${extras}</div><button class="heart-button ${saved?'saved':''}" data-save="${escapeHTML(video.id)}" aria-label="${saved?'Unlike':'Like'} ${escapeHTML(video.title)}" aria-pressed="${saved}"><svg class="icon"><use href="#ico-heart"/></svg></button></div>${video.rawId&&signedInUser?.id===video.ownerId?`<button class="edit-thumb-button" type="button" data-edit-thumb="${escapeHTML(video.rawId)}">Edit thumbnail</button>`:''}</article>`;
+  return `<article class="video-card" style="--video-a:${video.color[0]};--video-b:${video.color[1]}">${video.repostedBy?`<div class="social-utility">↗ Reposted by ${escapeHTML(video.repostedBy)}</div>`:''}<button class="video-card__image" data-play="${escapeHTML(video.id)}" aria-label="Play ${escapeHTML(video.title)}"><img loading="lazy" src="${escapeHTML(video.image||NEVA_DEFAULT_THUMBNAIL)}" alt="" onerror="this.onerror=null;this.src='neva-default-thumbnail.png'"><span class="play-chip"><svg class="icon"><use href="#ico-play"/></svg></span><span class="video-duration">${source}</span></button><div class="video-card__meta"><span class="creator-avatar" style="--avatar-from:${video.color[0]};--avatar-to:${video.color[1]}">${escapeHTML(video.initials)}</span><div class="video-details"><h3>${escapeHTML(video.title)}</h3><p>${escapeHTML(ownerName)}<br>${escapeHTML(metricLine(video))}<span>•</span>${escapeHTML(video.age)}</p>${extras}</div><button class="heart-button ${saved?'saved':''}" data-save="${escapeHTML(video.id)}" aria-label="${saved?'Unlike':'Like'} ${escapeHTML(video.title)}" aria-pressed="${saved}"><svg class="icon"><use href="#ico-heart"/></svg></button></div>${video.rawId&&signedInUser?.id===video.ownerId?`<button class="edit-thumb-button" type="button" data-edit-thumb="${escapeHTML(video.rawId)}">Edit thumbnail</button>`:''}</article>`;
 }
 function renderFeatured(){$('#featuredVideos').innerHTML=visibleVideos().filter(v=>!v.isClip).slice(0,3).map(videoCard).join('')}
 function renderMyVideos(){const mine=uploadedVideos.filter(v=>v.ownerId&&v.ownerId===signedInUser?.id);$('#myVideosGrid').innerHTML=mine.map(videoCard).join('');$('#emptyMyVideos').hidden=mine.length>0;$('#myVideoCount').textContent=`${mine.length} ${mine.length===1?'video':'videos'}`;}
@@ -148,7 +149,7 @@ function renderClips(){
     <div class="clip-feed" id="clipFeed" tabindex="0" role="region" aria-label="Swipe vertically to explore clips">
       ${picks.map((v,i)=>`<article class="clip-slide" data-clip-index="${i}" style="--clip-a:${v.color[0]};--clip-b:${v.color[1]}">
         <div class="clip-visual">
-          ${v.image?`<img loading="lazy" class="clip-poster" src="${escapeHTML(v.image)}" alt="">`:'<div class="clip-abstract"><span class="clip-abstract-bubble">✦</span></div>'}
+          <img loading="lazy" class="clip-poster" src="${escapeHTML(v.image||NEVA_DEFAULT_THUMBNAIL)}" alt="" onerror="this.onerror=null;this.src='neva-default-thumbnail.png'">
           <div class="clip-player-slot" data-clip-slot="${i}"></div><div class="clip-veil"></div>
           <div class="clip-topbadge">${v.rawId?'Neva Clip':v.platform==='tiktok'?'TikTok':'YouTube Shorts'}</div>
           <button type="button" class="clip-play" data-play="${escapeHTML(v.id)}" aria-label="Play ${escapeHTML(v.title)}"><svg class="icon"><use href="#ico-play"/></svg><span>Play clip</span></button>
@@ -351,11 +352,11 @@ function setAccountStatus(){
   const connected=!!nevaDb;
   const ready=connected&&!!signedInUser&&!!guest;
   $('#accountStatus').textContent=!connected
-    ? 'Not connected yet. Restore your working Supabase config.js in this folder, then update Neva on Netlify.'
+    ? 'Not connected yet. Check your Supabase config.js in this GitHub website.'
     : ready ? `Signed in as ${guest}. You can post, follow, and message friends.`
     : guest ? `Username ${guest} saved. Tap Choose username to reconnect and post.`
     : 'Choose a username to start posting. No email or password required.';
-  $('#openAuth').textContent=guest?'Account options':'Sign in / create account';
+  $('#openAuth').textContent=guest?'Your username':'Choose username';
   $('#uploadAuthMessage').textContent=!connected
     ? 'Video posting needs your working Supabase config.js.'
     : ready ? `Posting as ${guest}`
@@ -852,64 +853,47 @@ function showWelcomeIfNeeded(){
 function openWelcome(){
  if($('#authDialog').open)$('#authDialog').close();
  $('#loginStatus').textContent='';
- setLoginMode('signin');
+ $('#loginUsername').value=getGuestName();
  if(!$('#welcomeDialog').open)$('#welcomeDialog').showModal();
 }
 function closeWelcome(){if($('#welcomeDialog').open)$('#welcomeDialog').close();}
-function setLoginMode(mode){
- nevaAuthMode=mode==='signin'?'signin':'create';
- document.querySelectorAll('[data-authmode]').forEach(b=>b.classList.toggle('active',b.dataset.authmode===nevaAuthMode));
- $('#loginSubmit').textContent=nevaAuthMode==='signin'?'Sign in':'Create account';
- $('#loginPassword').autocomplete=nevaAuthMode==='signin'?'current-password':'new-password';
- $('#loginStatus').textContent='';
-}
-document.querySelectorAll('[data-authmode]').forEach(b=>b.addEventListener('click',()=>setLoginMode(b.dataset.authmode)));
 $('#keepGuest').addEventListener('click',()=>{
  closeWelcome();try{sessionStorage.setItem('neva-welcome-skipped','yes');}catch{}openUsernameDialog();
 });
 $('#browseNeva').addEventListener('click',()=>{
- closeWelcome();try{sessionStorage.setItem('neva-welcome-skipped','yes');}catch{}notify('Enjoy Neva! Choose a username when you want to post.');
+ closeWelcome();try{sessionStorage.setItem('neva-welcome-skipped','yes');}catch{}notify('Enjoy Neva! Choose a username whenever you want to post.');
 });
-function loginAddress(username){return username.toLowerCase()+'@accounts.neva.invalid';}
-async function logInNeva(username,password){
- const {data,error}=await nevaDb.auth.signInWithPassword({email:loginAddress(username),password});
- if(error)throw error;
- signedInUser=data.user||null;
- if(!signedInUser)throw new Error('Could not create a session.');
- const {data:profile,error:profileError}=await nevaDb.from('neva_profiles').select('username').eq('user_id',signedInUser.id).maybeSingle();
- if(profileError||!profile)throw new Error('Sign-in succeeded but the profile could not load.');
- setGuestName(profile.username);setAccountStatus();
- await loadSocialState();await fetchUploads();await loadFriends();await refreshSocialStats();
- return profile.username;
-}
-$('#passwordForm').addEventListener('submit',async e=>{
- e.preventDefault();
- const username=$('#loginUsername').value.trim(),pass=$('#loginPassword').value,status=$('#loginStatus');
- if(!/^[A-Za-z0-9_]{3,24}$/.test(username)){status.textContent='Username must be 3–24 letters, numbers or underscores.';return;}
- if(pass.length<10){status.textContent='Password must contain at least 10 characters.';return;}
- if(!nevaDb){status.textContent='Connect Supabase with your working config.js first.';return;}
- const button=$('#loginSubmit');button.disabled=true;
+$('#passwordForm').addEventListener('submit',async event=>{
+ event.preventDefault();
+ const username=$('#loginUsername').value.trim();
+ const status=$('#loginStatus');
+ const button=$('#loginSubmit');
+ if(!/^[A-Za-z0-9_]{3,24}$/.test(username)){
+   status.textContent='Use 3–24 letters, numbers or underscores.';return;
+ }
+ if(!nevaDb){
+   status.textContent='Supabase is not connected. Check config.js. You can still choose Just browse Neva.';
+   return;
+ }
+ button.disabled=true;
+ status.textContent='Opening your Neva space…';
  try{
-   if(nevaAuthMode==='create'){
-     status.textContent='Setting up your account…';
-     // This endpoint runs on Netlify's server, never exposes a service-role key.
-     // Existing guest identity is upgraded in place, preserving video ownership.
-     const token=(await nevaDb.auth.getSession()).data.session?.access_token;
-     const reply=await fetch('/.netlify/functions/neva-account',{
-       method:'POST',headers:{'content-type':'application/json',...(token?{authorization:'Bearer '+token}:{})},
-       body:JSON.stringify({username,password:pass})
-     });
-     const contentType=reply.headers.get('content-type')||'';
-     if(!contentType.includes('application/json'))throw new Error('Account creation needs the secure Neva server function. Netlify Drop uploads the website but not server functions. See SETUP instructions.');
-     const payload=await reply.json().catch(()=>({}));
-     if(!reply.ok||payload.ok!==true)throw new Error(payload.error||'Account creation unavailable. Deploy the Netlify function and configure its private keys.');
-   }
-   status.textContent='Signing you in…';
-   const display=await logInNeva(username,pass);
-   closeWelcome();try{sessionStorage.removeItem('neva-welcome-skipped');}catch{}
-   $('#loginPassword').value='';notify('Welcome back, '+display+'!');
+   // Username-only entry uses a genuine anonymous Supabase session.
+   // Never make a fake password or create an account under another user's name.
+   await ensureGuestSession();
+   await claimUsername(username);
+   setGuestName(username);
+   setAccountStatus();
+   closeWelcome();
+   try{sessionStorage.setItem('neva-welcome-skipped','yes');}catch{}
+   notify('Welcome to Neva, '+username+'!');
+   await fetchUploads();
+   await loadFriends();
+   await loadSocialState();
+   await refreshSocialStats();
  }catch(error){
-   status.textContent=(error.message||'Could not sign in.')+(error.message?.includes('Failed to fetch')?' Check your Internet connection.':'');
+   status.textContent=(error.message||'Could not enter Neva.')+' If guest posting is disabled, enable Anonymous Sign-Ins in Supabase.';
+   console.warn('Neva username entry:',error);
  }finally{button.disabled=false;}
 });
 

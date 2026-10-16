@@ -1,8 +1,8 @@
 /* Neva PWA updater: online-first site assets so installed apps receive redeploys.
    Never cache Supabase requests, user uploads, external embeds or dynamic config. */
-const CACHE_NAME = 'neva-shell-v16-friends-lowmusic-20261015';
+const CACHE_NAME = 'neva-shell-v17-username-friends-y2k-20261015';
 const APP_FILES = [
-  './index.html', './styles.css', './script.js', './neva-wallpaper.png',
+  './index.html', './styles.css', './neva-2000s.css', './script.js', './neva-wallpaper.png', './neva-default-thumbnail.png', './neva-friends-icon.jpg',
   './manifest.webmanifest', './offline.html', './neva-windows.css', './neva-personalize.js', './icons/default-avatar.svg',
   './icons/icon-192.png', './icons/icon-512.png',
   './icons/icon-maskable-512.png', './icons/apple-touch-icon.png',
