@@ -1,9 +1,9 @@
 /* Neva PWA updater: online-first site assets so installed apps receive redeploys.
    Never cache Supabase requests, user uploads, external embeds or dynamic config. */
-const CACHE_NAME = 'neva-shell-v17-username-friends-y2k-20261015';
+const CACHE_NAME = 'neva-shell-v17-windows7-wallpaper-music-20261102';
 const APP_FILES = [
-  './index.html', './styles.css', './neva-2000s.css', './script.js', './neva-wallpaper.png', './neva-default-thumbnail.png', './neva-friends-icon.jpg',
-  './manifest.webmanifest', './offline.html', './neva-windows.css', './neva-personalize.js', './icons/default-avatar.svg',
+  './index.html', './styles.css', './script.js', './neva-wallpaper.png',
+  './manifest.webmanifest', './offline.html', './wallpaper-bubbles.webp', './wallpaper-orange.webp',
   './icons/icon-192.png', './icons/icon-512.png',
   './icons/icon-maskable-512.png', './icons/apple-touch-icon.png',
   './icons/favicon-48.png'
@@ -46,7 +46,7 @@ self.addEventListener('fetch', event => {
 
   if (!appPaths.has(url.pathname)) return;
 
-  // Always check hosting for new CSS/JS/icons rather than freezing the first
+  // Always check Netlify for new CSS/JS/icons rather than freezing the first
   // installed version in the Cache Storage API.
   event.respondWith((async () => {
     try {

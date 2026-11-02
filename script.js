@@ -28,7 +28,6 @@ const videos = [
   {id:'tk-toan',title:'Minecraft video from @toanminecraft',creator:'@toanminecraft',initials:'TM',category:'Gaming',duration:'TikTok',views:'On TikTok',age:'Clip',platform:'tiktok',platformId:'7178837195996908826',image:null,sourceUrl:'https://www.tiktok.com/@toanminecraft/video/7178837195996908826',isClip:true,color:['#98ffc9','#368b99']},
   {id:'tk-scout',title:'Meet Scout & Suki',creator:'@scout2015',initials:'SS',category:'Animals',duration:'TikTok',views:'On TikTok',age:'Clip',platform:'tiktok',platformId:'6718335390845095173',image:null,sourceUrl:'https://www.tiktok.com/@scout2015/video/6718335390845095173',isClip:true,color:['#ffa7da','#9c56c8']}
 ];
-const NEVA_DEFAULT_THUMBNAIL = 'neva-default-thumbnail.png';
 const categories=['All','Uploads','Gaming','Nature','Science','Design','Animals'];
 const curatedVideos=[...videos];
 let uploadedVideos=[];
@@ -78,7 +77,7 @@ function videoCard(video){
   const source=video.platform==='youtube'?'YouTube':video.platform==='tiktok'?'TikTok':'Neva';
   const ownerName=video.creator||'Neva member';
   const extras=video.rawId ? `<div class="creator-action-row"><button type="button" data-follow-user="${escapeHTML(ownerName)}" title="Follow creator">${followedIds.has(video.ownerId)?'✓ Following':'+ Follow'}</button><button type="button" data-repost="${escapeHTML(video.rawId)}">${repostedIds.has(video.rawId)?'✓ Reposted':'↗ Repost'}</button><button type="button" data-block-user="${escapeHTML(ownerName)}">Block</button></div>` : '';
-  return `<article class="video-card" style="--video-a:${video.color[0]};--video-b:${video.color[1]}">${video.repostedBy?`<div class="social-utility">↗ Reposted by ${escapeHTML(video.repostedBy)}</div>`:''}<button class="video-card__image" data-play="${escapeHTML(video.id)}" aria-label="Play ${escapeHTML(video.title)}"><img loading="lazy" src="${escapeHTML(video.image||NEVA_DEFAULT_THUMBNAIL)}" alt="" onerror="this.onerror=null;this.src='neva-default-thumbnail.png'"><span class="play-chip"><svg class="icon"><use href="#ico-play"/></svg></span><span class="video-duration">${source}</span></button><div class="video-card__meta"><span class="creator-avatar" style="--avatar-from:${video.color[0]};--avatar-to:${video.color[1]}">${escapeHTML(video.initials)}</span><div class="video-details"><h3>${escapeHTML(video.title)}</h3><p>${escapeHTML(ownerName)}<br>${escapeHTML(metricLine(video))}<span>•</span>${escapeHTML(video.age)}</p>${extras}</div><button class="heart-button ${saved?'saved':''}" data-save="${escapeHTML(video.id)}" aria-label="${saved?'Unlike':'Like'} ${escapeHTML(video.title)}" aria-pressed="${saved}"><svg class="icon"><use href="#ico-heart"/></svg></button></div>${video.rawId&&signedInUser?.id===video.ownerId?`<button class="edit-thumb-button" type="button" data-edit-thumb="${escapeHTML(video.rawId)}">Edit thumbnail</button>`:''}</article>`;
+  return `<article class="video-card" style="--video-a:${video.color[0]};--video-b:${video.color[1]}">${video.repostedBy?`<div class="social-utility">↗ Reposted by ${escapeHTML(video.repostedBy)}</div>`:''}<button class="video-card__image" data-play="${escapeHTML(video.id)}" aria-label="Play ${escapeHTML(video.title)}">${video.image?`<img loading="lazy" src="${escapeHTML(video.image)}" alt="" onerror="this.style.opacity='0'">`:`<span class="video-placeholder"><svg class="icon"><use href="#ico-play"/></svg></span>`}<span class="play-chip"><svg class="icon"><use href="#ico-play"/></svg></span><span class="video-duration">${source}</span></button><div class="video-card__meta"><span class="creator-avatar" style="--avatar-from:${video.color[0]};--avatar-to:${video.color[1]}">${escapeHTML(video.initials)}</span><div class="video-details"><h3>${escapeHTML(video.title)}</h3><p>${escapeHTML(ownerName)}<br>${escapeHTML(metricLine(video))}<span>•</span>${escapeHTML(video.age)}</p>${extras}</div><button class="heart-button ${saved?'saved':''}" data-save="${escapeHTML(video.id)}" aria-label="${saved?'Unlike':'Like'} ${escapeHTML(video.title)}" aria-pressed="${saved}"><svg class="icon"><use href="#ico-heart"/></svg></button></div>${video.rawId&&signedInUser?.id===video.ownerId?`<button class="edit-thumb-button" type="button" data-edit-thumb="${escapeHTML(video.rawId)}">Edit thumbnail</button>`:''}</article>`;
 }
 function renderFeatured(){$('#featuredVideos').innerHTML=visibleVideos().filter(v=>!v.isClip).slice(0,3).map(videoCard).join('')}
 function renderMyVideos(){const mine=uploadedVideos.filter(v=>v.ownerId&&v.ownerId===signedInUser?.id);$('#myVideosGrid').innerHTML=mine.map(videoCard).join('');$('#emptyMyVideos').hidden=mine.length>0;$('#myVideoCount').textContent=`${mine.length} ${mine.length===1?'video':'videos'}`;}
@@ -149,7 +148,7 @@ function renderClips(){
     <div class="clip-feed" id="clipFeed" tabindex="0" role="region" aria-label="Swipe vertically to explore clips">
       ${picks.map((v,i)=>`<article class="clip-slide" data-clip-index="${i}" style="--clip-a:${v.color[0]};--clip-b:${v.color[1]}">
         <div class="clip-visual">
-          <img loading="lazy" class="clip-poster" src="${escapeHTML(v.image||NEVA_DEFAULT_THUMBNAIL)}" alt="" onerror="this.onerror=null;this.src='neva-default-thumbnail.png'">
+          ${v.image?`<img loading="lazy" class="clip-poster" src="${escapeHTML(v.image)}" alt="">`:'<div class="clip-abstract"><span class="clip-abstract-bubble">✦</span></div>'}
           <div class="clip-player-slot" data-clip-slot="${i}"></div><div class="clip-veil"></div>
           <div class="clip-topbadge">${v.rawId?'Neva Clip':v.platform==='tiktok'?'TikTok':'YouTube Shorts'}</div>
           <button type="button" class="clip-play" data-play="${escapeHTML(v.id)}" aria-label="Play ${escapeHTML(v.title)}"><svg class="icon"><use href="#ico-play"/></svg><span>Play clip</span></button>
@@ -170,7 +169,7 @@ function renderClips(){
 
 function renderSaved(){const saved=getSaved();const matches=videos.filter(v=>saved.includes(v.id));$('#savedGrid').innerHTML=matches.map(videoCard).join('');$('#emptyLibrary').hidden=matches.length>0}
 function showView(view, instantScroll=false){if(!$('#view-'+view))return;if(view!=='shorts')stopClipMedia();activeView=view;all('.view').forEach(el=>el.classList.toggle('is-active',el.id==='view-'+view));all('[data-view]').forEach(el=>{if(el.classList.contains('nav-link')||el.classList.contains('dock-button'))el.classList.toggle('active',el.dataset.view===view)});if(view==='watch')renderVideos();if(view==='library')renderSaved();if(view==='home')renderFeatured();if(view==='profile'){renderMyVideos();loadFriends();refreshSocialStats();loadBlockedUsers();}
-if(view==='social'){loadSocialPage();}if(view==='shorts'){activateClipMedia(clipIndex);}window.scrollTo({top:0,behavior:instantScroll?'instant':'smooth'})}
+if(view==='social'){loadSocialPage();}if(view==='shorts'){activateClipMedia(clipIndex);}syncNevaMusic();window.scrollTo({top:0,behavior:instantScroll?'instant':'smooth'})}
 function notify(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2800)}
 async function toggleSave(id){
  const v=videos.find(item=>item.id===id);
@@ -230,6 +229,9 @@ function openPlayer(id){
   $('#followFromPlayer').textContent=followedIds.has(selectedVideo.ownerId)?'✓ Following':'+ Follow';
   $('#repostFromPlayer').textContent=repostedIds.has(selectedVideo.rawId)?'✓ Reposted':'↗ Repost';
   $('#playerDialog').showModal();
+  // Record only an intentional open/click, not playback time or clip autoplay.
+  void recordVideoView(selectedVideo);
+  syncNevaMusic();
 }
 function stopPlayer(){
   $('#demoVideo').pause();
@@ -328,11 +330,11 @@ document.addEventListener('click',event=>{
   const closer = event.target.closest('[data-close]');
   if (closer) { closeDialog(closer.closest('dialog')); }
 });
-all('dialog').forEach(dialog=>{dialog.addEventListener('click',event=>{if(event.target===dialog)closeDialog(dialog)});dialog.addEventListener('close',()=>{if(dialog.id==='playerDialog')stopPlayer()})});
+all('dialog').forEach(dialog=>{dialog.addEventListener('click',event=>{if(event.target===dialog)closeDialog(dialog)});dialog.addEventListener('close',()=>{if(dialog.id==='playerDialog')stopPlayer();syncNevaMusic()})});
 $('#searchForm').addEventListener('submit',event=>{event.preventDefault();activeCategory='All';showView('watch')});
 $('#searchInput').addEventListener('input',()=>{if(activeView!=='watch')showView('watch');renderVideos()});
 $('#saveFromPlayer').addEventListener('click',()=>{if(selectedVideo)toggleSave(selectedVideo.id)});
-$('#demoVideo').addEventListener('timeupdate',()=>{if(selectedVideo?.rawId&&$('#demoVideo').currentTime>=2)recordVideoView(selectedVideo);});
+// Views are recorded in openPlayer(), on an intentional click; never on playback progress.
 $('#localVideo').addEventListener('change',event=>{const file=event.target.files?.[0];if(!file)return;if(localObjectUrl)URL.revokeObjectURL(localObjectUrl);localObjectUrl=URL.createObjectURL(file);const preview=$('#localPreview');preview.src=localObjectUrl;preview.hidden=false;$('#uploadFilename').textContent=`Selected: ${file.name}`;if(!$('#videoTitle').value.trim())$('#videoTitle').value=file.name.replace(/\.[^.]+$/,'').slice(0,120);updateUploadButton()});
 document.addEventListener('keydown',event=>{
   if(activeView==='shorts' && !document.querySelector('dialog[open]') && document.activeElement?.closest('#clipFeed') && ['ArrowUp','ArrowDown','PageUp','PageDown'].includes(event.key)){event.preventDefault();goToClip(clipIndex+(event.key==='ArrowUp'||event.key==='PageUp'?-1:1));return;}
@@ -352,11 +354,11 @@ function setAccountStatus(){
   const connected=!!nevaDb;
   const ready=connected&&!!signedInUser&&!!guest;
   $('#accountStatus').textContent=!connected
-    ? 'Not connected yet. Check your Supabase config.js in this GitHub website.'
+    ? 'Not connected yet. Restore your working Supabase config.js in this folder, then update Neva on Netlify.'
     : ready ? `Signed in as ${guest}. You can post, follow, and message friends.`
     : guest ? `Username ${guest} saved. Tap Choose username to reconnect and post.`
     : 'Choose a username to start posting. No email or password required.';
-  $('#openAuth').textContent=guest?'Your username':'Choose username';
+  $('#openAuth').textContent=guest?'Account options':'Sign in / create account';
   $('#uploadAuthMessage').textContent=!connected
     ? 'Video posting needs your working Supabase config.js.'
     : ready ? `Posting as ${guest}`
@@ -759,7 +761,7 @@ async function activateClipMedia(index){
  if(!v.platform&&v.videoUrl){
    const media=document.createElement('video');media.src=v.videoUrl;media.controls=true;media.autoplay=true;media.muted=!clipSoundEnabled;media.defaultMuted=!clipSoundEnabled;media.playsInline=true;media.loop=true;media.preload='metadata';
    slot.append(media);currentClipMedia=media;
-   media.addEventListener('timeupdate',()=>{if(media.currentTime>=2)recordVideoView(v);});
+   // Autoplay while scrolling does not count as a view; tap a clip to open it.
    try{await media.play();}catch(err){
      if(clipSoundEnabled){media.muted=true;try{await media.play();}catch{slide?.classList.remove('clip-slide--playing');}}
      else slide?.classList.remove('clip-slide--playing');
@@ -853,47 +855,64 @@ function showWelcomeIfNeeded(){
 function openWelcome(){
  if($('#authDialog').open)$('#authDialog').close();
  $('#loginStatus').textContent='';
- $('#loginUsername').value=getGuestName();
+ setLoginMode('signin');
  if(!$('#welcomeDialog').open)$('#welcomeDialog').showModal();
 }
 function closeWelcome(){if($('#welcomeDialog').open)$('#welcomeDialog').close();}
+function setLoginMode(mode){
+ nevaAuthMode=mode==='signin'?'signin':'create';
+ document.querySelectorAll('[data-authmode]').forEach(b=>b.classList.toggle('active',b.dataset.authmode===nevaAuthMode));
+ $('#loginSubmit').textContent=nevaAuthMode==='signin'?'Sign in':'Create account';
+ $('#loginPassword').autocomplete=nevaAuthMode==='signin'?'current-password':'new-password';
+ $('#loginStatus').textContent='';
+}
+document.querySelectorAll('[data-authmode]').forEach(b=>b.addEventListener('click',()=>setLoginMode(b.dataset.authmode)));
 $('#keepGuest').addEventListener('click',()=>{
  closeWelcome();try{sessionStorage.setItem('neva-welcome-skipped','yes');}catch{}openUsernameDialog();
 });
 $('#browseNeva').addEventListener('click',()=>{
- closeWelcome();try{sessionStorage.setItem('neva-welcome-skipped','yes');}catch{}notify('Enjoy Neva! Choose a username whenever you want to post.');
+ closeWelcome();try{sessionStorage.setItem('neva-welcome-skipped','yes');}catch{}notify('Enjoy Neva! Choose a username when you want to post.');
 });
-$('#passwordForm').addEventListener('submit',async event=>{
- event.preventDefault();
- const username=$('#loginUsername').value.trim();
- const status=$('#loginStatus');
- const button=$('#loginSubmit');
- if(!/^[A-Za-z0-9_]{3,24}$/.test(username)){
-   status.textContent='Use 3–24 letters, numbers or underscores.';return;
- }
- if(!nevaDb){
-   status.textContent='Supabase is not connected. Check config.js. You can still choose Just browse Neva.';
-   return;
- }
- button.disabled=true;
- status.textContent='Opening your Neva space…';
+function loginAddress(username){return username.toLowerCase()+'@accounts.neva.invalid';}
+async function logInNeva(username,password){
+ const {data,error}=await nevaDb.auth.signInWithPassword({email:loginAddress(username),password});
+ if(error)throw error;
+ signedInUser=data.user||null;
+ if(!signedInUser)throw new Error('Could not create a session.');
+ const {data:profile,error:profileError}=await nevaDb.from('neva_profiles').select('username').eq('user_id',signedInUser.id).maybeSingle();
+ if(profileError||!profile)throw new Error('Sign-in succeeded but the profile could not load.');
+ setGuestName(profile.username);setAccountStatus();
+ await loadSocialState();await fetchUploads();await loadFriends();await refreshSocialStats();
+ return profile.username;
+}
+$('#passwordForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const username=$('#loginUsername').value.trim(),pass=$('#loginPassword').value,status=$('#loginStatus');
+ if(!/^[A-Za-z0-9_]{3,24}$/.test(username)){status.textContent='Username must be 3–24 letters, numbers or underscores.';return;}
+ if(pass.length<10){status.textContent='Password must contain at least 10 characters.';return;}
+ if(!nevaDb){status.textContent='Connect Supabase with your working config.js first.';return;}
+ const button=$('#loginSubmit');button.disabled=true;
  try{
-   // Username-only entry uses a genuine anonymous Supabase session.
-   // Never make a fake password or create an account under another user's name.
-   await ensureGuestSession();
-   await claimUsername(username);
-   setGuestName(username);
-   setAccountStatus();
-   closeWelcome();
-   try{sessionStorage.setItem('neva-welcome-skipped','yes');}catch{}
-   notify('Welcome to Neva, '+username+'!');
-   await fetchUploads();
-   await loadFriends();
-   await loadSocialState();
-   await refreshSocialStats();
+   if(nevaAuthMode==='create'){
+     status.textContent='Setting up your account…';
+     // This endpoint runs on Netlify's server, never exposes a service-role key.
+     // Existing guest identity is upgraded in place, preserving video ownership.
+     const token=(await nevaDb.auth.getSession()).data.session?.access_token;
+     const reply=await fetch('/.netlify/functions/neva-account',{
+       method:'POST',headers:{'content-type':'application/json',...(token?{authorization:'Bearer '+token}:{})},
+       body:JSON.stringify({username,password:pass})
+     });
+     const contentType=reply.headers.get('content-type')||'';
+     if(!contentType.includes('application/json'))throw new Error('Account creation needs the secure Neva server function. Netlify Drop uploads the website but not server functions. See SETUP instructions.');
+     const payload=await reply.json().catch(()=>({}));
+     if(!reply.ok||payload.ok!==true)throw new Error(payload.error||'Account creation unavailable. Deploy the Netlify function and configure its private keys.');
+   }
+   status.textContent='Signing you in…';
+   const display=await logInNeva(username,pass);
+   closeWelcome();try{sessionStorage.removeItem('neva-welcome-skipped');}catch{}
+   $('#loginPassword').value='';notify('Welcome back, '+display+'!');
  }catch(error){
-   status.textContent=(error.message||'Could not enter Neva.')+' If guest posting is disabled, enable Anonymous Sign-Ins in Supabase.';
-   console.warn('Neva username entry:',error);
+   status.textContent=(error.message||'Could not sign in.')+(error.message?.includes('Failed to fetch')?' Check your Internet connection.':'');
  }finally{button.disabled=false;}
 });
 
@@ -1066,3 +1085,96 @@ $('#signOutNeva').addEventListener('click',async()=>{
  await nevaDb.auth.signOut();signedInUser=null;setGuestName('');socialProfile=null;followedIds.clear();blockedIds.clear();repostedIds.clear();
  setAccountStatus();await fetchUploads();openWelcome();
 });
+
+
+// ---------- Neva Windows 7: themes, wallpapers, shared background music ----------
+const NEVA_PREFS_KEY='neva-appearance-v2';
+const MUSIC_VIEWS=new Set(['home','profile','social','library']);
+const musicEl=document.getElementById('nevaBackgroundMusic');
+let musicGestureReceived=false;
+let nevaAppearance={wallpaper:'classic',theme:'blue',musicOn:true,volume:45};
+try{
+ const settings=JSON.parse(localStorage.getItem(NEVA_PREFS_KEY)||'{}');
+ if(['classic','bubbles','orange','custom'].includes(settings.wallpaper))nevaAppearance.wallpaper=settings.wallpaper;
+ if(['blue','aqua','purple','orange'].includes(settings.theme))nevaAppearance.theme=settings.theme;
+ if(typeof settings.musicOn==='boolean')nevaAppearance.musicOn=settings.musicOn;
+ const volume=Number(settings.volume);
+ if(Number.isFinite(volume)&&volume>=10&&volume<=60)nevaAppearance.volume=volume;
+}catch{}
+function saveNevaAppearance(){
+ try{localStorage.setItem(NEVA_PREFS_KEY,JSON.stringify(nevaAppearance));return true;}catch{return false;}
+}
+function appearanceStatus(message){const status=document.getElementById('personaliseStatus');if(status)status.textContent=message;}
+function applyNevaAppearance(){
+ document.documentElement.dataset.nevaTheme=nevaAppearance.theme;
+ const files={classic:'neva-wallpaper.png',bubbles:'wallpaper-bubbles.webp',orange:'wallpaper-orange.webp'};
+ let wallpaper=files[nevaAppearance.wallpaper]||files.classic;
+ if(nevaAppearance.wallpaper==='custom'){
+  try{const custom=localStorage.getItem('neva-custom-wallpaper-v1');if(custom&&custom.startsWith('data:image/jpeg;base64,'))wallpaper=custom;else{nevaAppearance.wallpaper='classic';wallpaper=files.classic;}}catch{nevaAppearance.wallpaper='classic';wallpaper=files.classic;}
+ }
+ // Wallpaper selection comes from known local files or locally generated jpeg.
+ const url=wallpaper.startsWith('data:image/jpeg;')?wallpaper:`${wallpaper}`;
+ document.body.style.setProperty('--neva-wallpaper',`url("${url}")`);
+ document.querySelectorAll('[data-wallpaper]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.wallpaper===nevaAppearance.wallpaper)));
+ document.querySelectorAll('[data-theme]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.theme===nevaAppearance.theme)));
+ document.getElementById('homeMusicVolume').value=String(nevaAppearance.volume);
+ document.getElementById('homeMusicVolumeLabel').textContent=nevaAppearance.volume+'%';
+ musicEl.volume=nevaAppearance.volume/100;
+ const toggle=document.getElementById('nevaMusicToggle');
+ toggle.setAttribute('aria-pressed',String(nevaAppearance.musicOn));
+ toggle.setAttribute('aria-label',nevaAppearance.musicOn?'Turn Neva background music off':'Turn Neva background music on');
+ toggle.querySelector('span').textContent=nevaAppearance.musicOn?'On':'Off';
+}
+function syncNevaMusic(){
+ if(!musicEl)return;
+ const allowed=musicGestureReceived && nevaAppearance.musicOn && MUSIC_VIEWS.has(activeView) && !document.hidden && !document.querySelector('dialog[open]');
+ if(!allowed){musicEl.pause();return;}
+ musicEl.volume=nevaAppearance.volume/100;
+ if(musicEl.paused)musicEl.play().catch(()=>{appearanceStatus('Tap ♫ to enable sound on this device.');});
+}
+// Music can only start following user interaction on mobile browsers.
+document.addEventListener('click',event=>{
+ const btn=event.target.closest('button');
+ if(btn?.matches('[data-play],[data-action="upload"],[data-close]'))return;
+ if(btn?.dataset.view && !MUSIC_VIEWS.has(btn.dataset.view))return;
+ if(event.target.closest('video,iframe,.clip-player-slot'))return;
+ musicGestureReceived=true;syncNevaMusic();
+}, {capture:true});
+document.getElementById('nevaMusicToggle').addEventListener('click',()=>{
+ musicGestureReceived=true;
+ nevaAppearance.musicOn=!nevaAppearance.musicOn;saveNevaAppearance();applyNevaAppearance();syncNevaMusic();
+});
+document.getElementById('homeMusicVolume').addEventListener('input',event=>{
+ nevaAppearance.volume=Math.min(60,Math.max(10,Number(event.target.value)||45));
+ musicGestureReceived=true;saveNevaAppearance();applyNevaAppearance();syncNevaMusic();
+});
+document.querySelectorAll('[data-wallpaper]').forEach(button=>button.addEventListener('click',()=>{
+ if(button.dataset.wallpaper==='custom'){document.getElementById('customWallpaper').click();return;}
+ nevaAppearance.wallpaper=button.dataset.wallpaper;saveNevaAppearance();applyNevaAppearance();appearanceStatus('Wallpaper saved on this device.');
+}));
+document.querySelectorAll('[data-theme]').forEach(button=>button.addEventListener('click',()=>{
+ nevaAppearance.theme=button.dataset.theme;saveNevaAppearance();applyNevaAppearance();appearanceStatus('Window colour saved!');
+}));
+document.getElementById('customWallpaper').addEventListener('change',async(event)=>{
+ const file=event.target.files?.[0];if(!file)return;
+ if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>12*1024*1024){appearanceStatus('Choose a JPG, PNG or WebP under 12 MB.');return;}
+ try{
+  const bitmap=await createImageBitmap(file);
+  const width=Math.min(bitmap.width,1440),height=Math.round(bitmap.height*width/bitmap.width);
+  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=Math.min(height,1200);
+  const ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();
+  const previous=localStorage.getItem('neva-custom-wallpaper-v1');
+  const data=canvas.toDataURL('image/jpeg',.65);
+  try{localStorage.setItem('neva-custom-wallpaper-v1',data);}catch{appearanceStatus('Image too large to save locally. Try a smaller image.');return;}
+  nevaAppearance.wallpaper='custom';saveNevaAppearance();applyNevaAppearance();appearanceStatus('Your wallpaper is set! It stays on this device.');
+ }catch(err){appearanceStatus('Could not use this picture. Try another JPG or PNG.');}
+ event.target.value='';
+});
+document.getElementById('resetAppearance').addEventListener('click',()=>{
+ nevaAppearance.wallpaper='classic';nevaAppearance.theme='blue';nevaAppearance.volume=45;saveNevaAppearance();applyNevaAppearance();syncNevaMusic();appearanceStatus('Original Neva wallpaper and colours restored.');
+});
+document.addEventListener('visibilitychange',syncNevaMusic);
+document.getElementById('demoVideo').addEventListener('play',()=>musicEl.pause());
+document.getElementById('localPreview').addEventListener('play',()=>musicEl.pause());
+// Keep home-screen music off during Clips and Watch, even when clips autoplay.
+applyNevaAppearance();

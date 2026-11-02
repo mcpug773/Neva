@@ -1,29 +1,23 @@
-NEVA 2000s / USERNAME UPDATE – 15 October 2026
+NEVA WINDOWS 7 WALLPAPER + MUSIC UPDATE (2 November 2026)
 
 WHAT CHANGED
-• Replaced the nonworking Netlify username/password welcome screen with username-only guest entry.
-• Added a seventh PS Vita-style bubble: Friends & Chat (with your supplied blue people icon).
-• Uses your supplied 104749 image as the fallback thumbnail for ALL video cards and Clips when no thumbnail exists, or a remote image fails.
-• Small 2000s font/glass polish. Windows-style profile, videos, uploads, custom avatars and home-screen music remain.
-• Service worker cache version incremented so installed copies can retrieve new assets.
+- Profile > Personalise Neva: 3 wallpapers, upload your own, 4 window colours.
+- Settings saved locally on the current device/browser (not shared between friends).
+- A view is recorded when a person clicks to open a video, rather than after 2 seconds watching.
+- Autoplaying/scrolling Clips do not automatically generate views. The existing Supabase neva_record_view function controls whether another click can count for the same user.
+- Home-screen music from the supplied file plays on Home, Profile, Chat and Library, after a user tap; it stops for videos/Clips and other dialogs. Sound button on dock; moderate default 45% and adjustable 10–60%.
+- A modest Windows 7-style glass/taskbar polish, original bubble navigation preserved.
 
-TO PUBLISH ON GITHUB PAGES
-1. Open your existing GitHub repository mcpug773/Neva. DO NOT create another repository.
-2. Upload all of the files INSIDE this folder into the top level of the repository (the same level as index.html). GitHub may ask to replace existing files; that's expected.
-3. Use Commit changes. GitHub Pages (main / root) will rebuild your same address:
-   https://mcpug773.github.io/Neva/
-4. Refresh; if the installed app still shows old files, fully close and reopen it or clear its cache.
-5. Check that the updated friends icon, default thumbnail, and username welcome work.
+HOW TO UPDATE GITHUB PAGES
+1. Back up or download your current GitHub repository first.
+2. In your GitHub Neva repository, upload the CONTENTS of this folder to the repository root, replacing matching files. Do not create a nested folder.
+3. IMPORTANT: This ZIP deliberately does NOT include config.js. KEEP YOUR ALREADY-WORKING config.js, which contains your public Supabase project settings. Do not delete it. Never upload secret/service-role keys.
+4. Commit changes. Settings > Pages must deploy from main / (root).
+5. Open https://mcpug773.github.io/Neva/ and test My Space > Personalise, music, and playback.
+6. When changing wallpaper or music prefs, changes are saved on that device only.
 
-ACCOUNT LIMITATIONS
-• Username-only uses Supabase Anonymous Sign-Ins, not a secure password account.
-• You must have working PUBLIC Supabase config.js and Anonymous Sign-Ins enabled.
-• Neva's existing username-claim RPC / social database setup still needs to be installed for unique names, friends and chats.
-• Identity is tied to browser storage. Clearing browser data or changing devices may lose the account and access to its uploads/friends.
-• Do not promise account recovery or cross-device login with username-only profiles.
+IMPORTANT: This version retains the earlier login system. Username/password creation still needs its secure server function and will not start working just because you upload this folder to GitHub Pages. Existing guest identities on the same device can still work with Supabase when config.js is correctly set up.
 
-IMPORTANT
-• This version includes your existing public Supabase project URL and publishable key from the working website. NEVER put the Supabase service-role or secret key on GitHub.
-• Home music is included from your supplied recording; obtain permission if distributing it publicly and you don't own the rights.
-• No database schema changes are required specifically for these cosmetic changes.
-• This does not publish to GitHub or your Android app automatically.
+If your live GitHub files have changed since the Neva Aero Social Basics version, compare files before replacing them, to avoid reverting other newer features. The ZIP is a complete updated copy of the last full baseline available to us, NOT a verified copy of your currently deployed GitHub revision.
+
+Copyright note: If you share Neva publicly, ensure you have rights to use the supplied theme recording.

@@ -312,13 +312,54 @@ html { overflow-x:clip; }
 #view-social .social-panel{border:1px solid rgba(210,250,255,.49);box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
 @media(prefers-reduced-motion:reduce){.welcome-modal .welcome-orb{animation:none}}
 
-/* Neva nostalgic Aero account and home personalisation */
-.welcome-modal{background:radial-gradient(circle at 85% 4%,rgba(255,255,255,.75),transparent 28%),radial-gradient(circle at 12% 74%,rgba(12,178,235,.7),transparent 37%),linear-gradient(145deg,rgba(7,60,137,.94),rgba(17,128,206,.94) 50%,rgba(4,38,125,.98));border-radius:28px;box-shadow:0 26px 85px #032052b8,inset 0 2px 3px #fff9}
-.welcome-modal::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.22;background:radial-gradient(ellipse at 27% 18%,#fff 0%,transparent 10%),radial-gradient(ellipse at 72% 46%,#fff 0%,transparent 15%),radial-gradient(ellipse at 18% 80%,#fff 0%,transparent 21%)}
-.welcome-avatar-icon{border-radius:23px!important;width:112px!important;height:112px!important;overflow:hidden;background:linear-gradient(#ddf9ff,#448fc6)!important;box-shadow:0 10px 24px #08285477,inset 0 2px 3px #fff}
-.welcome-avatar-icon img{width:100%;height:100%;object-fit:cover}
-.avatar-button,.profile-bubble{background-image:url('icons/default-avatar.svg')!important;background-size:cover!important;background-position:center!important;color:transparent!important;overflow:hidden}
-.avatar-edit{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:12px 0}.avatar-edit label,.avatar-edit button{cursor:pointer}.avatar-edit p{flex-basis:100%;font-size:12px}
-.home-music{position:fixed;z-index:19;right:16px;bottom:83px;padding:9px 12px;display:flex;align-items:center;gap:8px;border-radius:18px;max-width:min(440px,calc(100vw - 24px));font-size:12px;color:white;background:linear-gradient(135deg,#2476c4cf,#064689e8);border:1px solid #c2faff90}
-.home-music button,.music-pick{border:1px solid #ceefff;border-radius:99px;background:linear-gradient(#ffffff,#a8e5ff);color:#125388;font-weight:700;padding:6px 11px;cursor:pointer}.home-music button:disabled{opacity:.55;cursor:not-allowed}.music-file-name{max-width:145px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.home-music[hidden]{display:none!important}
-@media(max-width:600px){.home-music{right:8px;left:8px;bottom:77px;gap:6px;justify-content:center}.music-title{display:none}.music-file-name{max-width:88px}}
+
+/* Neva Windows 7 / 2000s polish. Additive: keeps existing Vita bubbles and layout. */
+:root { --neva-wallpaper: url("neva-wallpaper.png"); --aero-trim:rgba(132,211,255,.58); --aero-title:rgba(197,237,255,.44); --aero-button:#4f9ce1; }
+:root[data-neva-theme="aqua"] { --aero-trim:rgba(109,255,231,.73); --aero-title:rgba(166,255,231,.49); --aero-button:#24adbd; }
+:root[data-neva-theme="purple"] { --aero-trim:rgba(211,173,255,.72); --aero-title:rgba(221,202,255,.51); --aero-button:#966acb; }
+:root[data-neva-theme="orange"] { --aero-trim:rgba(255,200,124,.73); --aero-title:rgba(255,220,177,.51); --aero-button:#df9a45; }
+body { background-image:var(--neva-wallpaper); background-size:cover; background-position:center center; background-repeat:no-repeat; background-attachment:fixed; }
+/* Windows 7 glazed window edges and gentle taskbar treatment. */
+body{font-family:"Segoe UI",Tahoma,Verdana,Arial,sans-serif}
+.glass-panel {border-color:var(--aero-trim); box-shadow:inset 0 1px 0 rgba(255,255,255,.67),inset 0 -2px 0 rgba(7,34,91,.14),0 13px 35px rgba(7,28,72,.23)}
+.topbar,.bottom-dock {background:linear-gradient(to bottom,rgba(255,255,255,.39),rgba(255,255,255,.12) 16%,rgba(15,76,148,.45) 56%,rgba(12,42,108,.72));border:1px solid var(--aero-trim);}
+.topbar {border-radius:15px;}
+.bottom-dock {border-radius:14px 14px 11px 11px;}
+.nav-link.active,.nav-link:hover,.dock-button.active {background:linear-gradient(180deg,rgba(255,255,255,.45),var(--aero-title) 36%,rgba(42,96,157,.32));border:1px solid var(--aero-trim)}
+.primary-button {background:linear-gradient(180deg,rgba(247,255,255,.35),var(--aero-button) 25%,rgba(13,69,154,.8));border-color:rgba(239,255,255,.82);text-shadow:0 1px 1px rgba(3,41,96,.55)}
+.profile-info h2,.personalise-window h3{font-weight:650;letter-spacing:.05px}
+.neva-music-button{min-height:37px;min-width:55px;display:inline-flex;align-items:center;justify-content:center;gap:4px;border-radius:10px;border:1px solid rgba(230,251,255,.66);background:linear-gradient(180deg,rgba(228,251,255,.43),rgba(52,125,210,.47));color:white;font-size:17px;font-weight:750;box-shadow:inset 0 1px 0 white,0 2px 7px rgba(7,39,101,.24)}
+.neva-music-button span{font-size:10px;font-weight:700}
+.neva-music-button[aria-pressed="false"]{opacity:.68}
+.neva-music-button:hover{filter:brightness(1.13)}
+.personalise-window {overflow:hidden;max-width:1100px;margin:22px auto;padding:0;border-radius:14px;}
+.win7-window-title{display:flex;align-items:center;gap:9px;padding:9px 11px 9px 18px;min-height:40px;background:linear-gradient(180deg,rgba(255,255,255,.66),var(--aero-title) 31%,rgba(26,93,179,.28) 65%,rgba(11,63,125,.55));border-bottom:1px solid rgba(221,248,255,.62);font-size:13px;font-weight:600;text-shadow:0 1px 2px rgba(8,42,99,.56)}
+.win7-window-icon{font-size:17px;color:#e3ffff}
+.win7-window-ornament{display:flex;gap:1px;margin-left:auto}
+.win7-window-ornament i{font-style:normal;min-width:25px;min-height:22px;text-align:center;padding:1px 7px;border:1px solid rgba(235,255,255,.45);background:linear-gradient(180deg,rgba(250,255,255,.4),rgba(15,78,159,.3));border-radius:3px;opacity:.8}
+.win7-window-ornament i:last-child{background:linear-gradient(180deg,rgba(255,190,163,.8),rgba(192,48,45,.6));color:white}
+.personalise-window-body{padding:20px 23px 23px}
+.personalise-description{font-size:13px;color:#e2f7ff;margin:0 0 17px}
+.personalise-window h3{font-size:15px;margin:18px 0 11px;color:white}
+.wallpaper-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.wallpaper-choice{border:2px solid rgba(255,255,255,.28);border-radius:11px;background:rgba(13,59,133,.34);padding:6px;min-width:0;color:#f2fbff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3);transition:border-color .15s,transform .15s;}
+.wallpaper-choice img,.wallpaper-upload-icon{width:100%;aspect-ratio:16/10;object-fit:cover;display:grid;place-items:center;border-radius:6px;background:linear-gradient(135deg,#b4ecf9,#5472c3)}
+.wallpaper-upload-icon{font-size:32px;color:white}
+.wallpaper-choice span:last-child{display:block;font-size:12px;padding:7px 2px 3px;font-weight:600}
+.wallpaper-choice[aria-pressed="true"]{border-color:#dcffff;background:rgba(191,242,255,.3);box-shadow:0 0 0 2px rgba(131,219,255,.35),inset 0 1px 0 white}
+.wallpaper-choice:hover{transform:translateY(-2px)}
+.wallpaper-file-label{display:inline-block;cursor:pointer;margin-top:12px;border-radius:9px;border:1px solid rgba(231,253,255,.53);padding:9px 12px;background:rgba(220,250,255,.18);font-size:12px;font-weight:600}
+.wallpaper-file-label span{font-weight:400;margin-left:7px;color:#e5f8ff}
+.theme-choices{display:flex;flex-wrap:wrap;gap:12px}
+.theme-swatch{width:49px;height:49px;border:2px solid rgba(255,255,255,.74);border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 6px 7px rgba(255,255,255,.64),inset 0 -9px 12px rgba(4,24,86,.38),0 4px 12px rgba(4,29,86,.27)}
+.theme-swatch span{font-size:22px;display:none;text-shadow:0 2px 5px rgba(0,0,0,.6)}
+.theme-swatch[aria-pressed="true"]{outline:2px solid #e7ffff;outline-offset:4px}.theme-swatch[aria-pressed="true"] span{display:block}
+.swatch-blue{background:linear-gradient(#a7e5ff,#2985de)}.swatch-aqua{background:linear-gradient(#c4ffdf,#0badb3)}.swatch-purple{background:linear-gradient(#efd1ff,#7d54c6)}.swatch-orange{background:linear-gradient(#fff0ad,#e18b38)}
+.personalise-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:17px;border-top:1px solid rgba(255,255,255,.2);padding-top:12px}
+.personalise-footer p{margin:0;color:#e9fcff;font-size:12px}
+.music-preference{margin-top:20px;display:flex;gap:16px;justify-content:space-between;align-items:center;border-radius:10px;padding:12px 14px;background:rgba(10,52,132,.27);border:1px solid rgba(255,255,255,.31)}
+.music-preference strong{font-size:13px}.music-preference p{margin:4px 0 0;font-size:12px;color:#d3ebff;line-height:1.5}
+.music-volume-label{display:flex;flex-direction:column;gap:6px;min-width:138px;font-size:12px}
+.music-volume-label input{width:100%;accent-color:#ade7ff}
+@media(max-width:620px){.wallpaper-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.personalise-window-body{padding:15px}.music-preference{flex-direction:column;align-items:stretch}.music-volume-label{width:100%}.neva-music-button{min-width:42px;padding:5px}.neva-music-button span{display:none}}
+@media(prefers-reduced-motion:reduce){.wallpaper-choice{transition:none}}
