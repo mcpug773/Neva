@@ -1,9 +1,9 @@
 /* Neva PWA updater: online-first site assets so installed apps receive redeploys.
    Never cache Supabase requests, user uploads, external embeds or dynamic config. */
-const CACHE_NAME = 'neva-shell-v17-windows7-wallpaper-music-20261102';
+const CACHE_NAME = 'neva-shell-v20-2000s-dock-20261103';
 const APP_FILES = [
-  './index.html', './styles.css', './script.js', './neva-wallpaper.png',
-  './manifest.webmanifest', './offline.html', './wallpaper-bubbles.webp', './wallpaper-orange.webp',
+  './index.html', './styles.css', './script.js', './retro-extras.js', './neva-wallpaper.png',
+  './manifest.webmanifest', './offline.html',
   './icons/icon-192.png', './icons/icon-512.png',
   './icons/icon-maskable-512.png', './icons/apple-touch-icon.png',
   './icons/favicon-48.png'

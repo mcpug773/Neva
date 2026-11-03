@@ -1,0 +1,28 @@
+NEVA OS • 2000s Aero + reflective dock + restored Clips
+3 November 2026
+
+What this update changes
+- Keeps the original Neva bubble home screen, video uploads, existing curated videos, Supabase database calls, and PS Vita launch animation.
+- Restores the Clips bubble and adds a Friends & Chat bubble with the same transition.
+- Replaces the bottom dock with a reflective Mac OS X-style dock with icons for Home, Watch, Clips, Friends, Upload, Library, My Space, Music, and Themes.
+- Adds a Windows 7-inspired Neva music player using the audio file you supplied. Music loops only while Home is open. Browsers usually require your first tap to allow audio.
+- Adds optional accent colour and wallpaper presets, plus upload-your-own wallpaper, saved only on your device.
+- Keeps CSS, JavaScript, and older Supabase posting functions intact.
+
+VERY IMPORTANT BEFORE YOU PUBLISH
+This package is made from the last complete Neva Aero Social Basics source available in our chat, not an exact copy of your current GitHub deployment. It may not include every change you've made on GitHub since then. Backup your current repository first and compare before replacing files.
+
+1. Extract this ZIP. index.html is at the top level.
+2. Copy your WORKING config.js from the live Neva folder, replacing the placeholder here. Only the public Supabase URL/publishable key belong in it. NEVER put secret or service-role keys on GitHub.
+3. In your existing GitHub Neva repository, upload the contents (not the ZIP or containing folder) to the ROOT next to index.html. Choose Commit changes. GitHub Pages will republish your existing website.
+4. Test Home -> Clips, Home -> Friends & Chat, music, My Space, and a small video upload before sharing.
+5. If you still see the previous design, hard refresh or clear the installed app's cached site data.
+
+Notes
+- Accounts: the legacy username/password form in this source still needs a separate backend function and will not work on static GitHub Pages. Choose 'Continue with my current guest profile' to use the Supabase guest login already built into Neva. Guest names are not passwords and cannot securely recover an account.
+- Friends, likes and messages require the earlier Supabase social database setup.
+- Music was supplied by you. Check you have the right to publish this track publicly before deploying the mp3. Remove the file or swap in audio you can use if needed.
+- No Supabase credentials have been included; the config.js contains a placeholder.
+- GitHub Pages is static hosting. Netlify account-server functions in this archive are only historical files, not functional on GitHub Pages.
+
+Files for new visuals: retro-extras.js, styles.css, index.html, neva-theme.mp3, service-worker.js, manifest.webmanifest.

@@ -12,12 +12,13 @@
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
   <meta name="description" content="Neva: a glassy video community inspired by the PS Vita's bubble home screen and Windows Aero.">
-  <title>Neva — Your world, one bubble away</title>
+  <title>Neva OS — Your world, one bubble away</title>
   <link rel="stylesheet" href="styles.css">
   <!-- Public Supabase client: NEVER put a secret/service-role key in browser files. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="config.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="retro-extras.js" defer></script>
 </head>
 <body>
   <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -32,6 +33,10 @@
     <symbol id="ico-sparkle" viewBox="0 0 24 24"><path d="m12 2 2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2L12 2Z"/></symbol>
     <symbol id="ico-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
     <symbol id="ico-close" viewBox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19"/></symbol>
+    <symbol id="ico-friends" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2.3C3 14.6 5.7 13 9 13s6 1.6 6 4.7V20Z"/><circle cx="17" cy="9" r="2.3"/><path d="M17 14c2.9 0 4 1.4 4 3.5V20h-4"/></symbol>
+    <symbol id="ico-music" viewBox="0 0 24 24"><path d="M9 19V5l11-2v13"/><ellipse cx="6" cy="19" rx="3" ry="2"/><ellipse cx="17" cy="16" rx="3" ry="2"/></symbol>
+    <symbol id="ico-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10 2.1 2.1M19.1 4.9 17 7m-10 10-2.1 2.1"/></symbol>
+    <symbol id="ico-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1c0-4.5 3.5-7 8-7s8 2.5 8 7v1Z"/></symbol>
     <symbol id="ico-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 3a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
   </svg>
 
@@ -68,9 +73,10 @@
       <section class="view is-active" id="view-home" aria-label="Home screen">
         <div class="home-hero">
           <div class="hero-copy">
-            <p class="eyebrow"><span class="live-dot"></span> WELCOME TO YOUR SPACE <span class="eyebrow-rule"></span> 01 / 06</p>
+            <p class="eyebrow"><span class="live-dot"></span> WELCOME TO YOUR SPACE <span class="eyebrow-rule"></span> 01 / 07</p>
             <h1>Your world.<br><span>One bubble</span><br>away.</h1>
             <p class="hero-description">A place to watch, share, and discover. Your favourite videos with that nostalgic glassy glow.</p>
+            <button type="button" id="homeMusic" class="music-mini" aria-label="Open Neva music player"><span class="music-mini-note">♫</span><span><strong>Neva theme</strong><small id="miniMusicStatus">Tap to play · home screen mix</small></span><span aria-hidden="true">▣</span></button>
             <div class="hero-hint"><span class="hint-star"><svg class="icon"><use href="#ico-sparkle"/></svg></span> Pick a bubble to jump in <svg class="icon arrow-sm"><use href="#ico-arrow"/></svg></div>
           </div>
 
@@ -88,6 +94,10 @@
               <button class="bubble-button bubble-button--shorts" data-view="shorts" aria-label="Open clips">
                 <span class="bubble bubble--pink"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-clips"/></svg></span>
                 <span class="bubble-label">Clips</span>
+              </button>
+              <button class="bubble-button bubble-button--friends" data-view="social" aria-label="Open Friends and Chat">
+                <span class="bubble bubble--lime"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-friends"/></svg></span>
+                <span class="bubble-label">Friends &amp; Chat</span>
               </button>
               <button class="bubble-button bubble-button--upload" data-action="upload" aria-label="Upload video">
                 <span class="bubble bubble--mint"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-upload"/></svg></span>
@@ -137,7 +147,7 @@
       </section>
 
       <section class="view" id="view-profile" aria-label="Profile">
-        <div class="profile-cover glass-panel"><span class="section-kicker">WELCOME TO YOUR CORNER</span><div class="profile-bubble">NV</div><h1>Your Space</h1><p>Make yourself at home. Change your wallpaper and window colours below.</p><button class="primary-button" data-action="upload">Upload your first video <svg class="icon"><use href="#ico-upload"/></svg></button></div>
+        <div class="profile-cover glass-panel"><span class="section-kicker">WELCOME TO YOUR CORNER</span><div class="profile-bubble">NV</div><h1>Your Space</h1><p>Make yourself at home. Your own channel is waiting to happen.</p><button class="primary-button" data-action="upload">Upload your first video <svg class="icon"><use href="#ico-upload"/></svg></button></div>
         <div class="profile-info glass-panel">
           <h2>Your Neva account</h2>
           <p id="accountStatus" aria-live="polite">Checking Supabase connection…</p>
@@ -146,31 +156,6 @@
           </div>
           <p class="small-print">Usernames are unique on Neva but accounts have no recovery email. Your posting identity is tied to this browser. Losing browser storage can mean losing access to your account. Uploaded videos are public.</p>
         </div>
-
-        <section class="personalise-window glass-panel" id="personaliseWindow" aria-label="Personalise Neva wallpaper and colour">
-          <div class="win7-window-title"><span class="win7-window-icon" aria-hidden="true">✿</span><strong>Personalise Neva</strong><span class="win7-window-ornament" aria-hidden="true"><i>─</i><i>□</i><i>×</i></span></div>
-          <div class="personalise-window-body">
-            <p class="personalise-description">Make your desktop yours. These settings apply across Home, My Space and Chat.</p>
-            <h3>Choose a wallpaper</h3>
-            <div class="wallpaper-choices" role="group" aria-label="Neva wallpaper">
-              <button type="button" class="wallpaper-choice" data-wallpaper="classic" aria-pressed="true"><img src="neva-wallpaper.png" alt="Blue Aero waves" loading="lazy"><span>Original Aero</span></button>
-              <button type="button" class="wallpaper-choice" data-wallpaper="bubbles" aria-pressed="false"><img src="wallpaper-bubbles.webp" alt="Blue and purple bubbles" loading="lazy"><span>Blue Bubbles</span></button>
-              <button type="button" class="wallpaper-choice" data-wallpaper="orange" aria-pressed="false"><img src="wallpaper-orange.webp" alt="Orange and blue globe" loading="lazy"><span>Orange Globe</span></button>
-              <button type="button" class="wallpaper-choice" data-wallpaper="custom" aria-pressed="false"><span class="wallpaper-upload-icon" aria-hidden="true">＋</span><span>My own picture</span></button>
-            </div>
-            <label class="wallpaper-file-label" for="customWallpaper">Choose an image from your device <span>JPG, PNG or WebP</span></label>
-            <input type="file" id="customWallpaper" accept="image/png,image/jpeg,image/webp" hidden>
-            <h3>Window colour</h3>
-            <div class="theme-choices" role="group" aria-label="Aero window colour">
-              <button type="button" data-theme="blue" class="theme-swatch swatch-blue" aria-label="Blue" aria-pressed="true"><span>✓</span></button>
-              <button type="button" data-theme="aqua" class="theme-swatch swatch-aqua" aria-label="Aqua" aria-pressed="false"><span>✓</span></button>
-              <button type="button" data-theme="purple" class="theme-swatch swatch-purple" aria-label="Purple" aria-pressed="false"><span>✓</span></button>
-              <button type="button" data-theme="orange" class="theme-swatch swatch-orange" aria-label="Orange" aria-pressed="false"><span>✓</span></button>
-            </div>
-            <div class="personalise-footer"><p id="personaliseStatus" role="status" aria-live="polite">Wallpaper saved on this device.</p><button type="button" class="secondary-button" id="resetAppearance">Use original look</button></div>
-            <div class="music-preference"><div><strong>♫ Home screen music</strong><p>Plays on Home, My Space and Chat. Pauses when you open a video.</p></div><label class="music-volume-label" for="homeMusicVolume">Volume <output id="homeMusicVolumeLabel">45%</output><input type="range" min="10" max="60" value="45" step="5" id="homeMusicVolume"></label></div>
-          </div>
-        </section>
         <section class="social-panel glass-panel" aria-label="Your uploaded videos"><div class="section-heading"><div><span class="section-kicker">YOUR CHANNEL</span><h2>My videos</h2></div><span class="result-count" id="myVideoCount">0 videos</span></div><p class="social-help">Your uploaded videos appear here and on Home. Select Edit thumbnail to change the cover.</p><div class="video-grid" id="myVideosGrid"></div><p id="emptyMyVideos" class="social-help">Nothing posted from this account yet. Choose Upload to share your first video.</p></section>
         <section class="social-panel glass-panel" aria-label="Friends and friend requests"><span class="section-kicker">YOUR PEOPLE</span><h2>Friends</h2><form id="friendSearchForm" class="social-row"><label class="sr-only" for="friendUsername">Find a username</label><input id="friendUsername" type="text" maxlength="24" placeholder="Search exact Neva username" autocomplete="off"><button class="primary-button" type="submit">Send request</button></form><p class="social-help">Both people must choose a Neva username. Requests need accepting; nobody becomes your friend automatically.</p><p id="friendStatus" class="social-help" role="status" aria-live="polite"></p><div class="friends-layout"><div><h3>Friend requests <span id="requestCount"></span></h3><div id="incomingRequests" class="social-list"></div></div><div><h3>Your friends</h3><div id="friendsList" class="social-list"></div></div><div><h3>Sent requests</h3><div id="outgoingRequests" class="social-list"></div></div></div><button type="button" id="refreshFriends" class="secondary-button">Refresh friends</button></section>
         <section class="social-panel glass-panel" aria-label="Neva community stats">
@@ -202,18 +187,40 @@
       </section>
     </main>
 
-    <footer class="bottom-dock glass-panel" aria-label="Quick navigation">
-      <span class="dock-brand"><span class="dock-status"></span> Neva OS <small>1.0</small></span>
-      <div class="dock-actions">
-        <button class="dock-button active" data-view="home" aria-label="Home" title="Home"><svg class="icon"><use href="#ico-home"/></svg></button>
-        <button class="dock-button" data-view="watch" aria-label="Watch" title="Watch"><svg class="icon"><use href="#ico-play"/></svg></button>
-        <button class="dock-button" data-view="shorts" aria-label="Clips" title="Clips"><svg class="icon"><use href="#ico-clips"/></svg></button>
-        <button class="dock-button" data-view="social" aria-label="Friends and chat" title="People & chat">✉</button><button class="dock-button" data-view="library" aria-label="Library" title="Library"><svg class="icon"><use href="#ico-library"/></svg></button>
-      </div>
-      <button type="button" id="nevaMusicToggle" class="neva-music-button" aria-pressed="true" aria-label="Mute Neva background music" title="Music on / off">♫ <span>On</span></button>
+    <footer class="bottom-dock" aria-label="Neva OS quick-launch dock">
+      <span class="dock-brand"><span class="dock-status"></span> Neva <small>OS</small></span>
+      <nav class="dock-actions" aria-label="Quick app shortcuts">
+        <button type="button" class="dock-button active" data-view="home" data-label="Home" aria-label="Home"><svg class="icon"><use href="#ico-home"/></svg></button>
+        <button type="button" class="dock-button" data-view="watch" data-label="Watch" aria-label="Watch"><svg class="icon"><use href="#ico-play"/></svg></button>
+        <button type="button" class="dock-button dock-button--clips" data-view="shorts" data-label="Clips" aria-label="Clips"><svg class="icon"><use href="#ico-clips"/></svg></button>
+        <button type="button" class="dock-button" data-view="social" data-label="Friends &amp; Chat" aria-label="Friends and chat"><svg class="icon"><use href="#ico-friends"/></svg></button>
+        <button type="button" class="dock-button" data-action="upload" data-label="Upload" aria-label="Upload"><svg class="icon"><use href="#ico-upload"/></svg></button>
+        <button type="button" class="dock-button" data-view="library" data-label="Library" aria-label="Library"><svg class="icon"><use href="#ico-library"/></svg></button>
+        <button type="button" class="dock-button" data-view="profile" data-label="My Space" aria-label="My Space"><svg class="icon"><use href="#ico-user"/></svg></button>
+        <button type="button" class="dock-button dock-button--music" id="dockMusic" data-label="Music" aria-label="Open music player"><svg class="icon"><use href="#ico-music"/></svg></button>
+        <button type="button" class="dock-button dock-button--personalise" id="dockPersonalise" data-label="Themes" aria-label="Choose colours and wallpaper"><svg class="icon"><use href="#ico-settings"/></svg></button>
+      </nav>
       <span class="dock-clock" id="dockClock" aria-label="Local time">--:--</span>
     </footer>
   </div>
+
+
+  <!-- A compact Windows Media Player-inspired music window. -->
+  <dialog id="nevaMusicDialog" class="neva-window neva-music-window" aria-label="Neva music player">
+    <div class="neva-window-title"><span>♫ &nbsp; Neva Media Player</span><button type="button" class="neva-window-close" data-close-neva-window="nevaMusicDialog" aria-label="Close music player">✕</button></div>
+    <div class="neva-player-content"><div class="neva-album-art"><span>♫</span><small>NEVA OS</small></div><div class="neva-now-playing"><span class="neva-player-kicker">NOW PLAYING</span><strong>Neva Home Theme</strong><span>Home screen music · retro mix</span><div class="neva-player-times"><span id="nevaMusicElapsed">0:00</span><span id="nevaMusicLength">0:00</span></div><input type="range" id="nevaMusicSeek" min="0" max="100" value="0" aria-label="Song position"><div class="neva-player-controls"><button type="button" id="nevaMusicPlay" class="neva-round-control" aria-label="Play music">▶</button><button type="button" id="nevaMusicMute" aria-label="Mute music">🔊</button><label>Volume <input type="range" id="nevaMusicVolume" min="0" max="100" value="32" aria-label="Music volume"></label></div><p id="nevaMusicNotice" role="status">Music plays on the home screen after your first tap.</p></div></div>
+  </dialog>
+  <!-- Theme settings; kept separate from posting and social accounts. -->
+  <dialog id="nevaThemeDialog" class="neva-window neva-theme-window" aria-label="Personalise Neva">
+    <div class="neva-window-title"><span>✦ &nbsp; Neva Appearance</span><button type="button" class="neva-window-close" data-close-neva-window="nevaThemeDialog" aria-label="Close appearance settings">✕</button></div>
+    <div class="neva-settings-content"><h2>Personalise your Neva</h2><p>Change the glow or wallpaper without changing your video feed.</p>
+      <h3>Accent colour</h3><div class="neva-swatches"><button type="button" data-neva-accent="#78d9ff" style="--swatch:#78d9ff" aria-label="Aero blue"></button><button type="button" data-neva-accent="#b89aff" style="--swatch:#b89aff" aria-label="Violet"></button><button type="button" data-neva-accent="#ffa9d7" style="--swatch:#ffa9d7" aria-label="Pink"></button><button type="button" data-neva-accent="#a6ffd3" style="--swatch:#a6ffd3" aria-label="Mint"></button><button type="button" data-neva-accent="#ffe59c" style="--swatch:#ffe59c" aria-label="Gold"></button><label class="neva-color-input">Custom <input type="color" id="nevaAccentCustom" value="#78d9ff" aria-label="Choose a custom accent colour"></label></div>
+      <h3>Wallpaper</h3><div class="neva-wallpaper-choices"><button type="button" data-neva-wallpaper="original" class="neva-wallpaper-choice original">Classic Aero</button><button type="button" data-neva-wallpaper="photo" class="neva-wallpaper-choice photo">Aero wallpaper</button><button type="button" data-neva-wallpaper="night" class="neva-wallpaper-choice night">Night blue</button></div>
+      <label class="neva-upload-wallpaper" for="nevaWallpaperFile">Choose your own wallpaper <input type="file" id="nevaWallpaperFile" accept="image/png,image/jpeg,image/webp"></label>
+      <p class="neva-small" id="nevaThemeStatus" role="status">Saved on this device.</p><button id="nevaResetTheme" type="button" class="neva-reset-button">Restore original Neva look</button>
+    </div>
+  </dialog>
+  <audio id="nevaThemeAudio" src="neva-theme.mp3" preload="none" loop></audio>
 
   <dialog id="linkDialog" class="modal auth-modal" aria-label="Add a YouTube or TikTok video"><div class="modal-top"><span class="modal-eyebrow">✦ LINK A VIDEO</span><button class="round-close" data-close aria-label="Close link dialog"><svg class="icon"><use href="#ico-close"/></svg></button></div><h2>Share a video link</h2><p>Paste a public YouTube video, YouTube Short or full TikTok video link. The video remains on its original platform.</p><form id="linkForm" class="auth-form"><label>Video URL<input id="linkUrl" required type="url" placeholder="https://www.youtube.com/watch?v=..."></label><label>Title<input id="linkTitle" required maxlength="120" placeholder="What is this video called?"></label><fieldset class="post-destination post-destination--compact"><legend>Where should the link appear?</legend><div class="destination-options"><label class="destination-option"><input id="linkDestinationVideo" type="radio" name="linkDestination" value="video" checked><span class="destination-inner"><strong>▶ Video</strong><small>Watch feed</small></span></label><label class="destination-option"><input id="linkDestinationClip" type="radio" name="linkDestination" value="clip"><span class="destination-inner"><strong>↕ Clip</strong><small>Scrolling Clips</small></span></label></div></fieldset><button type="submit" class="primary-button">Add video link</button><p id="linkStatus" role="status" aria-live="polite"></p></form></dialog>
   <dialog id="playerDialog" class="modal video-modal" aria-label="Video player">
@@ -258,7 +265,6 @@
   </dialog>
   <dialog id="reportDialog" class="modal auth-modal" aria-label="Report a video"><div class="modal-top"><span class="modal-eyebrow">✦ HELP KEEP NEVA SAFE</span><button class="round-close" data-close aria-label="Close report dialog">✕</button></div><h2>Report video</h2><p>Your report is recorded for review. Don't include private information.</p><form id="reportForm" class="auth-form"><label>What's wrong?<textarea id="reportReason" maxlength="300" minlength="10" required placeholder="Tell us what happened (10–300 characters)"></textarea></label><button class="primary-button" type="submit">Send report</button><p id="reportStatus" role="status"></p></form></dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <audio id="nevaBackgroundMusic" src="neva-theme.mp3" preload="none" loop aria-hidden="true"></audio>
   <!-- App-opening effect is generated at the position of the selected bubble. -->
 </body>
 </html>

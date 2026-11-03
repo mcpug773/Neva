@@ -169,7 +169,7 @@ function renderClips(){
 
 function renderSaved(){const saved=getSaved();const matches=videos.filter(v=>saved.includes(v.id));$('#savedGrid').innerHTML=matches.map(videoCard).join('');$('#emptyLibrary').hidden=matches.length>0}
 function showView(view, instantScroll=false){if(!$('#view-'+view))return;if(view!=='shorts')stopClipMedia();activeView=view;all('.view').forEach(el=>el.classList.toggle('is-active',el.id==='view-'+view));all('[data-view]').forEach(el=>{if(el.classList.contains('nav-link')||el.classList.contains('dock-button'))el.classList.toggle('active',el.dataset.view===view)});if(view==='watch')renderVideos();if(view==='library')renderSaved();if(view==='home')renderFeatured();if(view==='profile'){renderMyVideos();loadFriends();refreshSocialStats();loadBlockedUsers();}
-if(view==='social'){loadSocialPage();}if(view==='shorts'){activateClipMedia(clipIndex);}syncNevaMusic();window.scrollTo({top:0,behavior:instantScroll?'instant':'smooth'})}
+if(view==='social'){loadSocialPage();}if(view==='shorts'){activateClipMedia(clipIndex);}window.scrollTo({top:0,behavior:instantScroll?'instant':'smooth'})}
 function notify(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2800)}
 async function toggleSave(id){
  const v=videos.find(item=>item.id===id);
@@ -229,9 +229,6 @@ function openPlayer(id){
   $('#followFromPlayer').textContent=followedIds.has(selectedVideo.ownerId)?'✓ Following':'+ Follow';
   $('#repostFromPlayer').textContent=repostedIds.has(selectedVideo.rawId)?'✓ Reposted':'↗ Repost';
   $('#playerDialog').showModal();
-  // Record only an intentional open/click, not playback time or clip autoplay.
-  void recordVideoView(selectedVideo);
-  syncNevaMusic();
 }
 function stopPlayer(){
   $('#demoVideo').pause();
@@ -254,7 +251,7 @@ let vitaLaunching = false;
 const vitaReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const vitaColors = {
   watch: '#1f93e0', discover: '#8553d3', shorts: '#d769b5',
-  upload: '#4bcfbb', saved: '#ebb550', profile: '#68a8e9'
+  upload: '#4bcfbb', saved: '#ebb550', profile: '#68a8e9', friends: '#6dc7a5'
 };
 function launchBubble(button) {
   if (vitaLaunching) return;
@@ -330,11 +327,11 @@ document.addEventListener('click',event=>{
   const closer = event.target.closest('[data-close]');
   if (closer) { closeDialog(closer.closest('dialog')); }
 });
-all('dialog').forEach(dialog=>{dialog.addEventListener('click',event=>{if(event.target===dialog)closeDialog(dialog)});dialog.addEventListener('close',()=>{if(dialog.id==='playerDialog')stopPlayer();syncNevaMusic()})});
+all('dialog').forEach(dialog=>{dialog.addEventListener('click',event=>{if(event.target===dialog)closeDialog(dialog)});dialog.addEventListener('close',()=>{if(dialog.id==='playerDialog')stopPlayer()})});
 $('#searchForm').addEventListener('submit',event=>{event.preventDefault();activeCategory='All';showView('watch')});
 $('#searchInput').addEventListener('input',()=>{if(activeView!=='watch')showView('watch');renderVideos()});
 $('#saveFromPlayer').addEventListener('click',()=>{if(selectedVideo)toggleSave(selectedVideo.id)});
-// Views are recorded in openPlayer(), on an intentional click; never on playback progress.
+$('#demoVideo').addEventListener('timeupdate',()=>{if(selectedVideo?.rawId&&$('#demoVideo').currentTime>=2)recordVideoView(selectedVideo);});
 $('#localVideo').addEventListener('change',event=>{const file=event.target.files?.[0];if(!file)return;if(localObjectUrl)URL.revokeObjectURL(localObjectUrl);localObjectUrl=URL.createObjectURL(file);const preview=$('#localPreview');preview.src=localObjectUrl;preview.hidden=false;$('#uploadFilename').textContent=`Selected: ${file.name}`;if(!$('#videoTitle').value.trim())$('#videoTitle').value=file.name.replace(/\.[^.]+$/,'').slice(0,120);updateUploadButton()});
 document.addEventListener('keydown',event=>{
   if(activeView==='shorts' && !document.querySelector('dialog[open]') && document.activeElement?.closest('#clipFeed') && ['ArrowUp','ArrowDown','PageUp','PageDown'].includes(event.key)){event.preventDefault();goToClip(clipIndex+(event.key==='ArrowUp'||event.key==='PageUp'?-1:1));return;}
@@ -761,7 +758,7 @@ async function activateClipMedia(index){
  if(!v.platform&&v.videoUrl){
    const media=document.createElement('video');media.src=v.videoUrl;media.controls=true;media.autoplay=true;media.muted=!clipSoundEnabled;media.defaultMuted=!clipSoundEnabled;media.playsInline=true;media.loop=true;media.preload='metadata';
    slot.append(media);currentClipMedia=media;
-   // Autoplay while scrolling does not count as a view; tap a clip to open it.
+   media.addEventListener('timeupdate',()=>{if(media.currentTime>=2)recordVideoView(v);});
    try{await media.play();}catch(err){
      if(clipSoundEnabled){media.muted=true;try{await media.play();}catch{slide?.classList.remove('clip-slide--playing');}}
      else slide?.classList.remove('clip-slide--playing');
@@ -1085,96 +1082,3 @@ $('#signOutNeva').addEventListener('click',async()=>{
  await nevaDb.auth.signOut();signedInUser=null;setGuestName('');socialProfile=null;followedIds.clear();blockedIds.clear();repostedIds.clear();
  setAccountStatus();await fetchUploads();openWelcome();
 });
-
-
-// ---------- Neva Windows 7: themes, wallpapers, shared background music ----------
-const NEVA_PREFS_KEY='neva-appearance-v2';
-const MUSIC_VIEWS=new Set(['home','profile','social','library']);
-const musicEl=document.getElementById('nevaBackgroundMusic');
-let musicGestureReceived=false;
-let nevaAppearance={wallpaper:'classic',theme:'blue',musicOn:true,volume:45};
-try{
- const settings=JSON.parse(localStorage.getItem(NEVA_PREFS_KEY)||'{}');
- if(['classic','bubbles','orange','custom'].includes(settings.wallpaper))nevaAppearance.wallpaper=settings.wallpaper;
- if(['blue','aqua','purple','orange'].includes(settings.theme))nevaAppearance.theme=settings.theme;
- if(typeof settings.musicOn==='boolean')nevaAppearance.musicOn=settings.musicOn;
- const volume=Number(settings.volume);
- if(Number.isFinite(volume)&&volume>=10&&volume<=60)nevaAppearance.volume=volume;
-}catch{}
-function saveNevaAppearance(){
- try{localStorage.setItem(NEVA_PREFS_KEY,JSON.stringify(nevaAppearance));return true;}catch{return false;}
-}
-function appearanceStatus(message){const status=document.getElementById('personaliseStatus');if(status)status.textContent=message;}
-function applyNevaAppearance(){
- document.documentElement.dataset.nevaTheme=nevaAppearance.theme;
- const files={classic:'neva-wallpaper.png',bubbles:'wallpaper-bubbles.webp',orange:'wallpaper-orange.webp'};
- let wallpaper=files[nevaAppearance.wallpaper]||files.classic;
- if(nevaAppearance.wallpaper==='custom'){
-  try{const custom=localStorage.getItem('neva-custom-wallpaper-v1');if(custom&&custom.startsWith('data:image/jpeg;base64,'))wallpaper=custom;else{nevaAppearance.wallpaper='classic';wallpaper=files.classic;}}catch{nevaAppearance.wallpaper='classic';wallpaper=files.classic;}
- }
- // Wallpaper selection comes from known local files or locally generated jpeg.
- const url=wallpaper.startsWith('data:image/jpeg;')?wallpaper:`${wallpaper}`;
- document.body.style.setProperty('--neva-wallpaper',`url("${url}")`);
- document.querySelectorAll('[data-wallpaper]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.wallpaper===nevaAppearance.wallpaper)));
- document.querySelectorAll('[data-theme]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.theme===nevaAppearance.theme)));
- document.getElementById('homeMusicVolume').value=String(nevaAppearance.volume);
- document.getElementById('homeMusicVolumeLabel').textContent=nevaAppearance.volume+'%';
- musicEl.volume=nevaAppearance.volume/100;
- const toggle=document.getElementById('nevaMusicToggle');
- toggle.setAttribute('aria-pressed',String(nevaAppearance.musicOn));
- toggle.setAttribute('aria-label',nevaAppearance.musicOn?'Turn Neva background music off':'Turn Neva background music on');
- toggle.querySelector('span').textContent=nevaAppearance.musicOn?'On':'Off';
-}
-function syncNevaMusic(){
- if(!musicEl)return;
- const allowed=musicGestureReceived && nevaAppearance.musicOn && MUSIC_VIEWS.has(activeView) && !document.hidden && !document.querySelector('dialog[open]');
- if(!allowed){musicEl.pause();return;}
- musicEl.volume=nevaAppearance.volume/100;
- if(musicEl.paused)musicEl.play().catch(()=>{appearanceStatus('Tap ♫ to enable sound on this device.');});
-}
-// Music can only start following user interaction on mobile browsers.
-document.addEventListener('click',event=>{
- const btn=event.target.closest('button');
- if(btn?.matches('[data-play],[data-action="upload"],[data-close]'))return;
- if(btn?.dataset.view && !MUSIC_VIEWS.has(btn.dataset.view))return;
- if(event.target.closest('video,iframe,.clip-player-slot'))return;
- musicGestureReceived=true;syncNevaMusic();
-}, {capture:true});
-document.getElementById('nevaMusicToggle').addEventListener('click',()=>{
- musicGestureReceived=true;
- nevaAppearance.musicOn=!nevaAppearance.musicOn;saveNevaAppearance();applyNevaAppearance();syncNevaMusic();
-});
-document.getElementById('homeMusicVolume').addEventListener('input',event=>{
- nevaAppearance.volume=Math.min(60,Math.max(10,Number(event.target.value)||45));
- musicGestureReceived=true;saveNevaAppearance();applyNevaAppearance();syncNevaMusic();
-});
-document.querySelectorAll('[data-wallpaper]').forEach(button=>button.addEventListener('click',()=>{
- if(button.dataset.wallpaper==='custom'){document.getElementById('customWallpaper').click();return;}
- nevaAppearance.wallpaper=button.dataset.wallpaper;saveNevaAppearance();applyNevaAppearance();appearanceStatus('Wallpaper saved on this device.');
-}));
-document.querySelectorAll('[data-theme]').forEach(button=>button.addEventListener('click',()=>{
- nevaAppearance.theme=button.dataset.theme;saveNevaAppearance();applyNevaAppearance();appearanceStatus('Window colour saved!');
-}));
-document.getElementById('customWallpaper').addEventListener('change',async(event)=>{
- const file=event.target.files?.[0];if(!file)return;
- if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>12*1024*1024){appearanceStatus('Choose a JPG, PNG or WebP under 12 MB.');return;}
- try{
-  const bitmap=await createImageBitmap(file);
-  const width=Math.min(bitmap.width,1440),height=Math.round(bitmap.height*width/bitmap.width);
-  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=Math.min(height,1200);
-  const ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();
-  const previous=localStorage.getItem('neva-custom-wallpaper-v1');
-  const data=canvas.toDataURL('image/jpeg',.65);
-  try{localStorage.setItem('neva-custom-wallpaper-v1',data);}catch{appearanceStatus('Image too large to save locally. Try a smaller image.');return;}
-  nevaAppearance.wallpaper='custom';saveNevaAppearance();applyNevaAppearance();appearanceStatus('Your wallpaper is set! It stays on this device.');
- }catch(err){appearanceStatus('Could not use this picture. Try another JPG or PNG.');}
- event.target.value='';
-});
-document.getElementById('resetAppearance').addEventListener('click',()=>{
- nevaAppearance.wallpaper='classic';nevaAppearance.theme='blue';nevaAppearance.volume=45;saveNevaAppearance();applyNevaAppearance();syncNevaMusic();appearanceStatus('Original Neva wallpaper and colours restored.');
-});
-document.addEventListener('visibilitychange',syncNevaMusic);
-document.getElementById('demoVideo').addEventListener('play',()=>musicEl.pause());
-document.getElementById('localPreview').addEventListener('play',()=>musicEl.pause());
-// Keep home-screen music off during Clips and Watch, even when clips autoplay.
-applyNevaAppearance();
