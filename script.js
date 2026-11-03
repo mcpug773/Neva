@@ -32,6 +32,17 @@ const categories=['All','Uploads','Gaming','Nature','Science','Design','Animals'
 const curatedVideos=[...videos];
 let uploadedVideos=[];
 let sharedLinks=[];
+let extraTikTokClips=[];
+function refreshNevaCatalog(){
+  const seenTikTok=new Set();
+  const combined=[...uploadedVideos,...repostedVideos,...sharedLinks,...extraTikTokClips,...curatedVideos];
+  videos.splice(0,videos.length,...combined.filter(v=>{
+    if(v.platform!=='tiktok')return true;
+    if(seenTikTok.has(v.platformId))return false;
+    seenTikTok.add(v.platformId);return true;
+  }));
+}
+
 let likedVideoIds=new Set();
 let thumbBlob=null;
 let thumbPreviewUrl=null;
@@ -83,19 +94,76 @@ function renderFeatured(){$('#featuredVideos').innerHTML=visibleVideos().filter(
 function renderMyVideos(){const mine=uploadedVideos.filter(v=>v.ownerId&&v.ownerId===signedInUser?.id);$('#myVideosGrid').innerHTML=mine.map(videoCard).join('');$('#emptyMyVideos').hidden=mine.length>0;$('#myVideoCount').textContent=`${mine.length} ${mine.length===1?'video':'videos'}`;}
 function renderFilters(){$('#categoryList').innerHTML=categories.map(category=>`<button class="category-pill ${category===activeCategory?'active':''}" data-category="${category}" aria-pressed="${category===activeCategory}">${category}</button>`).join('')}
 function renderVideos(){const query=$('#searchInput').value.trim().toLowerCase();const results=visibleVideos().filter(v=>!v.isClip&&(activeCategory==='All'||v.category===activeCategory)&&`${v.title} ${v.creator} ${v.category}`.toLowerCase().includes(query));$('#videoGrid').innerHTML=results.map(videoCard).join('');$('#resultCount').textContent=`${results.length} ${results.length===1?'video':'videos'}`;$('#noResults').hidden=results.length!==0;renderFilters()}
-let clipIndex = 0;
-let clipObserver = null;
-let clipTicking = false;
-function clipItems(){ return visibleVideos().filter(video=>video.isClip); }
+// Neva shuffled Clips: no fixed first clip, no visible 1/15 counter.
+// Keep the shuffle stable while liking or posting; shuffle again on re-entry.
+const LAST_CLIP_KEY='neva-last-first-clip';
+let clipIndex=0;
+let clipObserver=null;
+let clipTicking=false;
+let clipDeck=[];
+let clipDeckSignature='';
+let clipRenderedCount=0;
+const CLIP_BATCH_SIZE=24;
+let lastFirstClip=(()=>{try{return localStorage.getItem(LAST_CLIP_KEY)||''}catch{return ''}})();
+function rawClips(){return visibleVideos().filter(video=>video.isClip);}
+function shuffleClipDeck(force=false){
+  const originals=rawClips();
+  const signature=originals.map(v=>v.id).join('|');
+  if(!force&&clipDeckSignature===signature)return;
+  const previousFirst=lastFirstClip;
+  const items=[...originals];
+  for(let i=items.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [items[i],items[j]]=[items[j],items[i]];
+  }
+  // Avoid opening on the same clip as last time, if a choice exists.
+  if(items.length>1&&items[0].id===previousFirst){
+    const j=1+Math.floor(Math.random()*(items.length-1));
+    [items[0],items[j]]=[items[j],items[0]];
+  }
+  clipDeck=items;clipDeckSignature=signature;clipIndex=0;
+  if(force&&items.length){
+    lastFirstClip=items[0].id;
+    try{localStorage.setItem(LAST_CLIP_KEY,lastFirstClip)}catch{}
+  }
+}
+function clipItems(){
+  const signature=rawClips().map(v=>v.id).join('|');
+  if(signature!==clipDeckSignature)shuffleClipDeck();
+  return clipDeck;
+}
 function currentClipCount(){return clipItems().length;}
-function updateClipUI(index) {
-  const count = currentClipCount();
-  clipIndex = Math.min(Math.max(index,0),Math.max(0,count-1));
-  const display = document.querySelector('#clipPosition');
-  if(display) display.textContent=`${count ? clipIndex+1 : 0} / ${count}`;
+function clipSlideMarkup(v,i){
+  return `<article class="clip-slide" data-clip-index="${i}" style="--clip-a:${v.color[0]};--clip-b:${v.color[1]}">
+    <div class="clip-visual">
+      ${v.image?`<img loading="lazy" class="clip-poster" src="${escapeHTML(v.image)}" alt="">`:'<div class="clip-abstract"><span class="clip-abstract-bubble">✦</span></div>'}
+      <div class="clip-player-slot" data-clip-slot="${i}"></div><div class="clip-veil"></div>
+      <div class="clip-topbadge">${v.rawId?'Neva Clip':v.platform==='tiktok'?'TikTok':'YouTube Shorts'}</div>
+      <button type="button" class="clip-play" data-play="${escapeHTML(v.id)}" aria-label="Play ${escapeHTML(v.title)}"><svg class="icon"><use href="#ico-play"/></svg><span>Play clip</span></button>
+      <div class="clip-info"><span class="clip-by">${escapeHTML(v.creator)}</span><h2>${escapeHTML(v.title)}</h2><p>${v.rawId?escapeHTML(metricLine(v)):'From the original creator'} · Swipe up ↑</p><a class="clip-original" href="${escapeHTML(v.sourceUrl||v.videoUrl||'#')}" target="_blank" rel="noopener noreferrer">${v.platform?'Open original ↗':'Open video ↗'}</a></div>
+      <div class="clip-social-actions">${v.rawId?`<button type="button" data-follow-user="${escapeHTML(v.creator)}">+ Follow</button><button type="button" data-repost="${escapeHTML(v.rawId)}">↗ Repost</button>`:''}<button type="button" class="clip-heart ${isSaved(v.id)?'saved':''}" data-save="${escapeHTML(v.id)}" aria-pressed="${isSaved(v.id)}" aria-label="Like ${escapeHTML(v.title)}">♥</button></div>
+    </div>
+  </article>`;
+}
+function extendClipFeed(throughIndex){
+  const feed=$('#clipFeed');
+  if(!feed)return;
+  const clips=clipItems();
+  if(clipRenderedCount>=clips.length)return;
+  const end=Math.min(clips.length,Math.max(clipRenderedCount+CLIP_BATCH_SIZE,throughIndex+7));
+  const before=clipRenderedCount;
+  feed.insertAdjacentHTML('beforeend',clips.slice(before,end).map((v,j)=>clipSlideMarkup(v,before+j)).join(''));
+  clipRenderedCount=end;
+  if(clipObserver)feed.querySelectorAll('.clip-slide').forEach(slide=>{
+    if(Number(slide.dataset.clipIndex)>=before)clipObserver.observe(slide);
+  });
+}
+function updateClipUI(index){
+  const count=currentClipCount();
+  clipIndex=Math.min(Math.max(index,0),Math.max(0,count-1));
+  if(clipRenderedCount-clipIndex<=6)extendClipFeed(clipIndex);
   if(activeView==='shorts')activateClipMedia(clipIndex);
-  const prev=document.querySelector('#clipPrev');
-  const next=document.querySelector('#clipNext');
+  const prev=$('#clipPrev'),next=$('#clipNext');
   if(prev)prev.disabled=clipIndex===0;
   if(next)next.disabled=clipIndex>=count-1;
   document.querySelectorAll('.clip-slide').forEach((slide,i)=>{
@@ -106,33 +174,36 @@ function updateClipUI(index) {
 function goToClip(index){
   const feed=$('#clipFeed');
   if(!feed)return;
-  const slides=[...feed.querySelectorAll('.clip-slide')];
-  if(!slides.length)return;
-  index=Math.max(0,Math.min(slides.length-1,index));
+  const count=currentClipCount();
+  if(!count)return;
+  index=Math.max(0,Math.min(count-1,index));
+  if(index>=clipRenderedCount)extendClipFeed(index);
   updateClipUI(index);
-  feed.scrollTo({top:slides[index].offsetTop-slides[0].offsetTop,behavior:vitaReducedMotion.matches?'instant':'smooth'});
+  const slide=feed.querySelector(`[data-clip-index="${index}"]`);
+  const first=feed.querySelector('.clip-slide');
+  if(slide&&first)feed.scrollTo({top:slide.offsetTop-first.offsetTop,behavior:vitaReducedMotion.matches?'instant':'smooth'});
 }
 function initClipObservation(){
   const feed=$('#clipFeed');
   if(!feed)return;
-  clipObserver?.disconnect();
-  const slides=[...feed.querySelectorAll('.clip-slide')];
+  clipObserver?.disconnect();clipObserver=null;
   if('IntersectionObserver' in window){
     clipObserver=new IntersectionObserver(entries=>{
       for(const entry of entries){
-        if(entry.isIntersecting && entry.intersectionRatio >=.60){
-          updateClipUI(Number(entry.target.dataset.clipIndex));
+        if(entry.isIntersecting&&entry.intersectionRatio>=.60){
+          const candidate=Number(entry.target.dataset.clipIndex);
+          if(candidate!==clipIndex)updateClipUI(candidate);
         }
       }
     },{root:feed,threshold:[.6,.85]});
-    slides.forEach(slide=>clipObserver.observe(slide));
-  }else {
+    feed.querySelectorAll('.clip-slide').forEach(slide=>clipObserver.observe(slide));
+  }else{
     feed.addEventListener('scroll',()=>{
       if(clipTicking)return;
       clipTicking=true;
       requestAnimationFrame(()=>{
-        const step=slides[1] ? slides[1].offsetTop-slides[0].offsetTop : feed.clientHeight;
-        updateClipUI(Math.round(feed.scrollTop/(step||1)));
+        const step=feed.clientHeight||420;
+        updateClipUI(Math.round(feed.scrollTop/step));
         clipTicking=false;
       });
     },{passive:true});
@@ -143,32 +214,26 @@ function renderClips(){
   stopClipMedia();
   const picks=clipItems();
   clipIndex=Math.min(clipIndex,Math.max(0,picks.length-1));
+  // Only render a small chunk at a time so 1,000 linked clips still scroll smoothly.
+  clipRenderedCount=Math.min(picks.length,Math.max(CLIP_BATCH_SIZE,clipIndex+8));
   $('#shortsGrid').innerHTML=`<div class="clips-frame">
-    <div class="clip-topline"><span class="clip-live-dot"></span><span>NEVA CLIPS</span><strong id="clipPosition" aria-live="polite">1 / ${picks.length}</strong></div>
-    <div class="clip-feed" id="clipFeed" tabindex="0" role="region" aria-label="Swipe vertically to explore clips">
-      ${picks.map((v,i)=>`<article class="clip-slide" data-clip-index="${i}" style="--clip-a:${v.color[0]};--clip-b:${v.color[1]}">
-        <div class="clip-visual">
-          ${v.image?`<img loading="lazy" class="clip-poster" src="${escapeHTML(v.image)}" alt="">`:'<div class="clip-abstract"><span class="clip-abstract-bubble">✦</span></div>'}
-          <div class="clip-player-slot" data-clip-slot="${i}"></div><div class="clip-veil"></div>
-          <div class="clip-topbadge">${v.rawId?'Neva Clip':v.platform==='tiktok'?'TikTok':'YouTube Shorts'}</div>
-          <button type="button" class="clip-play" data-play="${escapeHTML(v.id)}" aria-label="Play ${escapeHTML(v.title)}"><svg class="icon"><use href="#ico-play"/></svg><span>Play clip</span></button>
-          <div class="clip-info"><span class="clip-by">${escapeHTML(v.creator)}</span><h2>${escapeHTML(v.title)}</h2><p>${v.rawId?escapeHTML(metricLine(v)):'From the original creator'} · Swipe up ↑</p><a class="clip-original" href="${escapeHTML(v.sourceUrl||v.videoUrl||'#')}" target="_blank" rel="noopener noreferrer">${v.platform?'Open original ↗':'Open video ↗'}</a></div>
-          <div class="clip-social-actions">${v.rawId?`<button type="button" data-follow-user="${escapeHTML(v.creator)}">+ Follow</button><button type="button" data-repost="${escapeHTML(v.rawId)}">↗ Repost</button>`:''}<button type="button" class="clip-heart ${isSaved(v.id)?'saved':''}" data-save="${escapeHTML(v.id)}" aria-pressed="${isSaved(v.id)}" aria-label="Like ${escapeHTML(v.title)}">♥</button></div>
-        </div>
-      </article>`).join('')}
+    <div class="clip-topline"><span class="clip-live-dot"></span><span>NEVA CLIPS</span><span class="clip-top-hint">FRESH MIX ✦</span><button type="button" class="clip-shuffle-button" data-shuffle-clips title="Shuffle Clips again" aria-label="Shuffle clips">⇄ Shuffle</button></div>
+    <div class="clip-feed" id="clipFeed" tabindex="0" role="region" aria-label="Swipe vertically to explore shuffled clips">
+      ${picks.slice(0,clipRenderedCount).map(clipSlideMarkup).join('')}
     </div>
     <div class="clip-controls"><button type="button" id="clipPrev" data-clip-step="-1" aria-label="Previous clip">↑</button><span>Scroll or swipe to change clips</span><button type="button" id="clipNext" data-clip-step="1" aria-label="Next clip">↓</button></div>
   </div>`;
   initClipObservation();
   if(clipIndex>0){
     const feed=$('#clipFeed');
-    const slides=feed?.querySelectorAll('.clip-slide');
-    if(feed&&slides?.[clipIndex])feed.scrollTop=slides[clipIndex].offsetTop-slides[0].offsetTop;
+    const slide=feed?.querySelector(`[data-clip-index="${clipIndex}"]`);
+    const first=feed?.querySelector('.clip-slide');
+    if(slide&&first)feed.scrollTop=slide.offsetTop-first.offsetTop;
   }
 }
 
 function renderSaved(){const saved=getSaved();const matches=videos.filter(v=>saved.includes(v.id));$('#savedGrid').innerHTML=matches.map(videoCard).join('');$('#emptyLibrary').hidden=matches.length>0}
-function showView(view, instantScroll=false){if(!$('#view-'+view))return;if(view!=='shorts')stopClipMedia();activeView=view;all('.view').forEach(el=>el.classList.toggle('is-active',el.id==='view-'+view));all('[data-view]').forEach(el=>{if(el.classList.contains('nav-link')||el.classList.contains('dock-button'))el.classList.toggle('active',el.dataset.view===view)});if(view==='watch')renderVideos();if(view==='library')renderSaved();if(view==='home')renderFeatured();if(view==='profile'){renderMyVideos();loadFriends();refreshSocialStats();loadBlockedUsers();}
+function showView(view, instantScroll=false){if(!$('#view-'+view))return;if(view==='shorts'&&activeView!=='shorts'){shuffleClipDeck(true);renderClips();}if(view!=='shorts')stopClipMedia();activeView=view;all('.view').forEach(el=>el.classList.toggle('is-active',el.id==='view-'+view));all('[data-view]').forEach(el=>{if(el.classList.contains('nav-link')||el.classList.contains('dock-button'))el.classList.toggle('active',el.dataset.view===view)});if(view==='watch')renderVideos();if(view==='library')renderSaved();if(view==='home')renderFeatured();if(view==='profile'){renderMyVideos();loadFriends();refreshSocialStats();loadBlockedUsers();}
 if(view==='social'){loadSocialPage();}if(view==='shorts'){activateClipMedia(clipIndex);}window.scrollTo({top:0,behavior:instantScroll?'instant':'smooth'})}
 function notify(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2800)}
 async function toggleSave(id){
@@ -304,6 +369,8 @@ function launchBubble(button) {
 }
 
 document.addEventListener('click',event=>{
+  if(event.target.closest('[data-shuffle-clips]')){shuffleClipDeck(true);renderClips();notify('Fresh Clips mix ready ✦');return;}
+  const addClip=event.target.closest('[data-add-clip-link]');if(addClip){document.querySelector('#linkDestinationClip').checked=true;$('#linkStatus').textContent='';$('#linkDialog').showModal();return;}
   const step = event.target.closest('[data-clip-step]');
   if (step) { goToClip(clipIndex + Number(step.dataset.clipStep)); return; }
   const bubble = event.target.closest('.bubble-button');
@@ -338,6 +405,44 @@ document.addEventListener('keydown',event=>{
   if(event.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){event.preventDefault();$('#searchInput').focus()}if(event.key==='Escape'){all('dialog[open]').forEach(dialog=>closeDialog(dialog))}});
 function updateClock(){$('#dockClock').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
 updateClock();setInterval(updateClock,30000);renderFeatured();renderVideos();renderClips();renderSaved();renderMyVideos();
+loadTikTokClipPack();
+
+// Optional GitHub Pages clip library: add full public TikTok video URLs in
+// tiktok-clips.txt (one per line, or "Title | URL"). Up to 1,000 valid links.
+// No TikTok scraping, downloads or API keys. Embeds stay on TikTok.
+async function loadTikTokClipPack(){
+  try{
+    const response=await fetch('./tiktok-clips.txt',{cache:'no-store'});
+    if(!response.ok)return;
+    const body=await response.text();
+    if(body.length>240000)throw new Error('TikTok link list is too large');
+    const links=[];
+    const seen=new Set();
+    for(const line of body.split(/\r?\n/)){
+      const s=line.trim();
+      if(!s||s.startsWith('#'))continue;
+      const divider=s.lastIndexOf(' | https://');
+      const title=divider>=0?s.slice(0,divider).trim():'';
+      const raw=divider>=0?s.slice(divider+3).trim():s;
+      let u;try{u=new URL(raw);}catch{continue;}
+      if(u.protocol!=='https:'||!['www.tiktok.com','tiktok.com','m.tiktok.com'].includes(u.hostname.toLowerCase()))continue;
+      const match=u.pathname.match(/^\/@([\w.]+)\/video\/(\d{15,21})\/?$/);
+      if(!match||seen.has(match[2]))continue;
+      seen.add(match[2]);
+      const username='@'+match[1];
+      links.push({id:'clip-pack-'+match[2],title:(title||'TikTok clip by '+username).slice(0,120),
+        creator:username,initials:getInitials(username.slice(1)),category:'Clips',duration:'TikTok',
+        views:'On TikTok',age:'TikTok',platform:'tiktok',platformId:match[2],
+        sourceUrl:'https://www.tiktok.com/'+match[0].slice(1),image:null,
+        isClip:true,color:['#a7e6fb','#386ac4']});
+      if(links.length>=1000)break;
+    }
+    extraTikTokClips=links;
+    refreshNevaCatalog();
+    renderClips();renderFeatured();renderVideos();
+    console.info('Neva loaded',links.length,'TikTok clip links from the curated file.');
+  }catch(error){console.warn('Neva extra TikTok clips unavailable:',error);}
+}
 
 
 // ---------------- Live Supabase connection ----------------
@@ -413,7 +518,7 @@ async function fetchUploads(){
  }).filter(Boolean);
  await fetchCommunityLinks();
  await fetchReposts();
- videos.splice(0,videos.length,...uploadedVideos,...repostedVideos,...sharedLinks,...curatedVideos);
+ refreshNevaCatalog();
  await fetchMyLikes();
  renderFeatured();renderVideos();renderClips();renderSaved();renderMyVideos();
 }
@@ -965,7 +1070,7 @@ async function loadSocialState(){
  followedIds=new Set((follows||[]).map(r=>r.followed_id));
  repostedIds=new Set((reposts||[]).map(r=>r.video_id));
  await fetchReposts();
- videos.splice(0,videos.length,...uploadedVideos,...repostedVideos,...sharedLinks,...curatedVideos);
+ refreshNevaCatalog();
  renderFeatured();renderVideos();renderClips();renderMyVideos();
 }
 function renderChatFriends(accepted,names){
@@ -1082,3 +1187,66 @@ $('#signOutNeva').addEventListener('click',async()=>{
  await nevaDb.auth.signOut();signedInUser=null;setGuestName('');socialProfile=null;followedIds.clear();blockedIds.clear();repostedIds.clear();
  setAccountStatus();await fetchUploads();openWelcome();
 });
+
+
+/* NEVA DOCK · Classic Mac-style proximity magnification + spin on launch.
+   Runs only on the existing dock buttons, without changing any Neva pages. */
+(function initNevaAnimatedDock(){
+  const dock=document.querySelector('.dock-actions');
+  if(!dock || dock.dataset.animatedDockReady==='true')return;
+  dock.dataset.animatedDockReady='true';
+  const buttons=Array.from(dock.querySelectorAll('.dock-button'));
+  const finePointer=window.matchMedia('(hover: hover) and (pointer: fine)');
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const spinTimers=new WeakMap();
+  const reset=()=>buttons.forEach(button=>{
+    button.style.setProperty('--dock-scale','1');
+    button.style.setProperty('--dock-lift','0px');
+    button.style.setProperty('--dock-wobble','0deg');
+    button.style.zIndex='';
+  });
+  let raf=0, nextClientX=0;
+  const magnify=()=>{
+    raf=0;
+    if(!finePointer.matches||reduced.matches){reset();return;}
+    const rect=dock.getBoundingClientRect();
+    const x=nextClientX-rect.left;
+    buttons.forEach(button=>{
+      // offsetLeft stays stable even while transforms change the visual size.
+      const center=button.offsetLeft+button.offsetWidth/2-dock.scrollLeft;
+      const proximity=Math.max(0,1-Math.abs(x-center)/113);
+      const ease=proximity*proximity*(3-2*proximity);
+      const scale=1+ease*.43;
+      const lift=-23*ease;
+      const tilt=((x-center)/113)*ease*5;
+      button.style.setProperty('--dock-scale',scale.toFixed(3));
+      button.style.setProperty('--dock-lift',lift.toFixed(1)+'px');
+      button.style.setProperty('--dock-wobble',tilt.toFixed(2)+'deg');
+      button.style.zIndex=String(1+Math.round(ease*9));
+    });
+  };
+  dock.addEventListener('pointermove',event=>{
+    if(event.pointerType==='touch'||!finePointer.matches||reduced.matches)return;
+    nextClientX=event.clientX;
+    if(!raf)raf=requestAnimationFrame(magnify);
+  },{passive:true});
+  dock.addEventListener('pointerleave',()=>{
+    if(raf)cancelAnimationFrame(raf);
+    raf=0;reset();
+  });
+  // Capture does not prevent Neva's existing click-to-open actions.
+  dock.addEventListener('click',event=>{
+    const button=event.target.closest('.dock-button');
+    if(!button||!dock.contains(button)||reduced.matches)return;
+    const previous=spinTimers.get(button);
+    if(previous)clearTimeout(previous);
+    button.classList.remove('dock-launching');
+    void button.offsetWidth; // replay the animation on successive taps
+    button.classList.add('dock-launching');
+    spinTimers.set(button,setTimeout(()=>{
+      button.classList.remove('dock-launching');spinTimers.delete(button);
+    },790));
+  },true);
+  window.addEventListener('blur',reset);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();});
+})();

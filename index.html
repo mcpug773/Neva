@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
-  <meta name="description" content="Neva: a glassy video community inspired by the PS Vita's bubble home screen and Windows Aero.">
+  <meta name="description" content="Neva: a glassy video community with classic Windows Aero-inspired app icons and a PS Vita-style home screen.">
   <title>Neva OS — Your world, one bubble away</title>
   <link rel="stylesheet" href="styles.css">
   <!-- Public Supabase client: NEVER put a secret/service-role key in browser files. -->
@@ -48,7 +48,7 @@
   <div class="app-shell">
     <header class="topbar glass-panel">
       <button class="brand" data-view="home" aria-label="Neva home">
-        <span class="brand-mark"><span class="brand-mark__play"></span></span>
+        <span class="brand-mark"><img src="real-icons/watch.png" alt="" aria-hidden="true" class="brand-retro-icon"></span>
         <span>Ne<span class="brand-accent">va</span><small>BETA</small></span>
       </button>
 
@@ -84,31 +84,31 @@
             <div class="bubble-space__halo"></div>
             <div class="bubble-grid">
               <button class="bubble-button bubble-button--watch" data-view="watch" aria-label="Open videos">
-                <span class="bubble bubble--blue"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-play"/></svg></span>
+                <span class="bubble bubble--blue"><img class="retro-app-icon bubble-icon" src="real-icons/watch.png" alt="" aria-hidden="true"></span>
                 <span class="bubble-label">Watch</span>
               </button>
               <button class="bubble-button bubble-button--discover" data-view="watch" data-filter="Discover" aria-label="Discover videos">
-                <span class="bubble bubble--violet"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-compass"/></svg></span>
+                <span class="bubble bubble--violet"><img class="retro-app-icon bubble-icon" src="real-icons/discover.png" alt="" aria-hidden="true"></span>
                 <span class="bubble-label">Discover</span>
               </button>
               <button class="bubble-button bubble-button--shorts" data-view="shorts" aria-label="Open clips">
-                <span class="bubble bubble--pink"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-clips"/></svg></span>
+                <span class="bubble bubble--pink"><img class="retro-app-icon bubble-icon" src="real-icons/clips.png" alt="" aria-hidden="true"></span>
                 <span class="bubble-label">Clips</span>
               </button>
               <button class="bubble-button bubble-button--friends" data-view="social" aria-label="Open Friends and Chat">
-                <span class="bubble bubble--lime"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-friends"/></svg></span>
+                <span class="bubble bubble--lime"><img class="retro-app-icon bubble-icon" src="real-icons/friends.png" alt="" aria-hidden="true"></span>
                 <span class="bubble-label">Friends &amp; Chat</span>
               </button>
               <button class="bubble-button bubble-button--upload" data-action="upload" aria-label="Upload video">
-                <span class="bubble bubble--mint"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-upload"/></svg></span>
+                <span class="bubble bubble--mint"><img class="retro-app-icon bubble-icon" src="real-icons/upload.png" alt="" aria-hidden="true"></span>
                 <span class="bubble-label">Upload</span>
               </button>
               <button class="bubble-button bubble-button--saved" data-view="library" aria-label="Open saved videos">
-                <span class="bubble bubble--gold"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-library"/></svg></span>
+                <span class="bubble bubble--gold"><img class="retro-app-icon bubble-icon" src="real-icons/library.png" alt="" aria-hidden="true"></span>
                 <span class="bubble-label">My Library</span>
               </button>
               <button class="bubble-button bubble-button--profile" data-view="profile" aria-label="Open profile">
-                <span class="bubble bubble--aqua"><svg class="bubble-icon" aria-hidden="true"><use href="#ico-heart"/></svg></span>
+                <span class="bubble bubble--aqua"><img class="retro-app-icon bubble-icon" src="real-icons/profile.png" alt="" aria-hidden="true"></span>
                 <span class="bubble-label">My Space</span>
               </button>
             </div>
@@ -137,6 +137,7 @@
 
       <section class="view" id="view-shorts" aria-label="Short clips">
         <div class="section-heading standalone-heading"><div><span class="section-kicker">LITTLE VIDEOS. BIG ENERGY.</span><h1>Clips <span class="heading-sparkle">✦</span></h1><p>Swipe through Minecraft, animals and fun short videos.</p></div></div>
+        <div class="social-row clip-share-row"><button class="secondary-button" type="button" data-add-clip-link>+ Share a TikTok Clip</button><span class="social-help">A different mix each time you open Clips. Embedded videos belong to their creators.</span></div>
         <div class="clips-preferences"><label class="clip-autoplay-toggle"><input id="clipAutoplay" type="checkbox" checked> Autoplay clips</label><button type="button" id="clipSoundToggle" class="clip-sound-toggle" aria-pressed="false" aria-label="Turn sound on for all clips">🔇 Sound off</button><span id="clipSoundHelp" aria-live="polite">Clips start muted. Turn sound on once for the whole feed.</span></div><div class="shorts-grid" id="shortsGrid"></div><p class="content-source-note">Clips autoplay muted until you choose Sound on. Your choice carries between clips, though YouTube, TikTok and some browsers may still require a tap for audio.</p>
       </section>
 
@@ -190,15 +191,15 @@
     <footer class="bottom-dock" aria-label="Neva OS quick-launch dock">
       <span class="dock-brand"><span class="dock-status"></span> Neva <small>OS</small></span>
       <nav class="dock-actions" aria-label="Quick app shortcuts">
-        <button type="button" class="dock-button active" data-view="home" data-label="Home" aria-label="Home"><svg class="icon"><use href="#ico-home"/></svg></button>
-        <button type="button" class="dock-button" data-view="watch" data-label="Watch" aria-label="Watch"><svg class="icon"><use href="#ico-play"/></svg></button>
-        <button type="button" class="dock-button dock-button--clips" data-view="shorts" data-label="Clips" aria-label="Clips"><svg class="icon"><use href="#ico-clips"/></svg></button>
-        <button type="button" class="dock-button" data-view="social" data-label="Friends &amp; Chat" aria-label="Friends and chat"><svg class="icon"><use href="#ico-friends"/></svg></button>
-        <button type="button" class="dock-button" data-action="upload" data-label="Upload" aria-label="Upload"><svg class="icon"><use href="#ico-upload"/></svg></button>
-        <button type="button" class="dock-button" data-view="library" data-label="Library" aria-label="Library"><svg class="icon"><use href="#ico-library"/></svg></button>
-        <button type="button" class="dock-button" data-view="profile" data-label="My Space" aria-label="My Space"><svg class="icon"><use href="#ico-user"/></svg></button>
-        <button type="button" class="dock-button dock-button--music" id="dockMusic" data-label="Music" aria-label="Open music player"><svg class="icon"><use href="#ico-music"/></svg></button>
-        <button type="button" class="dock-button dock-button--personalise" id="dockPersonalise" data-label="Themes" aria-label="Choose colours and wallpaper"><svg class="icon"><use href="#ico-settings"/></svg></button>
+        <button type="button" class="dock-button active" data-view="home" data-label="Home" aria-label="Home"><img class="retro-app-icon dock-app-icon" src="real-icons/home.png" alt="" aria-hidden="true"></button>
+        <button type="button" class="dock-button" data-view="watch" data-label="Watch" aria-label="Watch"><img class="retro-app-icon dock-app-icon" src="real-icons/watch.png" alt="" aria-hidden="true"></button>
+        <button type="button" class="dock-button dock-button--clips" data-view="shorts" data-label="Clips" aria-label="Clips"><img class="retro-app-icon dock-app-icon" src="real-icons/clips.png" alt="" aria-hidden="true"></button>
+        <button type="button" class="dock-button" data-view="social" data-label="Friends &amp; Chat" aria-label="Friends and chat"><img class="retro-app-icon dock-app-icon" src="real-icons/friends.png" alt="" aria-hidden="true"></button>
+        <button type="button" class="dock-button" data-action="upload" data-label="Upload" aria-label="Upload"><img class="retro-app-icon dock-app-icon" src="real-icons/upload.png" alt="" aria-hidden="true"></button>
+        <button type="button" class="dock-button" data-view="library" data-label="Library" aria-label="Library"><img class="retro-app-icon dock-app-icon" src="real-icons/library.png" alt="" aria-hidden="true"></button>
+        <button type="button" class="dock-button" data-view="profile" data-label="My Space" aria-label="My Space"><img class="retro-app-icon dock-app-icon" src="real-icons/profile.png" alt="" aria-hidden="true"></button>
+        <button type="button" class="dock-button dock-button--music" id="dockMusic" data-label="Music" aria-label="Open music player"><img class="retro-app-icon dock-app-icon" src="real-icons/music.png" alt="" aria-hidden="true"></button>
+        <button type="button" class="dock-button dock-button--personalise" id="dockPersonalise" data-label="Themes" aria-label="Choose colours and wallpaper"><img class="retro-app-icon dock-app-icon" src="real-icons/settings.png" alt="" aria-hidden="true"></button>
       </nav>
       <span class="dock-clock" id="dockClock" aria-label="Local time">--:--</span>
     </footer>
@@ -208,7 +209,7 @@
   <!-- A compact Windows Media Player-inspired music window. -->
   <dialog id="nevaMusicDialog" class="neva-window neva-music-window" aria-label="Neva music player">
     <div class="neva-window-title"><span>♫ &nbsp; Neva Media Player</span><button type="button" class="neva-window-close" data-close-neva-window="nevaMusicDialog" aria-label="Close music player">✕</button></div>
-    <div class="neva-player-content"><div class="neva-album-art"><span>♫</span><small>NEVA OS</small></div><div class="neva-now-playing"><span class="neva-player-kicker">NOW PLAYING</span><strong>Neva Home Theme</strong><span>Home screen music · retro mix</span><div class="neva-player-times"><span id="nevaMusicElapsed">0:00</span><span id="nevaMusicLength">0:00</span></div><input type="range" id="nevaMusicSeek" min="0" max="100" value="0" aria-label="Song position"><div class="neva-player-controls"><button type="button" id="nevaMusicPlay" class="neva-round-control" aria-label="Play music">▶</button><button type="button" id="nevaMusicMute" aria-label="Mute music">🔊</button><label>Volume <input type="range" id="nevaMusicVolume" min="0" max="100" value="32" aria-label="Music volume"></label></div><p id="nevaMusicNotice" role="status">Music plays on the home screen after your first tap.</p></div></div>
+    <div class="neva-player-content"><div class="neva-album-art"><img src="real-icons/music.png" class="album-retro-icon" alt="Neva music icon"><small>NEVA OS</small></div><div class="neva-now-playing"><span class="neva-player-kicker">NOW PLAYING</span><strong>Neva Home Theme</strong><span>Home screen music · retro mix</span><div class="neva-player-times"><span id="nevaMusicElapsed">0:00</span><span id="nevaMusicLength">0:00</span></div><input type="range" id="nevaMusicSeek" min="0" max="100" value="0" aria-label="Song position"><div class="neva-player-controls"><button type="button" id="nevaMusicPlay" class="neva-round-control" aria-label="Play music">▶</button><button type="button" id="nevaMusicMute" aria-label="Mute music">🔊</button><label>Volume <input type="range" id="nevaMusicVolume" min="0" max="100" value="32" aria-label="Music volume"></label></div><p id="nevaMusicNotice" role="status">Music plays on the home screen after your first tap.</p></div></div>
   </dialog>
   <!-- Theme settings; kept separate from posting and social accounts. -->
   <dialog id="nevaThemeDialog" class="neva-window neva-theme-window" aria-label="Personalise Neva">

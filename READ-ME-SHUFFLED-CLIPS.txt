@@ -1,0 +1,28 @@
+NEVA — SHUFFLED CLIPS + TIKTOK PACK (3 November 2026)
+==========================================================
+WHAT CHANGED
+- Clips open with a shuffled order instead of always the same first clip.
+- The first clip differs from your last visit if there is more than one.
+- Removed the 1/15 counter. Added an optional Shuffle button.
+- TikTok clip collection expanded with 22 public video URLs, plus the existing clips.
+- Supports up to 1,000 public TikTok video links in tiktok-clips.txt, loaded in small batches for smoother scrolling.
+- All original Windows icons, dock, Friends & Chat, music and uploaded video features retained.
+
+HOW TO ADD MORE TIKTOK CLIPS
+1. Open tiktok-clips.txt in Notepad or edit on GitHub.
+2. Paste one full, public TikTok video URL per line; optionally: Title | URL.
+3. Save and commit the updated file in the same GitHub repo as index.html.
+4. Refresh Neva. New public links appear in Clips and are shuffled in.
+5. No reupload, copyright copying or extra Supabase storage needed.
+
+IMPORTANT: This does NOT include 1,000 TikTok posts yet. The file contains 22 sourced links;
+add more valid links over time, up to 1,000. TikTok does not let any public website
+simply mirror its whole feed. TikTok can also disable individual embeds.
+
+GITHUB PAGES UPDATE
+1. Back up your currently working Neva repository files.
+2. Copy your WORKING config.js from your last version into this folder. Do NOT replace it with this archive's placeholder.
+3. Upload the contents of this folder (including tiktok-clips.txt and real-icons/) to your existing GitHub Neva repository at root.
+4. Commit changes and test your GitHub Pages link.
+
+Be aware: Since this is based on the last icon update, any separate edits to your live GitHub version since then should be merged before deploying.

@@ -1,0 +1,18 @@
+NEVA | MAC DOCK SPIN UPDATE
+
+This is the complete site based on the latest shuffled Clips + original Windows-icons version.
+
+What changed:
+- Hover near icons: they magnify smoothly, and neighbouring icons respond (Mac OS X style).
+- Click an icon: it rotates 360 degrees in 3D while bouncing up, then opens the usual app.
+- Phones: tap an icon to get the spin animation; no hover needed.
+- Accessibility: spinning is disabled if Reduce Motion is enabled on the device.
+- Existing Clips shuffle, real icons, music, bubbles, Supabase upload logic remain.
+
+Publishing to GitHub Pages:
+1. Unzip this file.
+2. Copy your existing, working config.js into this extracted folder, replacing ONLY the placeholder config.js.
+3. In your GitHub Neva repository, upload the *contents* of this folder to the root (where index.html is).
+4. Commit the changes. The GitHub Pages site will update; refresh the site or reinstall the PWA if your phone uses an older cache.
+
+Please keep a backup before changing the live site. It has NOT been deployed to your account.

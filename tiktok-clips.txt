@@ -1,0 +1,29 @@
+# NEVA CLIP LIBRARY — FULL PUBLIC TIKTOK VIDEO LINKS ONLY
+# Up to 1,000 video links. One URL per line, or: Optional title | https://www.tiktok.com/@user/video/123...
+# Links are official TikTok embed players. No file is downloaded or reuploaded.
+# Add links here, then commit the file to GitHub; the Clips feed will load them.
+# Short vm.tiktok.com links must be opened and copied as full links first.
+# Some embeds may be blocked by TikTok or the original creator.
+
+Cute Dachshund Puppy | https://www.tiktok.com/@princessmiarue/video/7694711178274311447
+Mia's Bath Time | https://www.tiktok.com/@princessmiarue/video/7701748505727028502
+Puppy Sleepy and Playful | https://www.tiktok.com/@princessmiarue/video/7701041947053395222
+Mia's Favourite Walk | https://www.tiktok.com/@princessmiarue/video/7698751627414572310
+Mia's First Walk Outside | https://www.tiktok.com/@princessmiarue/video/7697968347995999510
+Sweet Treats for Mia | https://www.tiktok.com/@princessmiarue/video/7696501458555948310
+Chihuahua Ice Cream Trick | https://www.tiktok.com/@giggleswiggles28/video/7701411843490876674
+Husky Pumpkin Adventure | https://www.tiktok.com/@chihuahuavshusky/video/7694356785666297121
+Funny Pomeranian | https://www.tiktok.com/@gangsterspitz/video/7699282416413789470
+Left Right Dog Dance | https://www.tiktok.com/@jonnyslife_/video/7694669240929979662
+Dogs Having a Meeting | https://www.tiktok.com/@freshnest05/video/7701588470006959374
+Recycled Paper Christmas Decorations | https://www.tiktok.com/@velmora.diy/video/7697359108806135073
+Everyday Life Hacks | https://www.tiktok.com/@issac.logan/video/7678347984651799838
+Dance Challenge | https://www.tiktok.com/@michelestradafit/video/7703436689619897630
+One Minute Basketball Drills | https://www.tiktok.com/@ferkbasketball0/video/7698815977257012513
+Basketball Highlights | https://www.tiktok.com/@bleacherreport/video/7703806927054097695
+Dance Compilation | https://www.tiktok.com/@zolavault5/video/7703905969373220118
+Fun Family Moment | https://www.tiktok.com/@ducksee5/video/7683703759158988046
+Puppy Says Hi | https://www.tiktok.com/@schmilliepoo/video/7000786890374778118
+Walking Water Science | https://www.tiktok.com/@freebiefindingmom/video/7197202655318510891
+NASA Air Show | https://www.tiktok.com/@nasa/video/7700397098994273549
+Football Moment | https://www.tiktok.com/@juventus/video/7424148127654939936

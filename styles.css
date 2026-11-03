@@ -380,3 +380,94 @@ body.neva-wallpaper-night{background:radial-gradient(ellipse at 50% 20%,#597fca 
 @media(prefers-reduced-motion:reduce){.dock-button,.music-mini{transition:none!important}.bubble{transition:none!important}}
 
 body.neva-wallpaper-photo:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:url("neva-wallpaper.png") center / cover no-repeat;opacity:.7}
+
+/* Neva icon refresh · crisp, original Windows-7-era glossy application artwork.
+   Keep the existing PS Vita bubbles, click transitions and OS dock intact. */
+.retro-app-icon{display:block;object-fit:contain;overflow:visible;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.bubble .retro-app-icon.bubble-icon{width:62%;height:62%;max-width:90px;max-height:90px;position:relative;z-index:2;filter:drop-shadow(0 5px 5px rgba(10,42,83,.35));stroke:none;fill:none;transition:transform .24s ease}
+.bubble-button:hover .retro-app-icon.bubble-icon,.bubble-button:focus-visible .retro-app-icon.bubble-icon{transform:translateY(-2px) scale(1.05)}
+.dock-button .retro-app-icon.dock-app-icon{width:38px;height:38px;min-width:0;min-height:0;filter:drop-shadow(0 2px 2px rgba(12,33,75,.35))}
+.dock-button:hover .retro-app-icon.dock-app-icon{filter:drop-shadow(0 5px 6px rgba(18,42,75,.35))}
+.brand-retro-icon{display:block;width:29px;height:29px;object-fit:contain;filter:drop-shadow(0 1px 3px #123c7680)}
+.neva-album-art .album-retro-icon{width:clamp(80px,70%,190px);height:auto;max-height:195px;object-fit:contain;filter:drop-shadow(0 8px 12px #1929516e)}
+@media(max-width:1100px){.bubble .retro-app-icon.bubble-icon{width:62%;height:62%}}
+@media(max-width:520px){.dock-button .retro-app-icon.dock-app-icon{width:34px;height:34px}}
+@media(prefers-reduced-motion:reduce){.retro-app-icon{transition:none!important}}
+
+/* Original Windows-era icon crops from the two reference images supplied by the user.
+   Rounded icon transitions and the existing PS Vita bubble/dock animation are unchanged. */
+.bubble .retro-app-icon.bubble-icon{width:65%;height:65%;max-width:96px;max-height:96px;object-fit:contain;image-rendering:auto}
+.dock-button .retro-app-icon.dock-app-icon{width:40px;height:40px;object-fit:contain;image-rendering:auto}
+.brand-mark .brand-retro-icon{width:29px;height:29px;object-fit:contain}
+@media(max-width:520px){.dock-button .retro-app-icon.dock-app-icon{width:34px;height:34px}}
+
+/* Clips shuffle and 1,000-link-ready feed: no 1/15 counter. */
+.clip-topline{justify-content:space-between;flex-wrap:wrap;gap:9px;}
+.clip-top-hint{margin-left:auto;color:#d0fffd;font-size:10px;letter-spacing:1px;}
+.clip-shuffle-button{border:1px solid rgba(255,255,255,.8);color:#f6ffff;background:linear-gradient(#73c5f7,#2468a7);border-radius:13px;box-shadow:inset 0 1px 3px #e3ffff88,0 3px 10px #10306266;padding:9px 15px;cursor:pointer;font:inherit;font-size:12px;font-weight:750;letter-spacing:.3px;min-height:40px;}
+.clip-shuffle-button:hover{filter:brightness(1.13);}
+.clip-shuffle-button:focus-visible{outline:3px solid #fff;outline-offset:2px;}
+.clip-share-row{justify-content:center;align-items:center;flex-wrap:wrap;margin:0 auto 13px;gap:10px;}
+@media(max-width:440px){.clip-top-hint{display:none}.clip-shuffle-button{margin-left:auto}}
+
+
+/* NEVA · Mac OS X Leopard-inspired animated dock, November 2026.
+   Hover magnification uses JavaScript-calculated CSS vars so adjacent icons move
+   as you pass over the shelf. Tap/click makes the selected app icon rotate and
+   spring up, but the existing navigation behaviour is preserved. */
+@media (hover:hover) and (pointer:fine) {
+  .bottom-dock .dock-button {
+    --dock-scale:1;
+    --dock-lift:0px;
+    --dock-wobble:0deg;
+    z-index:1;
+    transform:translate3d(0, var(--dock-lift), 0)
+              scale(var(--dock-scale)) rotate(var(--dock-wobble));
+    transition:transform 115ms cubic-bezier(.2,.75,.25,1.1),
+               box-shadow 170ms ease;
+    will-change:transform;
+  }
+  .bottom-dock .dock-button:hover,
+  .bottom-dock .dock-button:focus-visible {
+    transform:translate3d(0, var(--dock-lift, -12px), 0)
+              scale(var(--dock-scale, 1.19)) rotate(var(--dock-wobble, 0deg));
+    z-index:7;
+  }
+  .bottom-dock .dock-button:focus-visible {
+    --dock-scale:1.16;
+    --dock-lift:-11px;
+    outline:2px solid #fff;
+    outline-offset:4px;
+  }
+  .bottom-dock .dock-actions {overflow:visible;}
+  .bottom-dock .dock-button:hover::before,
+  .bottom-dock .dock-button:focus-visible::before{z-index:15;}
+  @media (max-width:800px) {
+    .bottom-dock .dock-actions {overflow-x:auto;overflow-y:visible;}
+    .bottom-dock .dock-button {will-change:auto;}
+  }
+}
+/* A click spins the _icon_, not the button. This avoids breaking click targets. */
+.bottom-dock .dock-button .retro-app-icon.dock-app-icon {
+  backface-visibility:visible;
+  transform-style:preserve-3d;
+  transform-origin:50% 50%;
+}
+.bottom-dock .dock-button.dock-launching .retro-app-icon.dock-app-icon {
+  animation:neva-dock-spin-bounce 760ms cubic-bezier(.20,.85,.26,1.02) 1 both;
+}
+@keyframes neva-dock-spin-bounce {
+  0%   {transform:translateY(0) rotateY(0deg) rotateZ(0deg) scale(1)}
+  20%  {transform:translateY(-18px) rotateY(78deg) rotateZ(-7deg) scale(1.16)}
+  46%  {transform:translateY(-28px) rotateY(194deg) rotateZ(7deg) scale(1.20)}
+  70%  {transform:translateY(-11px) rotateY(318deg) rotateZ(-2deg) scale(1.06)}
+  84%  {transform:translateY(-17px) rotateY(345deg) rotateZ(0deg) scale(1.09)}
+  100% {transform:translateY(0) rotateY(360deg) rotateZ(0deg) scale(1)}
+}
+@media (prefers-reduced-motion:reduce) {
+  .bottom-dock .dock-button,
+  .bottom-dock .dock-button .retro-app-icon.dock-app-icon,
+  .bottom-dock .dock-button.dock-launching .retro-app-icon.dock-app-icon {
+    animation:none !important;transition:none !important;
+  }
+}
