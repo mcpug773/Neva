@@ -1,13 +1,12 @@
 /* Neva PWA updater: online-first site assets so installed apps receive redeploys.
    Never cache Supabase requests, user uploads, external embeds or dynamic config. */
-const CACHE_NAME = 'neva-shell-v22-user-original-icons-20261103';
+const CACHE_NAME = 'neva-shell-v20-2000s-dock-20261103';
 const APP_FILES = [
   './index.html', './styles.css', './script.js', './retro-extras.js', './neva-wallpaper.png',
   './manifest.webmanifest', './offline.html',
   './icons/icon-192.png', './icons/icon-512.png',
   './icons/icon-maskable-512.png', './icons/apple-touch-icon.png',
-  './icons/favicon-48.png',
-  './real-icons/home.png', './real-icons/watch.png', './real-icons/discover.png', './real-icons/clips.png', './real-icons/friends.png', './real-icons/upload.png', './real-icons/library.png', './real-icons/profile.png', './real-icons/music.png', './real-icons/settings.png'
+  './icons/favicon-48.png'
 ];
 const appPaths = new Set(APP_FILES.map(path => new URL(path, self.registration.scope).pathname));
 
@@ -47,7 +46,7 @@ self.addEventListener('fetch', event => {
 
   if (!appPaths.has(url.pathname)) return;
 
-  // Always check hosting for new CSS/JS/icons rather than freezing the first
+  // Always check Netlify for new CSS/JS/icons rather than freezing the first
   // installed version in the Cache Storage API.
   event.respondWith((async () => {
     try {

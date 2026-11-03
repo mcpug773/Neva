@@ -380,23 +380,3 @@ body.neva-wallpaper-night{background:radial-gradient(ellipse at 50% 20%,#597fca 
 @media(prefers-reduced-motion:reduce){.dock-button,.music-mini{transition:none!important}.bubble{transition:none!important}}
 
 body.neva-wallpaper-photo:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:url("neva-wallpaper.png") center / cover no-repeat;opacity:.7}
-
-/* Neva icon refresh · crisp, original Windows-7-era glossy application artwork.
-   Keep the existing PS Vita bubbles, click transitions and OS dock intact. */
-.retro-app-icon{display:block;object-fit:contain;overflow:visible;pointer-events:none;user-select:none;-webkit-user-drag:none}
-.bubble .retro-app-icon.bubble-icon{width:62%;height:62%;max-width:90px;max-height:90px;position:relative;z-index:2;filter:drop-shadow(0 5px 5px rgba(10,42,83,.35));stroke:none;fill:none;transition:transform .24s ease}
-.bubble-button:hover .retro-app-icon.bubble-icon,.bubble-button:focus-visible .retro-app-icon.bubble-icon{transform:translateY(-2px) scale(1.05)}
-.dock-button .retro-app-icon.dock-app-icon{width:38px;height:38px;min-width:0;min-height:0;filter:drop-shadow(0 2px 2px rgba(12,33,75,.35))}
-.dock-button:hover .retro-app-icon.dock-app-icon{filter:drop-shadow(0 5px 6px rgba(18,42,75,.35))}
-.brand-retro-icon{display:block;width:29px;height:29px;object-fit:contain;filter:drop-shadow(0 1px 3px #123c7680)}
-.neva-album-art .album-retro-icon{width:clamp(80px,70%,190px);height:auto;max-height:195px;object-fit:contain;filter:drop-shadow(0 8px 12px #1929516e)}
-@media(max-width:1100px){.bubble .retro-app-icon.bubble-icon{width:62%;height:62%}}
-@media(max-width:520px){.dock-button .retro-app-icon.dock-app-icon{width:34px;height:34px}}
-@media(prefers-reduced-motion:reduce){.retro-app-icon{transition:none!important}}
-
-/* Original Windows-era icon crops from the two reference images supplied by the user.
-   Rounded icon transitions and the existing PS Vita bubble/dock animation are unchanged. */
-.bubble .retro-app-icon.bubble-icon{width:65%;height:65%;max-width:96px;max-height:96px;object-fit:contain;image-rendering:auto}
-.dock-button .retro-app-icon.dock-app-icon{width:40px;height:40px;object-fit:contain;image-rendering:auto}
-.brand-mark .brand-retro-icon{width:29px;height:29px;object-fit:contain}
-@media(max-width:520px){.dock-button .retro-app-icon.dock-app-icon{width:34px;height:34px}}
