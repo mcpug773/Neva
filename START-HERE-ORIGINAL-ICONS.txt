@@ -1,0 +1,20 @@
+NEVA OS - EXACT ICONS FROM YOUR TWO REFERENCE IMAGES
+
+What changed:
+- The app bubbles and reflective dock now use PNG CROPS of the actual icons from the two Windows-era icon images you uploaded.
+- No newly generated or newly drawn icon illustrations are used.
+- Original icon assets are located in real-icons/.
+- Clips and Friends & Chat are still present, and all bubble/dock click animations were kept.
+- The app splash icon was not changed. Original music, wallpaper, and other website files are retained.
+- Mobile/offline cache version updated so devices can collect the new icons.
+
+How to update Neva on GitHub Pages:
+1. Back up the files currently on your working Neva website.
+2. Extract this ZIP; index.html, script.js, styles.css and real-icons/ are at the top level.
+3. Copy your OWN WORKING config.js from your current Neva folder into this one. Don't upload any Supabase secret/service-role key.
+4. Upload and commit all the files and folders into the ROOT of your existing GitHub Neva repository. Keep the real-icons folder.
+5. Open the site. Refresh if the installed app still shows cached icons.
+
+NOTE: Source screenshots may contain software artwork owned by Microsoft or third-party icon publishers. Before distributing Neva commercially or on an app store, check you have permission to reuse these exact icons. You can still preview them locally while deciding.
+
+This is the previous Neva full website with the icon assets swapped, not a design-only preview. Real accounts, messaging, and live Supabase uploading are NOT retested here.
