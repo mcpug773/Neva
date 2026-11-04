@@ -1,24 +1,27 @@
-NEVA — GITHUB UPDATE: QUIET MUSIC + WINDOWS AERO FRIENDS
+NEVA ORIGINAL DOCK + WALLPAPER CHANGER + SHARP BUBBLE ICONS
 
-WHAT CHANGED
-- Home soundtrack attempts to play when Neva opens. It is much quieter (18% volume), loops and has the existing on/off button.
-- Browser autoplay rules can block sound before the first tap. Press Browse without signing in, Enter Neva, or the music button to unlock it. This is a browser restriction, not a Neva error.
-- Neva's soundtrack pauses as soon as you play a video, go into Watch/Clips, open upload, or switch away from Home. It resumes automatically on Home if not manually turned off.
-- People & Chat is now laid out as a Windows Explorer-style window, matching My Space with a toolbar, sidebar, window controls and glossy panes.
-- Original video upload, likes, follows, messages, user IDs and Supabase database code have not been intentionally changed.
+This is a ONE-FILE PATCH. It does NOT replace your website or Supabase setup.
 
-HOW TO UPDATE ON GITHUB PAGES
-1. Keep a backup of your currently working GitHub repository first.
-2. Open your existing GitHub repository mcpug773/Neva (do not create another repository).
-3. Upload the CONTENTS of this extracted folder into the repository ROOT (index.html must be at the root) and overwrite same-name files.
-4. Commit changes; GitHub Pages redeploys from the main branch.
-5. Refresh the site https://mcpug773.github.io/Neva/ . Installed apps can need a close/reopen before the updated service worker takes over.
-6. Test Home music, watch a video to confirm it pauses, then open People & chat to see the new Windows-style layout.
+1. Open your GitHub Neva repository at github.com/mcpug773/Neva
+2. In the SAME folder as your working index.html, upload the NEW neva-ui-update.js from this ZIP.
+   If the older neva-ui-update.js already exists, choose to REPLACE it.
+3. Edit index.html (pencil icon). Near </body>, replace the old script line with:
 
-CAVEATS
-- Audible autoplay before the first user gesture is blocked by many browsers, particularly on phones. The app handles the restriction gracefully.
-- The supplied MP3 is bundled. Use publicly only if you have permission/rights to distribute this recording.
-- GitHub Pages cannot execute Netlify server functions. The username/password login flow from the existing version is NOT fixed by this design update; guest sign-in remains a separate flow.
-- config.js holds a public Supabase publishable key (fine for client-side use). NEVER publish service_role or secret API keys.
-- The custom profile picture in this version is saved in this device's browser, not synced between devices.
-- No existing account data or videos in Supabase are changed by this download.
+   <script src="./neva-ui-update.js?v=2" defer></script>
+
+   IMPORTANT: Use only ONE line for neva-ui-update.js, and don't add it twice.
+4. Commit the change. Open your GitHub Pages Neva and hard refresh.
+
+RESULTS
+- The previous injected dock layout is removed so the ORIGINAL dock and original navigation CSS come back.
+- The small palette button in the top bar opens the wallpaper and colour changer.
+- Choose the original wallpaper, Aero wallpaper, purple, green, sunset, or upload a photo.
+- Bubble glyphs become fresh, resolution-independent SVGs; bubble animations remain.
+- Uploaded wallpapers are saved only in THIS browser/device, not to other users' accounts.
+- No login/video upload/social features are edited.
+
+If your original dock was deleted from index.html (not merely restyled),
+this patch cannot recreate the exact original markup. Restore it from an older
+working index.html or send your current ZIP to get a targeted repair.
+
+The bundled PREVIEW is only for local testing, not for GitHub upload.
