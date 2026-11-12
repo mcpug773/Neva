@@ -312,162 +312,26 @@ html { overflow-x:clip; }
 #view-social .social-panel{border:1px solid rgba(210,250,255,.49);box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
 @media(prefers-reduced-motion:reduce){.welcome-modal .welcome-orb{animation:none}}
 
-
-/* Neva 2000s refresh: preserve the original glossy PS Vita Home, change only the dock,
-   bring back Clips and Friends & Chat and add optional Windows 7-style controls. */
-:root{--neva-custom-accent:#78d9ff}
-.hero-copy h1,.section-heading h1,.section-heading h2,.inner-banner h1{font-family:'Trebuchet MS','Segoe UI',Tahoma,sans-serif;letter-spacing:-.045em}
-.brand{font-family:'Trebuchet MS','Segoe UI',sans-serif;letter-spacing:-.07em}
-.topbar{border-radius:15px;border-color:rgba(239,255,255,.55);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 8px 33px rgba(3,27,94,.22)}
-.glass-panel{border-color:color-mix(in srgb,var(--neva-custom-accent) 32%,rgba(255,255,255,.42))}
-.bubble--lime{--b-top:#c6ffe3;--b-mid:#4dcc9d;--b-dark:#157f93;--b-glow:rgba(150,255,219,.32)}
-.bubble-button--friends .bubble-icon{height:55px;width:55px}
-.bubble-button--friends{margin-top:18px}
-/* Seven bubbles, same sphere artwork and original launch animation. */
-.home-hero{grid-template-columns:36% 64%;padding-right:8px;min-height:580px}
-.bubble-space{height:490px}
-.bubble-grid{width:min(700px,100%);grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,190px);gap:5px;transform:rotate(-4deg)}
-.bubble-grid .bubble-button{transform:rotate(4deg)}
-.bubble-grid .bubble{width:clamp(88px,8.8vw,131px)}
-.bubble-grid .bubble-button:nth-child(1){margin-top:22px}.bubble-grid .bubble-button:nth-child(2){margin-top:-10px}.bubble-grid .bubble-button:nth-child(3){margin-top:24px}.bubble-grid .bubble-button:nth-child(4){margin-top:-9px}.bubble-grid .bubble-button:nth-child(5){margin-top:-23px}.bubble-grid .bubble-button:nth-child(6){margin-top:16px}.bubble-grid .bubble-button:nth-child(7){margin-top:-10px}
-.bubble-label{font-family:'Trebuchet MS',Tahoma,sans-serif;font-weight:700;text-shadow:0 3px 9px rgba(15,42,106,.7);text-align:center}
-.music-mini{display:flex;align-items:center;gap:11px;text-align:left;margin:22px 0 0;padding:9px 14px 9px 9px;color:white;border-radius:13px;border:1px solid rgba(255,255,255,.61);background:linear-gradient(180deg,rgba(239,255,255,.23),rgba(9,49,124,.32));box-shadow:inset 0 1px 0 rgba(255,255,255,.46),0 5px 15px rgba(5,30,96,.18)}
-.music-mini-note{display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:11px;background:linear-gradient(155deg,#d5f8ff,#6daef1 64%,#3665aa);color:#125186;font-size:19px;border:1px solid #d7faff;box-shadow:inset 0 2px 2px white}
-.music-mini strong,.music-mini small{display:block;line-height:1.4}.music-mini strong{font-size:12px}.music-mini small{font-size:10px;color:#e0f4ff}.music-mini:hover{background:rgba(215,244,255,.32)}
-/* Reflective Mac OS X Leopard-style shelf, with Windows Aero colours. */
-.bottom-dock{width:fit-content;max-width:calc(100% - 22px);height:76px;bottom:15px;padding:7px 12px 7px;border-radius:15px 15px 20px 20px;gap:12px;border:1px solid rgba(255,255,255,.86);background:linear-gradient(180deg,rgba(254,255,255,.79) 0%,rgba(181,213,237,.72) 34%,rgba(89,141,191,.65) 48%,rgba(30,79,150,.76) 87%,rgba(11,47,109,.87) 100%);box-shadow:inset 0 2px 1px rgba(255,255,255,.98),inset 0 -2px 5px rgba(5,39,109,.39),0 12px 5px rgba(0,19,77,.18),0 19px 37px rgba(0,21,69,.35);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);justify-content:center}
-.bottom-dock:before{content:'';position:absolute;pointer-events:none;left:3%;right:3%;top:3px;height:19px;border-radius:13px 13px 50% 50%;background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0))}
-.dock-brand{font-family:'Trebuchet MS',sans-serif;white-space:nowrap;color:#fff;text-shadow:0 1px 3px #174c88;min-width:auto;font-size:12px;position:relative;z-index:1}.dock-brand small{color:#eef9ff}.dock-clock{min-width:auto;font-family:'Trebuchet MS',sans-serif;position:relative;z-index:1;text-shadow:0 1px 3px #255a87}
-.dock-actions{display:flex;align-items:center;justify-content:center;gap:7px;position:relative;z-index:2}
-.dock-button{position:relative;display:grid;place-items:center;flex:none;width:51px;height:51px;border-radius:14px;border:1px solid rgba(255,255,255,.72);color:white;background:radial-gradient(circle at 30% 10%,rgba(255,255,255,.85),transparent 38%),linear-gradient(155deg,#7cdaff,#2f86d1 53%,#2354ae);box-shadow:inset 0 2px 3px rgba(255,255,255,.65),inset 0 -6px 7px rgba(0,28,101,.33),0 5px 6px rgba(7,34,93,.4);transform-origin:center bottom;transition:transform .23s cubic-bezier(.19,.8,.29,1.3),box-shadow .2s}
-.dock-button:nth-child(2){background:radial-gradient(circle at 30% 10%,rgba(255,255,255,.85),transparent 38%),linear-gradient(155deg,#a6f6ff,#288dcb 56%,#136cbd)}
-.dock-button:nth-child(3){background:radial-gradient(circle at 30% 10%,rgba(255,255,255,.85),transparent 38%),linear-gradient(155deg,#ffc4e4,#d968aa 54%,#803d9b)}
-.dock-button:nth-child(4){background:radial-gradient(circle at 30% 10%,rgba(255,255,255,.85),transparent 38%),linear-gradient(155deg,#bdffe7,#55bf9a 53%,#267e84)}
-.dock-button:nth-child(5){background:radial-gradient(circle at 30% 10%,rgba(255,255,255,.85),transparent 38%),linear-gradient(155deg,#aafce7,#59b7d6 53%,#22798f)}
-.dock-button:nth-child(6){background:radial-gradient(circle at 30% 10%,rgba(255,255,255,.85),transparent 38%),linear-gradient(155deg,#fff2ac,#e9ac54 53%,#ba6831)}
-.dock-button:nth-child(7){background:radial-gradient(circle at 30% 10%,rgba(255,255,255,.85),transparent 38%),linear-gradient(155deg,#f5d1ff,#8f89d9 53%,#535ca8)}
-.dock-button:nth-child(8){background:radial-gradient(circle at 30% 10%,rgba(255,255,255,.85),transparent 38%),linear-gradient(155deg,#c2ecff,#6aafe2 53%,#31519a)}
-.dock-button:nth-child(9){background:radial-gradient(circle at 30% 10%,rgba(255,255,255,.85),transparent 38%),linear-gradient(155deg,#f2f3ff,#9ca6c9 53%,#6574a1)}
-.dock-button .icon{width:28px;height:28px;filter:drop-shadow(0 2px 1px rgba(24,54,93,.44))}
-.dock-button:hover,.dock-button:focus-visible{transform:translateY(-13px) scale(1.22);z-index:4;box-shadow:inset 0 2px 5px rgba(255,255,255,.89),inset 0 -6px 9px rgba(0,29,98,.27),0 13px 18px rgba(6,29,77,.4)}
-.dock-button:active{transform:translateY(-4px) scale(.97)}
-.dock-button.active{border-color:white;box-shadow:inset 0 2px 3px #fff,0 7px 12px rgba(5,40,100,.42)}
-.dock-button.active:after{content:'';width:6px;height:3px;border-radius:9px;position:absolute;bottom:-7px;background:#e6faff;box-shadow:0 0 6px #a4f7ff}
-.dock-button:before{content:attr(data-label);position:absolute;bottom:calc(100% + 17px);left:50%;transform:translate(-50%,8px);padding:5px 9px;background:rgba(245,253,255,.96);color:#16386a;border:1px solid #b8e7ff;border-radius:7px;box-shadow:0 3px 12px rgba(2,24,66,.26);font-size:11px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s,transform .12s}
-.dock-button:hover:before,.dock-button:focus-visible:before{opacity:1;transform:translate(-50%,0)}
-/* Actual Windows 7-style floating music and settings windows. */
-.neva-window{padding:0;max-height:min(90vh,700px);max-width:min(570px,calc(100% - 26px));width:560px;overflow:auto;color:#193a69;border-radius:9px;border:1px solid rgba(255,255,255,.95);background:linear-gradient(150deg,rgba(196,233,253,.98),rgba(110,170,214,.94));box-shadow:inset 0 1px #fff,0 23px 85px rgba(1,15,53,.58);font-family:'Segoe UI',Tahoma,sans-serif}
-.neva-window::backdrop{background:rgba(0,19,55,.48);backdrop-filter:blur(6px)}
-.neva-window-title{height:42px;padding:6px 7px 7px 16px;display:flex;align-items:center;justify-content:space-between;color:#164376;text-shadow:0 1px rgba(255,255,255,.86);font-family:'Trebuchet MS',sans-serif;font-size:13px;font-weight:700;background:linear-gradient(#f5ffff,#d0ecf9 40%,#8dbee3 41%,#c5e8f5);border-bottom:1px solid #729bc5}
-.neva-window-close{display:grid;place-items:center;width:35px;height:27px;border-radius:3px 3px 7px 7px;background:linear-gradient(#feada1,#bf3436);border:1px solid #842f34;color:white;font-size:13px;font-weight:800;text-shadow:0 1px #612;box-shadow:inset 0 1px 2px rgba(255,255,255,.6)}
-.neva-player-content{padding:23px;display:grid;grid-template-columns:190px 1fr;gap:20px;background:linear-gradient(135deg,#e5f8ff,#b4d6ef 55%,#c8e8f7)}
-.neva-album-art{min-height:200px;border:4px solid #edfaff;border-radius:5px;display:flex;justify-content:center;align-items:center;flex-direction:column;background:radial-gradient(circle at 30% 20%,#e7ffff,#6ab8ef 32%,#3775c3 65%,#234485);box-shadow:inset 0 2px #fff,0 7px 19px #7ca1bf;color:#fff;text-shadow:0 2px 5px #215c90}
-.neva-album-art span{font-size:82px}.neva-album-art small{font-weight:700;letter-spacing:3px}
-.neva-now-playing{display:flex;flex-direction:column;gap:9px;min-width:0}.neva-now-playing strong{font-size:18px}.neva-now-playing>span{color:#3a5a7b;font-size:12px}.neva-player-kicker{letter-spacing:1.5px;font-weight:700}.neva-player-times{display:flex;justify-content:space-between;color:#325879;font-size:11px;margin-top:9px}
-.neva-now-playing input[type=range]{width:100%;accent-color:#3578cf}.neva-player-controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.neva-player-controls button{border:1px solid #76a8c9;background:linear-gradient(#fff,#c5e7f5 48%,#8fbcdf);border-radius:6px;padding:7px 12px;color:#1d4b76;font-weight:700;box-shadow:inset 0 1px #fff,0 2px 3px #8db4d0}.neva-player-controls .neva-round-control{border-radius:50%;width:43px;height:43px;padding:0;font-size:18px}.neva-player-controls label{font-size:11px;display:flex;align-items:center;gap:4px}
-#nevaMusicVolume{width:90px}.neva-now-playing p{font-size:11px;color:#345b80;line-height:1.5}
-.neva-settings-content{background:linear-gradient(140deg,#f3fcff,#c8e8fa);padding:19px 21px 24px}.neva-settings-content h2{margin:0 0 6px;font-size:23px}.neva-settings-content p{font-size:12px}.neva-settings-content h3{font-size:14px;margin:16px 0 10px}
-.neva-swatches,.neva-wallpaper-choices{display:flex;flex-wrap:wrap;gap:9px}.neva-swatches>button{background:linear-gradient(transparent,rgba(0,0,0,.15)),var(--swatch);height:40px;width:40px;border:2px solid white;border-radius:50%;box-shadow:inset 0 2px 5px #ffffff9c,0 3px 7px #2c72a057}.neva-swatches>button.is-selected{outline:3px solid #2b6cbb;outline-offset:2px}
-.neva-color-input{display:flex;gap:6px;align-items:center;color:#27486c;font-size:12px}.neva-color-input input{width:42px;height:40px;border:0;cursor:pointer}
-.neva-wallpaper-choice{width:calc(33.3% - 6px);min-width:113px;min-height:76px;border:2px solid #fff;color:white;border-radius:9px;padding:10px;font-size:12px;font-weight:800;text-shadow:0 1px 5px #174a79;box-shadow:inset 0 1px 5px #fff,0 4px 8px #3f7dae77}
-.neva-wallpaper-choice.is-selected{outline:3px solid #2160b9;outline-offset:2px}.neva-wallpaper-choice.original{background:linear-gradient(135deg,#84cdec,#2a6fcd,#193d97)}.neva-wallpaper-choice.photo{background:url('neva-wallpaper.png') center /cover}.neva-wallpaper-choice.night{background:linear-gradient(135deg,#28589c,#122452,#3a4e94)}
-.neva-upload-wallpaper{display:block;margin:18px 0;color:#244870;font-size:12px;font-weight:700}.neva-upload-wallpaper input{display:block;max-width:100%;font-size:11px;margin:8px 0;color:#24527b}.neva-small{font-size:11px;color:#325a7d}.neva-reset-button{padding:10px;border-radius:7px;border:1px solid #a6bcd5;color:#224f83;background:linear-gradient(#fff,#b5d8ee)}
-body.neva-wallpaper-custom:before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:var(--neva-custom-wallpaper, url('neva-wallpaper.png'));background-size:cover;background-position:center;opacity:.70}
-body.neva-wallpaper-night{background:radial-gradient(ellipse at 50% 20%,#597fca 0%,transparent 38%),linear-gradient(145deg,#142651,#253a82 54%,#0a173f);background-attachment:fixed}
-@media(max-width:1150px){.bottom-dock{gap:5px;padding:7px}.dock-actions{gap:4px}.dock-button{width:45px;height:45px}.dock-button .icon{width:24px;height:24px}.dock-brand,.dock-clock{font-size:10px}.home-hero{grid-template-columns:38% 62%}.bubble-grid .bubble{width:clamp(82px,9.4vw,120px)}}
-@media(max-width:800px){.home-hero{grid-template-columns:1fr;padding:15px 8px 0;gap:8px}.hero-copy{padding:25px 10px 0}.hero-copy h1{font-size:clamp(37px,7vw,60px);letter-spacing:-2.8px;margin:16px 0}.bubble-space{height:480px}.bubble-grid{width:min(650px,100%)}.bubble-grid .bubble{width:clamp(85px,15vw,125px)}.bottom-dock{width:calc(100% - 20px);max-width:600px;overflow:visible}.dock-brand,.dock-clock{display:none}.dock-actions{width:100%;justify-content:space-around;overflow-x:auto;overflow-y:visible;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.4) transparent}.dock-button{flex:0 0 45px}}
-@media(max-width:520px){.app-shell{width:calc(100% - 22px);margin-top:9px;padding-bottom:111px}.home-hero{padding:0 4px}.hero-description{font-size:13px}.music-mini{margin-top:14px}.hero-copy{padding:10px 3px}.bubble-space{height:505px;margin-top:5px}.bubble-grid{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,138px);width:100%;max-width:390px;gap:3px;transform:rotate(-3deg)}.bubble-grid .bubble-button{transform:rotate(3deg);margin-top:0!important}.bubble-grid .bubble{width:clamp(79px,24vw,107px)}.bubble-grid .bubble-label{font-size:11px;line-height:1.15;max-width:100px}.bottom-dock{height:65px;bottom:8px;padding:7px}.dock-actions{justify-content:flex-start;gap:7px}.dock-button{flex-basis:43px;width:43px;height:43px}.dock-button .icon{width:22px;height:22px}.neva-player-content{grid-template-columns:1fr}.neva-album-art{min-height:120px}.neva-album-art span{font-size:45px}.neva-wallpaper-choice{width:100px;min-width:0}.neva-window{max-height:88svh}}
-@media(prefers-reduced-motion:reduce){.dock-button,.music-mini{transition:none!important}.bubble{transition:none!important}}
-
-body.neva-wallpaper-photo:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:url("neva-wallpaper.png") center / cover no-repeat;opacity:.7}
-
-/* Neva icon refresh · crisp, original Windows-7-era glossy application artwork.
-   Keep the existing PS Vita bubbles, click transitions and OS dock intact. */
-.retro-app-icon{display:block;object-fit:contain;overflow:visible;pointer-events:none;user-select:none;-webkit-user-drag:none}
-.bubble .retro-app-icon.bubble-icon{width:62%;height:62%;max-width:90px;max-height:90px;position:relative;z-index:2;filter:drop-shadow(0 5px 5px rgba(10,42,83,.35));stroke:none;fill:none;transition:transform .24s ease}
-.bubble-button:hover .retro-app-icon.bubble-icon,.bubble-button:focus-visible .retro-app-icon.bubble-icon{transform:translateY(-2px) scale(1.05)}
-.dock-button .retro-app-icon.dock-app-icon{width:38px;height:38px;min-width:0;min-height:0;filter:drop-shadow(0 2px 2px rgba(12,33,75,.35))}
-.dock-button:hover .retro-app-icon.dock-app-icon{filter:drop-shadow(0 5px 6px rgba(18,42,75,.35))}
-.brand-retro-icon{display:block;width:29px;height:29px;object-fit:contain;filter:drop-shadow(0 1px 3px #123c7680)}
-.neva-album-art .album-retro-icon{width:clamp(80px,70%,190px);height:auto;max-height:195px;object-fit:contain;filter:drop-shadow(0 8px 12px #1929516e)}
-@media(max-width:1100px){.bubble .retro-app-icon.bubble-icon{width:62%;height:62%}}
-@media(max-width:520px){.dock-button .retro-app-icon.dock-app-icon{width:34px;height:34px}}
-@media(prefers-reduced-motion:reduce){.retro-app-icon{transition:none!important}}
-
-/* Original Windows-era icon crops from the two reference images supplied by the user.
-   Rounded icon transitions and the existing PS Vita bubble/dock animation are unchanged. */
-.bubble .retro-app-icon.bubble-icon{width:65%;height:65%;max-width:96px;max-height:96px;object-fit:contain;image-rendering:auto}
-.dock-button .retro-app-icon.dock-app-icon{width:40px;height:40px;object-fit:contain;image-rendering:auto}
-.brand-mark .brand-retro-icon{width:29px;height:29px;object-fit:contain}
-@media(max-width:520px){.dock-button .retro-app-icon.dock-app-icon{width:34px;height:34px}}
-
-/* Clips shuffle and 1,000-link-ready feed: no 1/15 counter. */
-.clip-topline{justify-content:space-between;flex-wrap:wrap;gap:9px;}
-.clip-top-hint{margin-left:auto;color:#d0fffd;font-size:10px;letter-spacing:1px;}
-.clip-shuffle-button{border:1px solid rgba(255,255,255,.8);color:#f6ffff;background:linear-gradient(#73c5f7,#2468a7);border-radius:13px;box-shadow:inset 0 1px 3px #e3ffff88,0 3px 10px #10306266;padding:9px 15px;cursor:pointer;font:inherit;font-size:12px;font-weight:750;letter-spacing:.3px;min-height:40px;}
-.clip-shuffle-button:hover{filter:brightness(1.13);}
-.clip-shuffle-button:focus-visible{outline:3px solid #fff;outline-offset:2px;}
-.clip-share-row{justify-content:center;align-items:center;flex-wrap:wrap;margin:0 auto 13px;gap:10px;}
-@media(max-width:440px){.clip-top-hint{display:none}.clip-shuffle-button{margin-left:auto}}
-
-
-/* NEVA · Mac OS X Leopard-inspired animated dock, November 2026.
-   Hover magnification uses JavaScript-calculated CSS vars so adjacent icons move
-   as you pass over the shelf. Tap/click makes the selected app icon rotate and
-   spring up, but the existing navigation behaviour is preserved. */
-@media (hover:hover) and (pointer:fine) {
-  .bottom-dock .dock-button {
-    --dock-scale:1;
-    --dock-lift:0px;
-    --dock-wobble:0deg;
-    z-index:1;
-    transform:translate3d(0, var(--dock-lift), 0)
-              scale(var(--dock-scale)) rotate(var(--dock-wobble));
-    transition:transform 115ms cubic-bezier(.2,.75,.25,1.1),
-               box-shadow 170ms ease;
-    will-change:transform;
-  }
-  .bottom-dock .dock-button:hover,
-  .bottom-dock .dock-button:focus-visible {
-    transform:translate3d(0, var(--dock-lift, -12px), 0)
-              scale(var(--dock-scale, 1.19)) rotate(var(--dock-wobble, 0deg));
-    z-index:7;
-  }
-  .bottom-dock .dock-button:focus-visible {
-    --dock-scale:1.16;
-    --dock-lift:-11px;
-    outline:2px solid #fff;
-    outline-offset:4px;
-  }
-  .bottom-dock .dock-actions {overflow:visible;}
-  .bottom-dock .dock-button:hover::before,
-  .bottom-dock .dock-button:focus-visible::before{z-index:15;}
-  @media (max-width:800px) {
-    .bottom-dock .dock-actions {overflow-x:auto;overflow-y:visible;}
-    .bottom-dock .dock-button {will-change:auto;}
-  }
-}
-/* A click spins the _icon_, not the button. This avoids breaking click targets. */
-.bottom-dock .dock-button .retro-app-icon.dock-app-icon {
-  backface-visibility:visible;
-  transform-style:preserve-3d;
-  transform-origin:50% 50%;
-}
-.bottom-dock .dock-button.dock-launching .retro-app-icon.dock-app-icon {
-  animation:neva-dock-spin-bounce 760ms cubic-bezier(.20,.85,.26,1.02) 1 both;
-}
-@keyframes neva-dock-spin-bounce {
-  0%   {transform:translateY(0) rotateY(0deg) rotateZ(0deg) scale(1)}
-  20%  {transform:translateY(-18px) rotateY(78deg) rotateZ(-7deg) scale(1.16)}
-  46%  {transform:translateY(-28px) rotateY(194deg) rotateZ(7deg) scale(1.20)}
-  70%  {transform:translateY(-11px) rotateY(318deg) rotateZ(-2deg) scale(1.06)}
-  84%  {transform:translateY(-17px) rotateY(345deg) rotateZ(0deg) scale(1.09)}
-  100% {transform:translateY(0) rotateY(360deg) rotateZ(0deg) scale(1)}
-}
-@media (prefers-reduced-motion:reduce) {
-  .bottom-dock .dock-button,
-  .bottom-dock .dock-button .retro-app-icon.dock-app-icon,
-  .bottom-dock .dock-button.dock-launching .retro-app-icon.dock-app-icon {
-    animation:none !important;transition:none !important;
-  }
-}
+/* NEVA COMPLETE — original glossy dock and seven PS Vita launcher bubbles */
+.bubble-space--seven {height:660px;}
+.bubble-space--seven .bubble-grid {grid-template-rows:repeat(3,185px);}
+.bubble-grid > .bubble-button--friends {grid-column:2;grid-row:3;margin-top:-18px;transform:rotate(6deg);}
+.bubble-button--friends .bubble {--b-top:#e0fbff;--b-mid:#66c9ec;--b-dark:#2e60b6;--b-glow:rgba(98,210,246,.35);}
+.bubble-button--friends .friends-bubble-icon {width:58%;height:58%;fill:none;stroke:none;filter:drop-shadow(0 3px 4px rgba(5,32,90,.4));}
+.bubble-grid > .bubble-button--friends:hover {z-index:2;}
+.music-mini-button {display:grid;place-items:center;width:40px;height:40px;border-radius:14px;border:1px solid rgba(255,255,255,.62);background:linear-gradient(165deg,rgba(255,255,255,.35),rgba(16,100,180,.35));box-shadow:inset 0 1px 0 rgba(255,255,255,.7);font-size:21px;}
+.music-mini-button:hover,.music-mini-button[aria-expanded="true"] {background:linear-gradient(165deg,rgba(240,255,255,.56),rgba(37,131,205,.45));}
+.music-window {position:fixed;z-index:20;right:max(18px,calc((100vw - 1450px)/2));top:100px;width:min(410px,calc(100vw - 28px));border-radius:15px;overflow:hidden;background:linear-gradient(160deg,rgba(172,226,255,.9),rgba(29,106,177,.94) 65%,rgba(13,64,144,.95));border:1px solid rgba(255,255,255,.83);color:#faffff;}
+.music-window[hidden] {display:none!important;}
+.music-window-titlebar {display:flex;justify-content:space-between;align-items:center;padding:11px 13px;font-size:13px;font-weight:700;text-shadow:0 1px 3px #246; background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.08));border-bottom:1px solid rgba(255,255,255,.45)}
+.music-window-titlebar button {font-size:15px;min-width:35px;min-height:30px;border-radius:8px;border:1px solid #fff8;background:linear-gradient(#fbc2b8,#bc4257);}
+.music-window-main {display:flex;gap:15px;padding:16px;align-items:center;}
+.music-album-art {display:grid;place-items:center;flex:0 0 78px;height:78px;border-radius:12px;background:radial-gradient(circle at 25% 15%,#f6ffff,#9deafa 42%,#276dbc);box-shadow:inset 0 0 0 2px rgba(255,255,255,.65),0 7px 16px #124b7a66;color:#0e538c;font-size:43px;}
+.music-track-info {min-width:0;flex:1;display:flex;flex-direction:column;gap:5px;}
+.music-track-info strong {font-size:15px;}
+.music-track-info span,.music-track-info small {font-size:11px;color:#e5f8ff;}
+.music-track-info audio {width:100%;height:36px;margin-top:4px;}
+@media(max-width:1100px){.bubble-space--seven{height:590px}.bubble-space--seven .bubble-grid{grid-template-rows:repeat(3,164px);}}
+@media(max-width:800px){.bubble-space--seven{height:560px}.bubble-space--seven .bubble-grid{grid-template-rows:repeat(3,157px);}}
+@media(max-width:520px){.bubble-space--seven{height:484px}.bubble-space--seven .bubble-grid{grid-template-rows:repeat(3,145px)}.bubble-grid>.bubble-button--friends{margin-top:-13px!important;transform:rotate(4deg);}.music-mini-button{width:35px;height:35px;border-radius:11px;font-size:18px}.music-window{top:70px;right:10px}.music-window-main{gap:10px;padding:11px}.music-album-art{flex-basis:64px;height:64px;font-size:33px}}
+@media(prefers-reduced-motion:reduce){.bubble-button--friends .friends-bubble-icon{animation:none!important}}
