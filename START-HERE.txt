@@ -1,37 +1,38 @@
-NEVA CLASSIC DOCK + NOTIFICATION BAR + HD BUBBLES
+NEVA: ORIGINAL LOOK + FRIENDS & CHAT BUBBLE
 
-This is a VISUAL UPDATE only. It keeps your existing video uploads, music,
-profiles, Supabase settings, login system, themes and page contents.
+This update is made from the visual-update ZIP you uploaded.
+Your uploaded ZIP contains only neva-ui-update.js and instructions, not the
+whole Neva website. This replacement changes JUST the visual-update script.
 
-IMPORTANT: Do not replace your current index.html with an older one.
+WHAT IT DOES
+- Stops the earlier patch from drawing the extra dark notification bar,
+  changing your dock, or replacing all your existing bubble symbols.
+- Leaves the wallpaper, original dock, bubble positions/animation, music,
+  video uploads, profiles and Supabase connection alone.
+- Adds ONE Friends & Chat bubble, with a sharp blue/green people icon.
+- Uses your existing Neva Friends page when you click it. The existing
+  PS Vita expansion animation still runs through the normal bubble handler.
 
-INSTALL ON YOUR EXISTING GITHUB PAGES SITE
+UPDATE YOUR EXISTING GITHUB PAGES WEBSITE (NO NEW REPOSITORY)
+1. Extract this ZIP.
+2. Open your existing Neva repository on GitHub.
+3. Upload neva-ui-update.js beside index.html, REPLACING the older
+   neva-ui-update.js file, then Commit changes.
+4. In index.html, check you have ONE reference to this script, just before
+   the closing </body> tag:
 
-1. Open your existing Neva repository on GitHub.
-2. Add the file neva-ui-update.js to the SAME place as index.html.
-   To add it: Add file > Upload files > select neva-ui-update.js > Commit changes.
-3. Click index.html on GitHub, then the pencil icon to edit it.
-4. Scroll near the bottom of index.html, find </body>, and insert this line
-   on its own line JUST ABOVE </body>:
+   <script src="./neva-ui-update.js?v=2" defer></script>
 
-   <script src="./neva-ui-update.js?v=1" defer></script>
+   If you currently have ?v=1, change it to ?v=2. If there is no line,
+   add this one. Remove duplicate script tags for this exact file.
+5. Commit changes. Reload https://mcpug773.github.io/Neva/
+   If an installed app shows the old design, refresh it or clear its cached
+   site files (this can sign you out).
 
-5. Click Commit changes.
-6. Open your existing Neva GitHub Pages address and refresh.
-
-TEST FIRST: The dark glossy notification bar should appear near the top,
-the compact glass dock should be at the bottom, and bubble symbols should
-remain sharp even when enlarged.
-
-ABOUT NOTIFICATIONS: The new top bar opens a notification panel and links to
-Friends & Chat. It does not pretend to be a live notification service. Live
-friend-message alerts would require additional backend work.
-
-ABOUT THE ORIGINAL DOCK: This file restores the old compact Neva glass-dock
-appearance. It keeps your site's existing dock buttons and navigation.
-
-IF YOU NEED TO UNDO IT:
-Remove the <script src="./neva-ui-update.js?v=1" defer></script> line from
-index.html and commit. Nothing in Supabase has been changed.
-
-SECURITY: This update doesn't need your Supabase key or any password.
+IMPORTANT
+- Do NOT upload the two files in this ZIP as an entire replacement website.
+  It only updates the visual script. Your real index.html remains unchanged.
+- Don't put Supabase secret/service-role keys or private passwords on GitHub.
+- If your current Neva uses a different HTML structure than the earlier
+  bubble-grid version, this patch won't replace your current features.
+- No backend changes or new database setup are needed for the bubble.
